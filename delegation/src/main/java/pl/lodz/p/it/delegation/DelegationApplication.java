@@ -9,5 +9,4 @@ public class DelegationApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DelegationApplication.class, args);
 	}
-
 }
