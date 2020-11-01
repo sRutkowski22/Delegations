@@ -1,5 +1,6 @@
 package pl.lodz.p.it.delegation.mok;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,7 @@ public @Data class Account implements Serializable {
     private String lastName;
 
     @OneToMany(mappedBy = "account")
+    @JsonManagedReference
     private List<Role> role;
 
 }

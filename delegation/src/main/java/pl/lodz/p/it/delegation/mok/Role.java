@@ -1,6 +1,7 @@
 package pl.lodz.p.it.delegation.mok;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,7 +26,13 @@ public @Data class Role implements Serializable {
     @NotNull
     @JoinColumn( name = "account_id", referencedColumnName = "id", nullable = false, updatable = false)
     @ManyToOne( optional = false)
+    @JsonBackReference
     private Account account;
+
+    @Override
+    public String toString(){
+        return "pl.lodz.p.it.delegation.mok.Role[id =" + getId() + "Role name =" + getRole_name();
+    }
 
 
 }
