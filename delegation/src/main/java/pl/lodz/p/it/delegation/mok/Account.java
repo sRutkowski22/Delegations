@@ -1,17 +1,12 @@
 package pl.lodz.p.it.delegation.mok;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ValueGenerationType;
 
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,21 +14,23 @@ import java.util.List;
 public @Data class Account implements Serializable {
 
     @Id
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @NotNull
+    @NotEmpty
+
     private String username;
 
     @NotEmpty
+    @Column(name ="firstname")
     private String firstName;
 
     @NotEmpty
+    @Column(name ="lastname")
     private String lastName;
 
     @OneToMany(mappedBy = "account")
     @JsonManagedReference
-    private List<Role> role;
+    private List<AccessLevel> accessLevel;
 
 }
