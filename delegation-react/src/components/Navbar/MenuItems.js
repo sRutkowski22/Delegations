@@ -18,5 +18,18 @@ export const MenuItems = [
         title: 'Sign up',
         url: '#',
         className: 'nav-links-mobile'
+    },
+    
+    {
+        title: 'Delegations',
+        url: '#',
+        className: 'nav-links'
     }
+    ,
+    {
+        title: 'Delegations',
+        url: '#',
+        className: 'nav-links'
+    }
+    
 ]
