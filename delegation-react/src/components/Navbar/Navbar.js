@@ -2,14 +2,26 @@ import React, { Component } from 'react';
 import { MenuItems } from "./MenuItems"
 import './Navbar.css'
 import {Button} from "../Button"
+import { withRouter} from 'react-router-dom';
 
 class Navbar extends Component{
+
+    constructor(props){
+        super(props);
+        this.redirectToLogin = this.redirectToLogin.bind(this);
+    }
+
+    redirectToLogin  () {
+        
+        let path = '/login';
+        this.props.history.push(path);
+    }
+
     state = { clicked: false}
 
     handleClick = () => {
         this.setState({clicked: !this.state.clicked})
     }
-
     render(){
         return(
             <nav className="NavbarItems">
@@ -30,11 +42,11 @@ class Navbar extends Component{
                     
                 </ul>
                 <Button className="button1">Sign up</Button>
-                <Button className="button2">Sign in</Button>
+                <Button className="button2" onClick={this.redirectToLogin}>Sign in</Button>
             </nav>
 
         )
     }
 }
 
-export default Navbar
+export default withRouter(Navbar);
