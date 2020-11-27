@@ -5,12 +5,27 @@
     margin: auto;
     height: 100%;
     margin-top: 40px;
+    border-color: #800000;
+    border-radius: 5%;
+    border-style: solid;
+    border-left-width: 100px;
+
     
+    
+}
+
+.registration{
+    font-size: x-large;
+    justify-content: center;
+    font-weight: bold;
+    padding: 15px;
+    margin-bottom: 15px;
 }
 
 .form-group{
     margin-bottom: 15px;
     max-width: 200px;
+    font-size: 20px;
 }
 
 .text-center{

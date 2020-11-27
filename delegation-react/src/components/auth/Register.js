@@ -10,7 +10,7 @@ import './Register.css';
                   
             
              <Form className="registration-form">
-             <h2 className="text-center">Registration</h2>
+             <h2 className="registration">Registration</h2>
              <FormGroup className="form-group">
                  <Label> Enter Email</Label>
                  <Input  type="email" placeholder="Email"/>

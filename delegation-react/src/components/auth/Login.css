@@ -12,6 +12,11 @@
     margin: auto;
     height: 100%;
     margin-top: 100px;
+    border-color: #800000;
+    border-radius: 5%;
+    border-style: solid;
+    border-left-width: 100px;
+    
   
  }
  
@@ -19,6 +24,7 @@
     margin-bottom: 15px;
     max-width: 200px;
     font-size: 20px;
+    
 }
 
 .text-center{
