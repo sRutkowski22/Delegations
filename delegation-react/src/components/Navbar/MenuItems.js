@@ -1,7 +1,7 @@
 export const MenuItems = [
     {
         title: 'Home',
-        url: '#',
+        url: '/',
         className: 'nav-links'
     },
     {
@@ -16,20 +16,20 @@ export const MenuItems = [
     },
     {
         title: 'Sign up',
-        url: '#',
+        url: '/register',
         className: 'nav-links-mobile'
-    },
+    }
     
-    {
-        title: 'Delegations',
-        url: '#',
-        className: 'nav-links'
-    }
-    ,
-    {
-        title: 'Delegations',
-        url: '#',
-        className: 'nav-links'
-    }
+    // {
+    //     title: 'Delegations',
+    //     url: '#',
+    //     className: 'nav-links'
+    // }
+    // ,
+    // {
+    //     title: 'Delegations',
+    //     url: '#',
+    //     className: 'nav-links'
+    // }
     
 ]

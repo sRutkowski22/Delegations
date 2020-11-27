@@ -9,19 +9,16 @@ import './Login.css';
     }
     render(){
         return(
-            
+
             <Form className="login-form">
-                <h2 className="text-center">Welcome</h2>
-                <FormGroup>
+                            <h1 className="welcome">Welcome</h1>
+
+                <FormGroup className="form-group">
                     <Label> Enter Email</Label>
-                </FormGroup>
-                <FormGroup>
                     <Input  type="email" placeholder="Email"/>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup className="form-group">
                     <Label>Enter Password</Label>
-                </FormGroup>
-                <FormGroup>
                     <Input  type="password" placeholder="Password"/>
                 </FormGroup>
             </Form>

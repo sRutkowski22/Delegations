@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { MenuItems } from "./MenuItems"
 import './Navbar.css'
 import {Button} from "../Button"
-import { withRouter} from 'react-router-dom';
+import {  withRouter} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 class Navbar extends Component{
 
     constructor(props){
         super(props);
         this.redirectToLogin = this.redirectToLogin.bind(this);
+        this.redirectToRegistration= this.redirectToRegistration.bind(this);
     }
 
     redirectToLogin  () {
@@ -17,7 +19,18 @@ class Navbar extends Component{
         this.props.history.push(path);
     }
 
+    redirectToRegistration  () {
+        
+        let path = '/register';
+        this.props.history.push(path);
+    }
+
     state = { clicked: false}
+
+    goHome () {
+        let path = '/'
+        this.props.history.push(path);
+    }
 
     handleClick = () => {
         this.setState({clicked: !this.state.clicked})
@@ -25,7 +38,7 @@ class Navbar extends Component{
     render(){
         return(
             <nav className="NavbarItems">
-                <h1 className="navbar-logo">Delegations<i className="fas fa-globe-europe"></i></h1>
+                <h1 className="navbar-logo"><Link to='/' className="navbar-logo">Delegations</Link><i className="fas fa-globe-europe"></i></h1>
                 <div className="menu-icon" onClick={this.handleClick}>
                     <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
                 </div>
@@ -41,7 +54,7 @@ class Navbar extends Component{
                     })}
                     
                 </ul>
-                <Button className="button1">Sign up</Button>
+                <Button className="button1" onClick={this.redirectToRegistration}>Sign up</Button>
                 <Button className="button2" onClick={this.redirectToLogin}>Sign in</Button>
             </nav>
 

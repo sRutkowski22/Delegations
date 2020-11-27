@@ -12,6 +12,7 @@
     justify-self: start;
     margin-left: 10px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .fa-globe-europe{
