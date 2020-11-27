@@ -12,5 +12,26 @@
     margin: auto;
     height: 100%;
     margin-top: 100px;
-    margin-top: 15px;
+  
+ }
+ 
+.form-group{
+    margin-bottom: 15px;
+    max-width: 200px;
+    font-size: 20px;
+}
+
+.text-center{
+    margin-bottom: 20px;
+}
+
+.login-button{
+ color: #fff;
+ background-color: #800000;
+width: 175px;
+}
+
+.login-button:hover{
+    background-color: black;
+    color: white;
 }

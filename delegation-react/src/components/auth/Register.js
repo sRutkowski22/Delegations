@@ -31,6 +31,9 @@ import './Register.css';
                  <Label> Enter Lastname</Label>
                  <Input  type="text" placeholder="Lastname"/>
              </FormGroup>
+             <Button className="register-button">Submit
+
+             </Button>
          </Form>
          </div>
         );

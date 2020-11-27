@@ -20,7 +20,7 @@
 
 .btn--primary {
     background-color: var(--primary);
-    margin-left: 10px;
+    margin-left: 0px;
     margin-right: 10px;
 }
 

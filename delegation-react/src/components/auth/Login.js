@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import './Login.css';
+// import "../Button.css";
 
  class Login extends Component{
 
@@ -21,6 +22,9 @@ import './Login.css';
                     <Label>Enter Password</Label>
                     <Input  type="password" placeholder="Password"/>
                 </FormGroup>
+                <Button className="login-button">
+                    Submit
+                </Button>
             </Form>
         );
     }
