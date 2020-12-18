@@ -4,6 +4,18 @@ import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import './Register.css';
 
  class Register extends Component{
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            email: "",
+            password: "",
+            password_confirmation:"",
+            firstname: "",
+            lastname: ""
+        }
+    }
     render(){
         return(
             <div>
@@ -31,7 +43,7 @@ import './Register.css';
                  <Label> Enter Lastname</Label>
                  <Input  type="text" placeholder="Lastname"/>
              </FormGroup>
-             <Button className="register-button">Submit
+             <Button className="register-button" onClick>Submit
 
              </Button>
          </Form>

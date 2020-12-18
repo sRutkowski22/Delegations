@@ -23,7 +23,7 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @PostMapping(value = "/account", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> addAccount(@RequestBody Account account) {
         accountService.addAccount(account);
         return ResponseEntity
@@ -39,9 +39,9 @@ public class AccountController {
 //                .body("Notices added successfully.");
 //    }
 
-    @GetMapping("/account/{username}")
-    public Account getAccount(@PathVariable String username) {
-       return accountService.getAccountByUsername(username);
+    @GetMapping("/account/{email}")
+    public Account getAccount(@PathVariable String email) {
+       return accountService.getAccountByEmail(email);
 
 
 

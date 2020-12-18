@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "account_login", uniqueConstraints = { @UniqueConstraint(columnNames = {"username"})})
+@Table(name = "account_login", uniqueConstraints = { @UniqueConstraint(columnNames = {"email"})})
 public @Data class Account implements Serializable {
 
     @Id
@@ -18,8 +18,7 @@ public @Data class Account implements Serializable {
     private Long id;
 
     @NotEmpty
-
-    private String username;
+    private String email;
 
     @NotEmpty
     @Column(name ="firstname")
@@ -29,7 +28,10 @@ public @Data class Account implements Serializable {
     @Column(name ="lastname")
     private String lastName;
 
-    @OneToMany(mappedBy = "account")
+    @NotEmpty
+    private String password;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private List<AccessLevel> accessLevel;
 
