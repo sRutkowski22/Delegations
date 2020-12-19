@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,7 +26,15 @@ public class AccountController {
 
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> addAccount(@RequestBody Account account) {
-        accountService.addAccount(account);
+        int counter =3;
+        do{
+        try {
+            accountService.addAccount(account);
+        }catch( Exception ex) {
+            log.warn(ex.getMessage()+ "jerb");
+            counter -= 1;
+        }
+        }while (counter!=0);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Account added successfully.");
