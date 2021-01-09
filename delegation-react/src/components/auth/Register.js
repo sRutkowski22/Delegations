@@ -110,8 +110,15 @@ import swal from "sweetalert";
         }).catch(error => {
             this.setState({errorMessage: error.message});
             console.log("registration error", error);
+            if(error.response.status ===420){
+                swal({
+                    title: "Email was already used",
+                    icon: "error",
+                    closeOnClickOutside: true
+                });
+            }else
             swal({
-                title: "An error occurred",
+                title: "Annn error occurred",
                 text: "Please try again",
                 icon: "error",
             });

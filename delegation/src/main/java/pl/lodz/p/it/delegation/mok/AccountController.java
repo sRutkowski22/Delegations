@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.it.delegation.exceptions.AccountException;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
@@ -30,13 +31,20 @@ public class AccountController {
         do{
         try {
             accountService.addAccount(account);
-            counter=0;
-        }catch( Exception ex) {
-            log.warn(ex.getMessage()+ "jerb");
+            counter = 0;
+
+        }catch( AccountException ex) {
+            log.warn(ex.getMessage()+ "AccountExceptionInvoked");
             counter -= 1;
             return ResponseEntity
-                    .status((HttpStatus.BAD_REQUEST))
-                    .body("There was an error");
+                    .status((HttpStatus.METHOD_FAILURE))
+                    .body("Email is already used.")
+                    ;
+        }catch(Exception ex){
+            log.warn(ex.getMessage()+ "Exception invoked");
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("There was an error.");
         }
         }while (counter!=0);
         return ResponseEntity
