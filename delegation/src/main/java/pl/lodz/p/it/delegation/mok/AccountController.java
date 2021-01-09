@@ -30,9 +30,13 @@ public class AccountController {
         do{
         try {
             accountService.addAccount(account);
+            counter=0;
         }catch( Exception ex) {
             log.warn(ex.getMessage()+ "jerb");
             counter -= 1;
+            return ResponseEntity
+                    .status((HttpStatus.BAD_REQUEST))
+                    .body("There was an error");
         }
         }while (counter!=0);
         return ResponseEntity

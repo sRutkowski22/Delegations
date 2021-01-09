@@ -1,3 +1,9 @@
+.register-button1{
+    color: #fff;
+    background-color: rgb(172, 10, 10);
+   width: 175px;
+   }
+
 .registration-form{
     width: 100%;
     max-width: 330px;
@@ -34,7 +40,7 @@
 
 .register-button{
     color: #fff;
-    background-color: #800000;
+    background-color: #fff;
    width: 175px;
    }
    
