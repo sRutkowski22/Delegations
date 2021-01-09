@@ -16,7 +16,22 @@ import swal from "sweetalert";
             "lastName": "",
             "password": "",
             "password_confirmation":"",
-            "accesslevel": ""},
+            "accessLevel":[
+                        {
+                            "levelName": "worker",
+                            "active": true
+                        },
+                        {
+                            "levelName": "accountant",
+                            "active": false
+                        },
+                        {
+                            
+                            "levelName": "admin",
+                            "active": false
+                        }
+                
+            ] },
             valid: {"email": true, "password": true, "confirmPassword": true, "firstName": true, "lastName": true}
            
         };
@@ -140,13 +155,13 @@ import swal from "sweetalert";
                  <FormLabel> Enter first name</FormLabel>
                 
                  <FormControl type="text" id="firstName" value={this.state.user["firstName"]} onChange={(event) => this.handleChange(event, "firstName")} isInvalid={!this.state.valid["firstName"]}/>
-                 <FormControl.Feedback type="invalid">Please provide a first name.</FormControl.Feedback>
+                 <FormControl.Feedback type="invalid">Please provide your first name.</FormControl.Feedback>
              </FormGroup>
              <FormGroup className="form-group">
                  <FormLabel> Enter last name</FormLabel>
                 
                  <FormControl type="text" id="lastName" value={this.state.user["lastName"]} onChange={(event) => this.handleChange(event, "lastName")} isInvalid={!this.state.valid["lastName"]}/>
-                 <FormControl.Feedback type="invalid">Please provide a last name.</FormControl.Feedback>
+                 <FormControl.Feedback type="invalid">Please provide your last name.</FormControl.Feedback>
              </FormGroup>
              <Button type="submit" className="register-button1" >Submit
 

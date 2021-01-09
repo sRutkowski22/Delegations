@@ -16,7 +16,7 @@ import java.util.List;
 public class AccountService {
 
     private final AccountRepository accountRepository;
-    private final RoleRepository roleRepository;
+
     @Autowired
     private final PasswordEncoder passwordEncoder;
 
@@ -31,18 +31,15 @@ public class AccountService {
             account1.setPassword(passwordEncoder.encode(account.getPassword()));
             log.error(account1.getEmail() + "ya " + account1.getFirstName() + " " + account1.getPassword() + " " + account1.getLastName());
             log.error(account.getEmail() + "ya " + account.getFirstName() + " " + account.getPassword() + " " + account.getLastName());
+            log.error("access levels: " + account.getAccessLevel().get(1).getLevelName() );
+            List<AccessLevel> accessLevels = account.getAccessLevel();
 
-//            List<AccessLevel> accessLevels = account.getAccessLevel();
-
-//            for (AccessLevel accessLevel : accessLevels) {
-//                log.error(accessLevel.getLevelName());
-//                log.error(accessLevel.getId() + " " + accessLevel.isActive() + " " + accessLevel.getAccount().getId());
-//                accessLevel.setAccount(account1);
-//            roleRepository.save(accessLevel);
-
-//            }
-//            account1.setAccessLevel(accessLevels);
-
+            for (AccessLevel accessLevel : accessLevels) {
+                log.error(accessLevel.getLevelName());
+                log.error(accessLevel.getId() + " " + accessLevel.isActive() + " " + accessLevel.getAccount().getId());
+                accessLevel.setAccount(account1);
+            }
+            account1.setAccessLevel(accessLevels);
             accountRepository.save(account1);
         } else{
             throw new AccountException("Account already exists");
