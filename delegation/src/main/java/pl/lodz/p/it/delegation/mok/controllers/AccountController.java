@@ -11,7 +11,7 @@ import pl.lodz.p.it.delegation.mok.services.AccountService;
 
 import java.util.List;
 
-@CrossOrigin("http://localhost:3000/")
+@CrossOrigin
 @RestController
 @RequestMapping("/accounts")
 @AllArgsConstructor
