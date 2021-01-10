@@ -1,17 +1,15 @@
-package pl.lodz.p.it.delegation.mok;
+package pl.lodz.p.it.delegation.mok.controllers;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.it.delegation.exceptions.AccountException;
+import pl.lodz.p.it.delegation.mok.model.Account;
+import pl.lodz.p.it.delegation.mok.services.AccountService;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.Objects;
 
 @CrossOrigin
 @RestController
@@ -30,9 +28,19 @@ public class AccountController {
         do{
         try {
             accountService.addAccount(account);
-        }catch( Exception ex) {
-            log.warn(ex.getMessage()+ "jerb");
+            counter = 0;
+
+        }catch( AccountException ex) {
+            log.warn(ex.getMessage()+ "AccountExceptionInvoked");
             counter -= 1;
+            return ResponseEntity
+                    .status((HttpStatus.METHOD_FAILURE))
+                    .body("Email is already used.");
+        }catch(Exception ex){
+            log.warn(ex.getMessage()+ "Exception invoked");
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("There was an error.");
         }
         }while (counter!=0);
         return ResponseEntity
