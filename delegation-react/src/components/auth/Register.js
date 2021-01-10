@@ -115,15 +115,15 @@ import 'bootstrap/dist/css/bootstrap.css';
         }).catch(error => {
             this.setState({errorMessage: error.message});
             console.log("registration error", error);
-            // if(error.response.status === 420){
-            //     swal({
-            //         title: "Email was already used",
-            //         icon: "error",
-            //         closeOnClickOutside: true
-            //     });
-            // }else
+            if(error.response.status === 420){
+                swal({
+                    title: "Email was already used",
+                    icon: "error",
+                    closeOnClickOutside: true
+                });
+            }else
             swal({
-                title: "Annn error occurred",
+                title: "An error occurred",
                 text: "Please try again",
                 icon: "error",
             });
@@ -131,7 +131,7 @@ import 'bootstrap/dist/css/bootstrap.css';
         event.preventDefault();
     }else {
             swal({
-                title: "Please fill out every field in the form",
+                title: "Please fill out every field in the form correctly",
                 icon: "warning"
                 // closeOnClickOutside: true
             });
@@ -148,13 +148,13 @@ import 'bootstrap/dist/css/bootstrap.css';
              <FormGroup className="form-group">
                  <FormLabel> Enter Email</FormLabel>
                  
-                 <FormControl type="text" id="email" value={this.state.user["email"]} onChange={(event) => this.handleChange(event, "email")} isInvalid={!this.state.valid["email"]}/>
+                 <FormControl type="text" id="email" value={this.state.user["email"]} onChangeCapture={(event) => this.handleChange(event, "email")} isInvalid={!this.state.valid["email"]}/>
                  <FormControl.Feedback id="control" type="invalid">email must have a "@" mark.</FormControl.Feedback>
              </FormGroup>
              <FormGroup className="form-group">
                  <FormLabel>Enter Password</FormLabel>
                  
-                 <FormControl type="password" id="password" value={this.state.user["password"]} onChange={(event) => this.handleChange(event, "password")} isInvalid={!this.state.valid["email"]}/>
+                 <FormControl type="password" id="password" value={this.state.user["password"]} onChangeCapture={(event) => this.handleChange(event, "password")} isInvalid={!this.state.valid["password"]}/>
                  <FormControl.Feedback type="invalid">Password must be at least 8 characters long.</FormControl.Feedback>
              </FormGroup>
              <FormGroup className="form-group">
