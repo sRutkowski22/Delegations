@@ -1,4 +1,4 @@
-package pl.lodz.p.it.delegation.mok;
+package pl.lodz.p.it.delegation.mok.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -7,8 +7,6 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-
-import java.util.List;
 
 @Entity
 @Table(name = "access_level", uniqueConstraints = { @UniqueConstraint(columnNames = {"level_name", "account_id"})})

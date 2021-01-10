@@ -1,20 +1,17 @@
-package pl.lodz.p.it.delegation.mok;
+package pl.lodz.p.it.delegation.mok.controllers;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.delegation.exceptions.AccountException;
+import pl.lodz.p.it.delegation.mok.model.Account;
+import pl.lodz.p.it.delegation.mok.services.AccountService;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.Objects;
 
-@CrossOrigin
+@CrossOrigin("http://localhost:3000/")
 @RestController
 @RequestMapping("/accounts")
 @AllArgsConstructor
@@ -38,8 +35,7 @@ public class AccountController {
             counter -= 1;
             return ResponseEntity
                     .status((HttpStatus.METHOD_FAILURE))
-                    .body("Email is already used.")
-                    ;
+                    .body("Email is already used.");
         }catch(Exception ex){
             log.warn(ex.getMessage()+ "Exception invoked");
             return ResponseEntity

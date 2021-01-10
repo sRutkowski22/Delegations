@@ -1,7 +1,8 @@
-package pl.lodz.p.it.delegation.mok;
+package pl.lodz.p.it.delegation.mok.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import pl.lodz.p.it.delegation.mok.model.AccessLevel;
 
 
 import javax.persistence.*;
@@ -34,5 +35,7 @@ public @Data class Account implements Serializable {
     @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private List<AccessLevel> accessLevel;
+
+
 
 }

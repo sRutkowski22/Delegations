@@ -4,8 +4,13 @@ import {Button,Form, FormControl, FormGroup, FormLabel} from 'react-bootstrap';
 import './Register.css';
 import axios from 'axios';
 import swal from "sweetalert";
+import 'bootstrap/dist/css/bootstrap.css';
 
  class Register extends Component{
+
+    componentDidMount(){
+        document.title="Register"
+    }
 
     constructor(props){
         super(props);
@@ -18,16 +23,16 @@ import swal from "sweetalert";
             "password_confirmation":"",
             "accessLevel":[
                         {
-                            "levelName": "worker",
+                            "levelName": "WORKER",
                             "active": true
                         },
                         {
-                            "levelName": "accountant",
+                            "levelName": "ACCOUNTANT",
                             "active": false
                         },
                         {
                             
-                            "levelName": "admin",
+                            "levelName": "ADMIN",
                             "active": false
                         }
                 
@@ -110,13 +115,13 @@ import swal from "sweetalert";
         }).catch(error => {
             this.setState({errorMessage: error.message});
             console.log("registration error", error);
-            if(error.response.status ===420){
-                swal({
-                    title: "Email was already used",
-                    icon: "error",
-                    closeOnClickOutside: true
-                });
-            }else
+            // if(error.response.status === 420){
+            //     swal({
+            //         title: "Email was already used",
+            //         icon: "error",
+            //         closeOnClickOutside: true
+            //     });
+            // }else
             swal({
                 title: "Annn error occurred",
                 text: "Please try again",
@@ -143,7 +148,7 @@ import swal from "sweetalert";
              <FormGroup className="form-group">
                  <FormLabel> Enter Email</FormLabel>
                  
-                 <FormControl type="email" id="email" value={this.state.user["email"]} onChange={(event) => this.handleChange(event, "email")} isInvalid={!this.state.valid["email"]}/>
+                 <FormControl type="text" id="email" value={this.state.user["email"]} onChange={(event) => this.handleChange(event, "email")} isInvalid={!this.state.valid["email"]}/>
                  <FormControl.Feedback id="control" type="invalid">email must have a "@" mark.</FormControl.Feedback>
              </FormGroup>
              <FormGroup className="form-group">
@@ -170,7 +175,7 @@ import swal from "sweetalert";
                  <FormControl type="text" id="lastName" value={this.state.user["lastName"]} onChange={(event) => this.handleChange(event, "lastName")} isInvalid={!this.state.valid["lastName"]}/>
                  <FormControl.Feedback type="invalid">Please provide your last name.</FormControl.Feedback>
              </FormGroup>
-             <Button type="submit" className="register-button1" >Submit
+             <Button type="submit" className="register-button" >Submit
 
              </Button>
          </Form>

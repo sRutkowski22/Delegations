@@ -1,12 +1,16 @@
-.register-button1{
-    color: #fff;
+
+ 
+
+.btn-primary{
+    color: #800000;
     background-color: rgb(172, 10, 10);
-   width: 175px;
-   }
+  
+   width: 195px;
+}
 
 .registration-form{
     width: 100%;
-    max-width: 330px;
+    max-width: 400px;
     padding: 15px;
     margin: auto;
     height: 100%;
@@ -25,12 +29,13 @@
     justify-content: center;
     font-weight: bold;
     padding: 15px;
+    margin-left: 35px;
     margin-bottom: 15px;
 }
 
 .form-group{
     margin-bottom: 15px;
-    max-width: 200px;
+    max-width: 250px;
     font-size: 20px;
 }
 
@@ -40,8 +45,9 @@
 
 .register-button{
     color: #fff;
-    background-color: #fff;
-   width: 175px;
+    background-color: #800000;
+   width: 195px;
+   margin-left: 30px;
    }
    
    .register-button:hover{
