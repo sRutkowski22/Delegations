@@ -101,9 +101,9 @@ import 'bootstrap/dist/css/bootstrap.css';
         
         console.log(this.state.user);
         
-        axios.post("http://localhost:8080/accounts/add",  this.state.user )
+        axios.post("/accounts/add",  this.state.user )
         .then(response => {
-            console.log("registration res", response);
+            console.log(response.message, response);
             if(response.status === 200){
                 swal({
                     title: "Registration completed",
@@ -114,7 +114,7 @@ import 'bootstrap/dist/css/bootstrap.css';
             }
         }).catch(error => {
             this.setState({errorMessage: error.message});
-            console.log("registration error", error);
+            console.log("registration error", error.response.data);
             if(error.response.status === 420){
                 swal({
                     title: "Email was already used",

@@ -4,6 +4,8 @@ import './Navbar.css'
 import {Button} from "../Button"
 import {  withRouter} from 'react-router-dom';
 import {Link} from 'react-router-dom';
+import { currentUser, currentRole } from "../../index.js";
+import Cookies from 'universal-cookie';
 
 class Navbar extends Component{
 
@@ -11,6 +13,9 @@ class Navbar extends Component{
         super(props);
         this.redirectToLogin = this.redirectToLogin.bind(this);
         this.redirectToRegistration= this.redirectToRegistration.bind(this);
+        this.renderForUnauthorized = this.renderForUnauthorized.bind(this);
+        this.renderForAuthorized = this.renderForAuthorized.bind(this);
+        this.cookies = new Cookies();
     }
 
     redirectToLogin  () {
@@ -25,6 +30,11 @@ class Navbar extends Component{
         this.props.history.push(path);
     }
 
+    logout (){
+        this.cookies.remove("jwt", {path: "/"});
+        window.location.replace("/");
+    }
+
     state = { clicked: false}
 
     goHome () {
@@ -35,13 +45,18 @@ class Navbar extends Component{
     handleClick = () => {
         this.setState({clicked: !this.state.clicked})
     }
-    render(){
-        return(
-            <nav className="NavbarItems">
+
+    renderForUnauthorized = () =>{
+        if(currentUser === ""){
+            return(
+                <nav className="NavbarItems">
                 <h1 className="navbar-logo"><Link to='/' className="navbar-logo">Delegations</Link><i className="fas fa-globe-europe"></i></h1>
                 <div className="menu-icon" onClick={this.handleClick}>
                     <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
                 </div>
+                <h2 >
+                    Not logged in.
+                </h2>
                 <ul className={this.state.clicked ? 'nav-menu active' : 'nav-menu'}>
                     {MenuItems.map((item, index) => {
                         return(
@@ -50,13 +65,62 @@ class Navbar extends Component{
                                 {item.title}
                                 </a>
                             </li>
-                        )
+                            
+                        );
+                       
+                   
+                        
                     })}
                     
                 </ul>
                 <Button className="button1" onClick={this.redirectToRegistration}>Sign up</Button>
                 <Button className="button2" onClick={this.redirectToLogin}>Sign in</Button>
+                </nav>
+            );
+        }
+       
+    }
+
+    renderForAuthorized = () =>{
+        if(currentUser !== ""){
+            return(
+                <nav className="NavbarItems">
+                <h1 className="navbar-logo"><Link to='/' className="navbar-logo">Delegations</Link><i className="fas fa-globe-europe"></i></h1>
+                <div className="menu-icon" onClick={this.handleClick}>
+                    <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
+                </div>
+                <h2>
+                    Logged as: {this.currentUser}
+                </h2>
+                <ul className={this.state.clicked ? 'nav-menu active' : 'nav-menu'}>
+                    {MenuItems.map((item, index) => {
+                        return(
+                            <li key={index}>
+                                <a className={item.className} href={item.url}>
+                                {item.title}
+                                </a>
+                            </li>
+                            
+                        );
+                       
+                   
+                        
+                    })}
+                    
+                </ul>
+                <Button className="button1" onClick={this.logout}>Logout</Button>
+                </nav>
+            );
+        }
+       
+    }
+    render(){
+        return(
+            <nav>
+            {this.renderForUnauthorized()}
+            {this.renderForAuthorized()}
             </nav>
+            
 
         )
     }

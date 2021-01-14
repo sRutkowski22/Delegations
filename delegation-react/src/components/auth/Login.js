@@ -4,6 +4,8 @@ import Cookies from "universal-cookie";
 import './Login.css';
 import axios from 'axios';
 import swal from "sweetalert";
+import Swal from 'sweetalert2';
+import jwt_decode from "jwt-decode";
 // import "../Button.css";
 
  class Login extends Component{
@@ -19,6 +21,8 @@ import swal from "sweetalert";
             valid: {"email": true, "password": true}
         };
         this.cookies = new Cookies();
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     validateProperty = (property) => {
@@ -28,7 +32,7 @@ import swal from "sweetalert";
                 tempValid["email"] = document.getElementById("email").value.length !== 0;
                 break;
             case "password":
-                tempValid["password"] = document.getElementById("password").value.length >= 8;
+                tempValid["password"] = document.getElementById("password").value.length !== 0;
                 break;
             default:
                 break;
@@ -40,7 +44,7 @@ import swal from "sweetalert";
         let validated = true;
         let tempValid = {...this.state.valid};
         tempValid["email"] = document.getElementById("email").value.length !== 0;
-        tempValid["password"] = document.getElementById("password").value.length >= 8;
+        tempValid["password"] = document.getElementById("password").value.length !== 0;
         for (let key in tempValid) {
             if (tempValid.hasOwnProperty(key) && tempValid[key] === false) {
                 this.validateProperty(key);
@@ -58,27 +62,45 @@ import swal from "sweetalert";
         this.validateProperty(property);
     }
 
-    handleSubmit = () =>{
+    handleSubmit (event){
 
      if (this.checkValidation()) {
+         console.log(this.state.user);
             axios.post("/login", this.state.user)
                 .then(response => {
+                    console.log(response.message,response);
                     this.cookies.set("jwt", response.data["jwt"], {path: "/"});
-                    this.props.history.push("/");
-                    window.location.reload();
+                    // this.cookies.set("jwt", response.data["jwt"]);
+                    console.log(this.cookies.get("jwt"));
+                    let jwt = require("jsonwebtoken");
+                    let user = jwt.decode(this.cookies.get("jwt"))["sub"];
+                    let auth = jwt.decode(this.cookies.get("jwt"))["auth"][0]["authority"];
+                    let decoded = jwt_decode(this.cookies.get("jwt"));
+                    console.log(decoded);
+                    console.log("user i dostep " + user + " " + auth);
+                    // this.props.history.push("/");
+                    // window.location.reload();
+                    Swal.fire(
+                        'Login completed!',
+                        '',
+                        'success'
+                    )
                 }).catch(error => {
+                    console.log("blad", error.response.data)
                 swal({
                     title: error.response.data,
-                    icon: "error"
+                    icon: "error",
+                    closeOnClickOutside:true
                 });
             });
+            event.preventDefault();
         } else {
             swal({
-                title: "Please fill out every field in the form",
-                icon: "warning",
-                closeOnClickOutside: true
+                title: "An error has occured. Please try again",
+                icon: "warning"
             });
         }
+        event.preventDefault();
     };
 
     render(){
@@ -97,7 +119,7 @@ import swal from "sweetalert";
                     <FormControl type="password" id="password" value={this.state.user["password"]} onChange={(event) => this.handleChange(event, "password")} isInvalid={!this.state.valid["email"]}/>
                      <FormControl.Feedback type="invalid">Please provide your password.</FormControl.Feedback>
                 </FormGroup>
-                <Button  className="login-button">
+                <Button type="submit" className="login-button">
                     Submit
                 </Button>
             </Form>

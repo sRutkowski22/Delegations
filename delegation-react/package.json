@@ -9,6 +9,8 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
     "cors": "^2.8.5",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
     "react-dom": "^17.0.1",
@@ -17,7 +19,8 @@
     "react-social-login-buttons": "^3.1.0",
     "reactstrap": "^8.7.1",
     "sweetalert": "^2.1.2",
-
+    "sweetalert2": "^10.13.0",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

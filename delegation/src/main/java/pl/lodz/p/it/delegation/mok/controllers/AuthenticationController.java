@@ -1,6 +1,7 @@
 package pl.lodz.p.it.delegation.mok.controllers;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import pl.lodz.p.it.delegation.mok.services.LoginDetailsService;
 @CrossOrigin
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class AuthenticationController {
 
 
@@ -28,17 +30,21 @@ public class AuthenticationController {
     private final LoginDetailsService loginDetailsService;
     private final JwtService jwtService;
 
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthUser authUser) {
         try {
             authManager.authenticate(new UsernamePasswordAuthenticationToken(authUser.getEmail(), authUser.getPassword()));
+
         } catch (BadCredentialsException e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Incorrect credentials.");
         }
         final UserDetails userDetails = loginDetailsService.loadUserByUsername(authUser.getEmail());
+        log.error(userDetails.getUsername()+userDetails.getPassword()+" authorities "+userDetails.getAuthorities());
         final String jwt = jwtService.generateToken(userDetails);
+        log.error("Token=  " + jwt);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new AuthResponse(jwt));
