@@ -6,6 +6,7 @@ import axios from 'axios';
 import swal from "sweetalert";
 import Swal from 'sweetalert2';
 import jwt_decode from "jwt-decode";
+import {currentUser} from "../../Constants.js";
 // import "../Button.css";
 
  class Login extends Component{
@@ -69,8 +70,9 @@ import jwt_decode from "jwt-decode";
             axios.post("/login", this.state.user)
                 .then(response => {
                     console.log(response.message,response);
+                    console.log("current user przed " + currentUser());
                     this.cookies.set("jwt", response.data["jwt"], {path: "/"});
-                    // this.cookies.set("jwt", response.data["jwt"]);
+                    console.log("current user po " + currentUser());
                     console.log(this.cookies.get("jwt"));
                     let jwt = require("jsonwebtoken");
                     let user = jwt.decode(this.cookies.get("jwt"))["sub"];
@@ -78,8 +80,8 @@ import jwt_decode from "jwt-decode";
                     let decoded = jwt_decode(this.cookies.get("jwt"));
                     console.log(decoded);
                     console.log("user i dostep " + user + " " + auth);
-                    // this.props.history.push("/");
-                    // window.location.reload();
+                    this.props.history.push("/");
+                    window.location.reload();
                     Swal.fire(
                         'Login completed!',
                         '',
@@ -105,7 +107,7 @@ import jwt_decode from "jwt-decode";
 
     render(){
         return(
-
+            
             <Form className="login-form" onSubmit={this.handleSubmit}>
                             <h1 className="welcome">Welcome</h1>
 

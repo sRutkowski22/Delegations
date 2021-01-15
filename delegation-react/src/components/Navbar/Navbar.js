@@ -4,8 +4,8 @@ import './Navbar.css'
 import {Button} from "../Button"
 import {  withRouter} from 'react-router-dom';
 import {Link} from 'react-router-dom';
-import { currentUser, currentRole } from "../../index.js";
-import Cookies from 'universal-cookie';
+import { currentUser, currentRole } from "../../Constants.js";
+import Cookies from "universal-cookie";
 
 class Navbar extends Component{
 
@@ -30,7 +30,7 @@ class Navbar extends Component{
         this.props.history.push(path);
     }
 
-    logout (){
+    logout = () => {
         this.cookies.remove("jwt", {path: "/"});
         window.location.replace("/");
     }
@@ -47,23 +47,23 @@ class Navbar extends Component{
     }
 
     renderForUnauthorized = () =>{
-        if(currentUser === ""){
+        if(currentUser() === ""){
             return(
                 <nav className="NavbarItems">
                 <h1 className="navbar-logo"><Link to='/' className="navbar-logo">Delegations</Link><i className="fas fa-globe-europe"></i></h1>
                 <div className="menu-icon" onClick={this.handleClick}>
                     <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
                 </div>
-                <h2 >
-                    Not logged in.
-                </h2>
+            
                 <ul className={this.state.clicked ? 'nav-menu active' : 'nav-menu'}>
                     {MenuItems.map((item, index) => {
                         return(
                             <li key={index}>
+                               
                                 <a className={item.className} href={item.url}>
-                                {item.title}
+                               {item.title}
                                 </a>
+                                
                             </li>
                             
                         );
@@ -82,16 +82,15 @@ class Navbar extends Component{
     }
 
     renderForAuthorized = () =>{
-        if(currentUser !== ""){
+        if(currentUser() !== ""){
             return(
-                <nav className="NavbarItems">
+                <nav >
+                    <nav1 className="NavbarItems">
                 <h1 className="navbar-logo"><Link to='/' className="navbar-logo">Delegations</Link><i className="fas fa-globe-europe"></i></h1>
                 <div className="menu-icon" onClick={this.handleClick}>
                     <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
                 </div>
-                <h2>
-                    Logged as: {this.currentUser}
-                </h2>
+                
                 <ul className={this.state.clicked ? 'nav-menu active' : 'nav-menu'}>
                     {MenuItems.map((item, index) => {
                         return(
@@ -108,8 +107,19 @@ class Navbar extends Component{
                     })}
                     
                 </ul>
+               
+                
                 <Button className="button1" onClick={this.logout}>Logout</Button>
+                </nav1>
+                <nav2 className="userInfoBackground">
+                
+                 <label className="userInfo" >Logged as: {currentUser()}</label>
+                 <label className= "userInfo">Role: {currentRole()}</label>
+               
+                 </nav2>
+                 
                 </nav>
+                
             );
         }
        

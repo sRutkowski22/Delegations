@@ -2,17 +2,20 @@ export const MenuItems = [
     {
         title: 'Home',
         url: '/',
-        className: 'nav-links'
+        className: 'nav-links',
+        role: ''
     },
     {
         title: 'Accounts',
         url: '#',
-        className: 'nav-links'
+        className: 'nav-links',
+        role: 'ADMIN'
     },
     {
         title: 'Delegations',
         url: '#',
-        className: 'nav-links'
+        className: 'nav-links',
+        role: 'ACCOUNTANT'
     },
     {
         title: 'Sign up',

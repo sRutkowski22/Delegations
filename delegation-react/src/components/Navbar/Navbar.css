@@ -8,6 +8,7 @@
 }
 
 
+
 .navbar-logo {
     color: #fff;
     justify-self: start;
@@ -108,4 +109,38 @@
         .menu-icon{
             display: block;
         }
+}
+
+/* .NavbarItems{
+    background: linear-gradient(90deg,  rgb(90, 90, 90) 0%, rgb(145, 145, 145) 100% );
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+} */
+
+
+.UserInfoBackground{
+    height: 20px;
+    margin-top: 80px;
+    background: linear-gradient(90deg,  rgb(71, 2, 2) 0%, rgb(112, 1, 19) 100% );
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+   
+}
+
+.userInfo{
+    
+    color: #800000;
+    justify-self: end;
+    text-align: end;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: small;
+    display: block;
+
 }

@@ -110,7 +110,7 @@ import 'bootstrap/dist/css/bootstrap.css';
                     icon: "success",
                     closeOnClickOutside: true
                 });
-                // this.props.history.push("/");
+                 this.props.history.push("/");
             }
         }).catch(error => {
             this.setState({errorMessage: error.message});
