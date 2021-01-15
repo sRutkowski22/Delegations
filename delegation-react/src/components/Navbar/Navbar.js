@@ -84,8 +84,8 @@ class Navbar extends Component{
     renderForAuthorized = () =>{
         if(currentUser() !== ""){
             return(
-                <nav >
-                    <nav1 className="NavbarItems">
+                <nav class="navabar sticky-top">
+                    <nav className="NavbarItems">
                 <h1 className="navbar-logo"><Link to='/' className="navbar-logo">Delegations</Link><i className="fas fa-globe-europe"></i></h1>
                 <div className="menu-icon" onClick={this.handleClick}>
                     <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
@@ -110,13 +110,13 @@ class Navbar extends Component{
                
                 
                 <Button className="button1" onClick={this.logout}>Logout</Button>
-                </nav1>
-                <nav2 className="userInfoBackground">
+                </nav>
+                <div className="UserInfoNavbar">
                 
                  <label className="userInfo" >Logged as: {currentUser()}</label>
                  <label className= "userInfo">Role: {currentRole()}</label>
                
-                 </nav2>
+                 </div>
                  
                 </nav>
                 
