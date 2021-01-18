@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MenuItems } from "./MenuItems"
+import { MenuItems } from "./MenuItems.js";
 import './Navbar.css'
 import {Button} from "../Button"
 import {  withRouter} from 'react-router-dom';
@@ -56,21 +56,7 @@ class Navbar extends Component{
                 </div>
             
                 <ul className={this.state.clicked ? 'nav-menu active' : 'nav-menu'}>
-                    {MenuItems.map((item, index) => {
-                        return(
-                            <li key={index}>
-                               
-                                <a className={item.className} href={item.url}>
-                               {item.title}
-                                </a>
-                                
-                            </li>
-                            
-                        );
-                       
-                   
-                        
-                    })}
+          
                     
                 </ul>
                 <Button className="button1" onClick={this.redirectToRegistration}>Sign up</Button>
@@ -93,6 +79,8 @@ class Navbar extends Component{
                 
                 <ul className={this.state.clicked ? 'nav-menu active' : 'nav-menu'}>
                     {MenuItems.map((item, index) => {
+                        if (item.role === currentRole() || item.role === '') {
+                                
                         return(
                             <li key={index}>
                                 <a className={item.className} href={item.url}>
@@ -101,7 +89,10 @@ class Navbar extends Component{
                             </li>
                             
                         );
-                       
+                        } 
+                        return(
+                            <div></div>
+                        );
                    
                         
                     })}

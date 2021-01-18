@@ -1,0 +1,21 @@
+.add-button{
+    background-color: rgb(102, 101, 101);
+    color: white;
+    border-color:rgb(102, 101, 101);
+    width: 100%;
+    transition: all 0.5s ease-out;
+    
+}
+
+.add-button:hover{
+    color: #fff;
+    background-color: #800000;
+   
+   border-color: #800000;
+   
+   }
+
+   .body-position{
+       padding: 10px;
+   }
+   

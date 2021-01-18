@@ -1,10 +1,5 @@
-export const MenuItems = [
-    {
-        title: 'Home',
-        url: '/',
-        className: 'nav-links',
-        role: ''
-    },
+ export const MenuItems = [
+   
     {
         title: 'Accounts',
         url: '#',
@@ -21,13 +16,14 @@ export const MenuItems = [
         title: 'Sign up',
         url: '/register',
         className: 'nav-links-mobile'
-    }
+    },
     
-    // {
-    //     title: 'Delegations',
-    //     url: '#',
-    //     className: 'nav-links'
-    // }
+    {
+        title: 'Your Delegations',
+        url: '/yourdelegations',
+        className: 'nav-links',
+        role: 'WORKER'
+    }
     // ,
     // {
     //     title: 'Delegations',

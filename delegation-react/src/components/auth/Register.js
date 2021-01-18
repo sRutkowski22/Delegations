@@ -5,6 +5,7 @@ import './Register.css';
 import axios from 'axios';
 import swal from "sweetalert";
 import 'bootstrap/dist/css/bootstrap.css';
+import ErrorCodes from './ErrorCodes';
 
  class Register extends Component{
 
@@ -115,7 +116,7 @@ import 'bootstrap/dist/css/bootstrap.css';
         }).catch(error => {
             this.setState({errorMessage: error.message});
             console.log("registration error", error.response.data);
-            if(error.response.status === 420){
+            if(error.response.status === ErrorCodes.EmailAlreadyExists){
                 swal({
                     title: "Email was already used",
                     icon: "error",

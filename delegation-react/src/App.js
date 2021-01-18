@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './components/auth/Login.js';
 import Register from './components/auth/Register.js';
 import Home from './components/Home.js';
+import YourDelegations from './components/Delegations/YourDelegations';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
       </Switch>
       <Switch>
       <Route path="/register" component={Register}/>
+      </Switch>
+      <Switch>
+      <Route path="/yourdelegations" component={YourDelegations}/>
       </Switch>
     </div>
     </Switch>
