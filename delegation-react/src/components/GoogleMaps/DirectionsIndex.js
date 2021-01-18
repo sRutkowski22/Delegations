@@ -7,12 +7,13 @@ import './DirectionsIndex.css';
 const { withScriptjs, withGoogleMap, GoogleMap } = require("react-google-maps");
 class Directions extends Component {
   state = {
-    defaultZoom: 5,
+    defaultZoom: 7,
     map: null,
     center: {
-      lat: 23.217724,
-      lng: 72.667216
+      lat: 51.73713266085641,
+      lng: 19.677774633837448
     }
+     
   };
   render() {
     return (
