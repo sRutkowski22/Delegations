@@ -29,6 +29,12 @@
         url: '/yourdelegations',
         className: 'nav-links',
         role: 'ADMIN'
+    },
+    {
+        title: 'Check route',
+        url: '/checkroute',
+        className: 'nav-links',
+        role: 'ACCOUNTANT'
     }
     // ,
     // {

@@ -4,7 +4,7 @@ import './Navbar.css'
 import {Button} from "../Button"
 import {  withRouter} from 'react-router-dom';
 import {Link} from 'react-router-dom';
-import { currentUser, currentRole } from "../../Constants.js";
+import { currentUser, currentRole } from "../../Utility/Constants.js";
 import Cookies from "universal-cookie";
 
 class Navbar extends Component{

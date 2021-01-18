@@ -6,6 +6,8 @@ import Login from './components/auth/Login.js';
 import Register from './components/auth/Register.js';
 import Home from './components/Home.js';
 import YourDelegations from './components/Delegations/YourDelegations';
+import CheckRoute from './components/Delegations/CheckRoute';
+import DirectionsIndex from './components/GoogleMaps/DirectionsIndex';
 
 function App() {
   return (
@@ -25,6 +27,9 @@ function App() {
       </Switch>
       <Switch>
       <Route path="/yourdelegations" component={YourDelegations}/>
+      </Switch>
+      <Switch>
+      <Route path="/checkroute" component={DirectionsIndex}/>
       </Switch>
     </div>
     </Switch>

@@ -6,8 +6,7 @@ import axios from 'axios';
 import swal from "sweetalert";
 import Swal from 'sweetalert2';
 import jwt_decode from "jwt-decode";
-import {currentUser} from "../../Constants.js";
-// import "../Button.css";
+import {currentUser} from "../../Utility/Constants.js";
 
  class Login extends Component{
 
@@ -80,6 +79,7 @@ import {currentUser} from "../../Constants.js";
                     let decoded = jwt_decode(this.cookies.get("jwt"));
                     console.log(decoded);
                     console.log("user i dostep " + user + " " + auth);
+                   
                     this.props.history.push("/");
                     window.location.reload();
                     Swal.fire(

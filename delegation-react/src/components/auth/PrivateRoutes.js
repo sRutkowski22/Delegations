@@ -2,6 +2,7 @@
 
 // Components
 
+import CheckRoute from "../Delegations/CheckRoute"
 import YourDelegations from "../Delegations/YourDelegations"
 import Roles from "./Roles"
 
@@ -18,6 +19,12 @@ export default  [
   path: '/yourdelegations',
   exact: true,
   role: Roles.WORKER
+ },
+ {
+     component: CheckRoute,
+     path: 'checkroute',
+     exact: true,
+     role: Roles.ACCOUNTANT
  }
  
 ]

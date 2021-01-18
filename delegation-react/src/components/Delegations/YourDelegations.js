@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { canAccessPage, extractRole } from '../../Constants';
+import { canAccessPage, extractRole } from '../../Utility/Constants';
 
 import './YourDelegations.css';
 
