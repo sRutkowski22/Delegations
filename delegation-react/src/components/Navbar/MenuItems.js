@@ -23,6 +23,12 @@
         url: '/yourdelegations',
         className: 'nav-links',
         role: 'WORKER'
+    },
+    {
+        title: 'Add account',
+        url: '/yourdelegations',
+        className: 'nav-links',
+        role: 'ADMIN'
     }
     // ,
     // {
