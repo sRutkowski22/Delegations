@@ -1,8 +1,10 @@
 package pl.lodz.p.it.delegation.mod.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.lodz.p.it.delegation.mok.model.Account;
 
 import javax.persistence.*;
@@ -20,26 +22,33 @@ public @Data class Delegation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @NotEmpty
     private Long id;
 
     @NotEmpty
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "delegation_number")
-    private Long delegationNumber;
+    private String delegationNumber;
 
-    @NotEmpty
+
     @Column(name="delegation_start_date", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
 
-    @NotEmpty
+
     @Column(name="delegation_end_date", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endDate;
 
     @Column(name="leaving_country_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime crossingForeignBorder;
 
     @Column(name="crossing_home_border_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime crossingHomeBorder;
 
     private boolean guaranteedDomesticBreakfast;
@@ -60,7 +69,7 @@ public @Data class Delegation implements Serializable {
 
     private boolean delegationVerified;
 
-    @OneToMany(mappedBy = "delegation")
+    @OneToMany(mappedBy = "delegation" , cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private List<DelegationRoute> routeList;
 

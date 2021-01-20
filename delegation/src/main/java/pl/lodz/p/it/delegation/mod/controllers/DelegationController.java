@@ -12,6 +12,7 @@ import pl.lodz.p.it.delegation.exceptions.DelegationNotFoundException;
 import pl.lodz.p.it.delegation.mod.model.Delegation;
 import pl.lodz.p.it.delegation.mod.services.DelegationService;
 
+import javax.persistence.RollbackException;
 import java.util.List;
 
 @CrossOrigin
@@ -23,26 +24,26 @@ public class DelegationController {
 
     private final DelegationService delegationService;
 
-    @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<String> addDelegation(@RequestBody Delegation delegation){
-        int counter =3;
-        do{
-            try {
-                delegationService.addDelegation(delegation);
-                counter = 0;
+    @PostMapping(value = "/add/{email}")
+    public ResponseEntity<String> addDelegation(@RequestBody Delegation delegation, @PathVariable String email){
 
 
-            }catch(Exception ex){
-                log.warn(ex.getMessage()+ "Exception invoked");
-                counter-=1;
+
+                log.error("jestem w delegation controlerze");
+                delegationService.addDelegation(delegation, email);
+
+                log.error("jestem w delegation controlerze 2");
+
+
+
+
+
                 return ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body("There was an error.");
-            }
-        }while (counter!=0);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("Account added successfully.");
+                        .status(HttpStatus.OK)
+                        .body("udalo sie");
+
+
+
     }
     
     @GetMapping(value="/getforuser/{email}")

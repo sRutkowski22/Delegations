@@ -8,5 +8,6 @@ insert into access_level (id,active, level_name, account_id) values  (4,false,'W
 insert into access_level (id,active, level_name, account_id) values  (5,true,'ACCOUNTANT',2);
 insert into access_level (id,active, level_name, account_id) values  (6,false,'ADMIN',2);
 insert into delegation(id,leaving_country_date,crossing_home_border_date,delegation_verified,delegation_end_date,guaranteed_accommodation,guaranteed_domestic_breakfast,guaranteed_domestic_dinner,guaranteed_domestic_supper,guaranteed_foreign_breakfast,guaranteed_foreign_dinner,guaranteed_foreign_supper,private_car,delegation_start_date,account_id) values (1,null,null,false,'21-01-20 12:00',false,true,false,false,false,false,false,true,'21-01-20 08:00',1);
+-- insert into delegation(id,leaving_country_date,crossing_home_border_date,delegation_verified,delegation_end_date,guaranteed_accommodation,guaranteed_domestic_breakfast,guaranteed_domestic_dinner,guaranteed_domestic_supper,guaranteed_foreign_breakfast,guaranteed_foreign_dinner,guaranteed_foreign_supper,private_car,delegation_start_date,account_id) values (2,null,null,false,'21-01-20 12:00',false,true,false,false,false,false,false,true,'21-01-20 08:00',1);
 insert into delegation_route (id,location,delegation_id) values (1,'Lodz',1);
 insert into delegation_route(id,location,delegation_id) values (2,'Warsaw',1)

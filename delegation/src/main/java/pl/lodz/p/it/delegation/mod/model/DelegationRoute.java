@@ -18,9 +18,9 @@ public @Data class DelegationRoute implements Serializable {
 
     private String location;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "delegation_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "delegation_id", referencedColumnName = "id")
     private Delegation delegation;
 
 

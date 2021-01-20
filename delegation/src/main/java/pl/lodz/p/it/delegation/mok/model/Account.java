@@ -37,7 +37,7 @@ public @Data class Account implements Serializable {
     @JsonManagedReference
     private List<AccessLevel> accessLevel;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private List<Delegation> delegationList;
 
