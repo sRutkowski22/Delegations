@@ -20,6 +20,7 @@ public @Data class Delegation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @NotEmpty
     private Long id;
 
     @NotEmpty
