@@ -2,6 +2,7 @@ package pl.lodz.p.it.delegation.mok.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import pl.lodz.p.it.delegation.mod.model.Delegation;
 import pl.lodz.p.it.delegation.mok.model.AccessLevel;
 
 
@@ -35,6 +36,9 @@ public @Data class Account implements Serializable {
     @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private List<AccessLevel> accessLevel;
+
+    @OneToMany(mappedBy = "account")
+    private List<Delegation> delegationList;
 
 
 
