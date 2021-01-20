@@ -38,6 +38,7 @@ public @Data class Account implements Serializable {
     private List<AccessLevel> accessLevel;
 
     @OneToMany(mappedBy = "account")
+    @JsonManagedReference
     private List<Delegation> delegationList;
 
 

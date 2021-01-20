@@ -1,6 +1,7 @@
 package pl.lodz.p.it.delegation.mod.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import pl.lodz.p.it.delegation.mok.model.Account;
 
@@ -59,11 +60,13 @@ public @Data class Delegation implements Serializable {
     private boolean delegationVerified;
 
     @OneToMany(mappedBy = "delegation")
+    @JsonManagedReference
     private List<DelegationRoute> routeList;
 
     @NotNull
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false, updatable = false)
     @ManyToOne(optional = false)
+    @JsonBackReference
     private Account account;
 
 

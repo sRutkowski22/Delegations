@@ -65,7 +65,7 @@ public class AccountController {
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<Account>> getAllNotices() {
+    public ResponseEntity<List<Account>> getAllAccounts() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(accountService.getAllAccounts());

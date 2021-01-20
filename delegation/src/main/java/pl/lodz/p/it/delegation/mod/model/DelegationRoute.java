@@ -1,5 +1,7 @@
 package pl.lodz.p.it.delegation.mod.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,6 +19,7 @@ public @Data class DelegationRoute implements Serializable {
     private String location;
 
     @ManyToOne(optional = false)
+    @JsonBackReference
     @JoinColumn(name = "delegation_id", referencedColumnName = "id", nullable = false)
     private Delegation delegation;
 
