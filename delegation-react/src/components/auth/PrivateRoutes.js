@@ -15,10 +15,10 @@ import Roles from "./Roles"
 
 export default  [
  {
-  component: YourDelegations,
-  path: '/yourdelegations',
-  exact: true,
-  role: Roles.WORKER
+    component: YourDelegations,
+    path: '/yourdelegations',
+    exact: true,
+    role: Roles.WORKER
  },
  {
      component: CheckRoute,

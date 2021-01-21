@@ -34,7 +34,7 @@
         title: 'Check route',
         url: '/checkroute',
         className: 'nav-links',
-        role: 'ACCOUNTANT'
+        role: ''
     }
     // ,
     // {

@@ -16,6 +16,21 @@
    }
 
    .body-position{
-       padding: 10px;
+       padding: 20px;
+       width: 1400px;
+       margin-left:30px;
    }
    
+   .details-button{
+    color: #fff;
+    background-color: #800000;
+   width: 195px;
+   margin-left: 10px;
+   height: 35px;
+   margin-top: 6px;
+   }
+
+   .details-button:hover{
+    background-color: black;
+    color: white;
+}

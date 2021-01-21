@@ -69,6 +69,11 @@ public @Data class Delegation implements Serializable {
 
     private boolean delegationVerified;
 
+    private int advancePayment;
+
+    @NotNull
+    private int sum;
+
     @OneToMany(mappedBy = "delegation" , cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private List<DelegationRoute> routeList;

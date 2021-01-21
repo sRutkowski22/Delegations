@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.delegation.exceptions.AccountException;
 import pl.lodz.p.it.delegation.exceptions.AppBaseException;
@@ -47,6 +48,7 @@ public class DelegationController {
     }
     
     @GetMapping(value="/getforuser/{email}")
+//    @PreAuthorize("#email == authentication.principal.username")
     public ResponseEntity<?> getDelegationsForUser(@PathVariable String email){
         try {
             List<Delegation> delegationList = delegationService.getDelegationByAccountEmail(email);
