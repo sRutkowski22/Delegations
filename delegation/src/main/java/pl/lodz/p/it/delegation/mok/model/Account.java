@@ -33,7 +33,7 @@ public @Data class Account implements Serializable {
     @NotEmpty
     private String password;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account", cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private List<AccessLevel> accessLevel;
 

@@ -33,7 +33,6 @@ public class LoginDetailsService implements UserDetailsService {
             for(AccessLevel accessLevel : account.getAccessLevel()){
                 if(accessLevel.isActive()){
                     Collection<SimpleGrantedAuthority> authorities= Collections.singletonList(new SimpleGrantedAuthority(accessLevel.getLevelName()));
-                    log.error("dane do Usera " +account.getEmail()+account.getPassword()+authorities);
                     return new User(account.getEmail(),account.getPassword(),authorities);
                 }
             }

@@ -48,7 +48,7 @@ public class DelegationController {
     }
     
     @GetMapping(value="/getforuser/{email}")
-//    @PreAuthorize("#email == authentication.principal.username")
+    @PreAuthorize("#email == authentication.principal.username")
     public ResponseEntity<?> getDelegationsForUser(@PathVariable String email){
         try {
             List<Delegation> delegationList = delegationService.getDelegationByAccountEmail(email);

@@ -27,13 +27,10 @@ class YourDelegations extends Component{
     }
     
     componentDidMount= () => {
-        axios.get("/delegations/getforuser/" + currentUser())
+        axios.get("/delegations/getforuser/" + currentUser(), jwtHeader())
         .then(response => {
-            console.log("current user" + currentUser() + "reponse data " + response.data) 
             const tempdel = response.data;
-            console.log(tempdel)
             this.setState( {delegations:tempdel})
-            console.log("columnNames " + this.state.columnNames.delegationNumber)
         }).catch(error => {
             console.log(error.message);
         })

@@ -1,6 +1,7 @@
 package pl.lodz.p.it.delegation.mok.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,6 @@ public class JwtService {
     @Autowired
     public JwtService(Environment env) {
         this.jwtSecret = env.getProperty("jwtSecret");
-        log.error("secret " + this.jwtSecret);
     }
 
     public String extractUsername(String token) {
@@ -51,14 +51,14 @@ public class JwtService {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        log.error(claims.toString());
         claims.put("auth",userDetails.getAuthorities());
-        log.error(claims.toString());
         return createToken(claims, userDetails.getUsername());
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+            Header header = Jwts.header();
+            header.setType("JWT");
+        return Jwts.builder().setHeader((Map<String,Object>)header).setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .signWith(SignatureAlgorithm.HS256, jwtSecret).compact();
     }

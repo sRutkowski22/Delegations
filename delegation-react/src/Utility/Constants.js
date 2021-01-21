@@ -72,6 +72,6 @@ export const extractRole = (pathname) => {
 
   export const jwtHeader = () =>{
     if(cookies.get("jwt") !== 0)
-    return {"headers": {"Authorization": "Bearer " +cookies.get("jwt")}};
+    return {"headers": {"Authorization": cookies.get("jwt")}};
     else return "";
   }
