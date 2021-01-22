@@ -2,6 +2,7 @@
 
 // Components
 
+import AddDelegation from "../Delegations/AddDelegation"
 import CheckRoute from "../Delegations/CheckRoute"
 import YourDelegations from "../Delegations/YourDelegations"
 import Roles from "./Roles"
@@ -25,7 +26,13 @@ export default  [
      path: 'checkroute',
      exact: true,
      role: Roles.ACCOUNTANT
- }
+ },
+ {
+    component: AddDelegation,
+    path: '/yourdelegations/new',
+    exact: true,
+    role: Roles.WORKER
+}
  
 ]
 

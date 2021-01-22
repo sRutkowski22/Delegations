@@ -8,6 +8,8 @@ import Home from './components/Home.js';
 import YourDelegations from './components/Delegations/YourDelegations';
 import CheckRoute from './components/Delegations/CheckRoute';
 import DirectionsIndex from './components/GoogleMaps/DirectionsIndex';
+import AddDelegation from './components/Delegations/AddDelegation';
+import history from './Utility/history';
 
 function App() {
   return (
@@ -26,10 +28,13 @@ function App() {
       <Route path="/register" component={Register}/>
       </Switch>
       <Switch>
-      <Route path="/yourdelegations" component={YourDelegations}/>
+      <Route exact path="/yourdelegations" component={YourDelegations}/>
       </Switch>
       <Switch>
       <Route path="/checkroute" component={DirectionsIndex}/>
+      </Switch>
+      <Switch>
+      <Route exact path="/yourdelegations/new" component={AddDelegation}/>
       </Switch>
     </div>
     </Switch>

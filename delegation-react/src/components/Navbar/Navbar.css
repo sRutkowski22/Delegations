@@ -32,8 +32,8 @@
 
 .nav-menu{
     display: grid;
-    grid-template-columns: repeat(6,auto);
-    grid-gap: 10px;
+    grid-template-columns: repeat(8,auto);
+    grid-gap: 0px;
     list-style: none;
     text-align: center;
     width: 60vw; 
@@ -45,7 +45,7 @@
 .nav-links {
     color: white;
     text-decoration: none;
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 1rem;
 }
 
 .nav-links:hover {

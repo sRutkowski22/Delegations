@@ -3,6 +3,8 @@ import { Button } from 'react-bootstrap';
 import React, { Component } from 'react';
 import { canAccessPage, currentUser, extractRole, jwtHeader } from '../../Utility/Constants';
 import './YourDelegations.css';
+import { Link, Redirect, useHistory, withRouter } from 'react-router-dom';
+import history from '../../Utility/history';
 class YourDelegations extends Component{
 
     constructor(props){
@@ -17,7 +19,6 @@ class YourDelegations extends Component{
                 end: "End",
                 sum: "Sum",
                 advancePayment: "Paid"
-
             }
         
         } 
@@ -31,6 +32,7 @@ class YourDelegations extends Component{
         .then(response => {
             const tempdel = response.data;
             this.setState( {delegations:tempdel})
+            console.log(this.state.redirect)
         }).catch(error => {
             console.log(error.message);
         })
@@ -75,42 +77,56 @@ class YourDelegations extends Component{
                     <td>{delegation.endDate}</td>
                     <td>{delegation.sum}</td>
                     <td>{delegation.advancePayment}</td>
-                    <Button className="details-button">Details</Button>
+                    <Button className="details-button" >Details</Button>
                 </tr>
             )
         })
     }
+    
+
+    handleClick()   {
+        return this.props.history.goBack;
+        
+        
+    }
+    
 
     render(){
-        const{delegations} = this.state
-        return delegations.length > 0 
-        ? (
-                <body className="body-position">
-                         <button className="add-button">New</button>
+        
+        return (
+            
+                
+        <body className="body-position">
+           
+ 
             <table class="table table-dark">
                 <thead>
-                
-                    {this.renderTableHeader()}
-                
+
+                {this.renderTableHeader()}
+
                 </thead>
                 <tbody>
-                    {/* <tr class="table-active"> */}
 
-                        {this.renderTableRows()}
-                        
-                     {/* </tr> */}
+                {this.renderTableRows()}
+       
+    
                 </tbody>
-            </table>
-                
-                </body>
-        ):(
-            <div>no users</div>
-        )
+                </table>
+
+        </body>
+        
+        
+       
+      
+        );
             
    
          
 
-    }
+    
+}
 }
 
-export default YourDelegations;
+
+
+export default  withRouter(YourDelegations);
