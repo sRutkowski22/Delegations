@@ -3,17 +3,17 @@ import {Button, Form, FormGroup, FormControl, FormLabel} from 'react-bootstrap';
 import { canAccessPage, extractRole } from '../../Utility/Constants';
 import './AddDelegation.css'
 
-class AddDelegation extends Component{
+class DelegationDetails extends Component{
 
     constructor(props){
         super(props);
-        canAccessPage(this.props,extractRole(window.location.pathname));
+        // canAccessPage(this.props,extractRole(window.location.pathname));
     }
     render(){
         return(
             
             <Form className="add-del-form" onSubmit={this.handleSubmit}>
-                            <h1 className="welcome">Add new delegation</h1>
+                            <h1 className="welcome">Delegation delegation</h1>
 
             </Form>
         );
@@ -21,4 +21,4 @@ class AddDelegation extends Component{
 
 }
 
-export default AddDelegation;
+export default DelegationDetails;

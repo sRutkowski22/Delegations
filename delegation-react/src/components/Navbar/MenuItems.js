@@ -18,6 +18,7 @@
         className: 'nav-links-mobile'
     },
     
+    
     {
         title: 'Your Delegations',
         url: '/yourdelegations',
@@ -35,12 +36,6 @@
         url: '/checkroute',
         className: 'nav-links',
         role: ''
-    },
-    {
-        title: 'New Delegation',
-        url: '/yourdelegations/new',
-        className: 'nav-links',
-        role: 'WORKER'
     }
     // ,
     // {

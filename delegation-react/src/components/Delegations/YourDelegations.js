@@ -3,8 +3,8 @@ import { Button } from 'react-bootstrap';
 import React, { Component } from 'react';
 import { canAccessPage, currentUser, extractRole, jwtHeader } from '../../Utility/Constants';
 import './YourDelegations.css';
-import { Link, Redirect, useHistory, withRouter } from 'react-router-dom';
-import history from '../../Utility/history';
+import DelegationDetails from './DelegationDetails';
+
 class YourDelegations extends Component{
 
     constructor(props){
@@ -19,10 +19,11 @@ class YourDelegations extends Component{
                 end: "End",
                 sum: "Sum",
                 advancePayment: "Paid"
-            }
+            },
+            redirect:"yourdelegations/new"
         
         } 
-        
+        this.handleRedirect=this.handleRedirect.bind(this);
         
 
     }
@@ -68,6 +69,15 @@ class YourDelegations extends Component{
         )
     }
 
+  
+
+    handleRedirect = (delegationNumber) =>  {
+        this.props.history.push({ 
+            pathname: '/register',
+            state: delegationNumber
+           });
+    }
+
     renderTableRows = () => {
         return this.state.delegations.map(delegation => {
             return(
@@ -77,16 +87,17 @@ class YourDelegations extends Component{
                     <td>{delegation.endDate}</td>
                     <td>{delegation.sum}</td>
                     <td>{delegation.advancePayment}</td>
-                    <Button className="details-button" >Details</Button>
+                    <td><Button className="details-button" onClick={ delegation => this.handleRedirect(delegation.id)}>Details</Button></td>
                 </tr>
             )
         })
     }
     
 
-    handleClick()   {
-        return this.props.history.goBack;
+    handleClick = () =>  {
         
+        this.props.history.push(this.state.redirect);
+            
         
     }
     
@@ -96,8 +107,8 @@ class YourDelegations extends Component{
         return (
             
                 
-        <body className="body-position">
-           
+        <div className="body-position">
+           <button className="add-button" onClick={this.handleClick}>New</button>
  
             <table class="table table-dark">
                 <thead>
@@ -113,7 +124,7 @@ class YourDelegations extends Component{
                 </tbody>
                 </table>
 
-        </body>
+        </div>
         
         
        
@@ -129,4 +140,4 @@ class YourDelegations extends Component{
 
 
 
-export default  withRouter(YourDelegations);
+export default  YourDelegations;

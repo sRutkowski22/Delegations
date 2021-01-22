@@ -4,6 +4,7 @@
 
 import AddDelegation from "../Delegations/AddDelegation"
 import CheckRoute from "../Delegations/CheckRoute"
+import DelegationDetails from "../Delegations/DelegationDetails"
 import YourDelegations from "../Delegations/YourDelegations"
 import Roles from "./Roles"
 
@@ -30,6 +31,12 @@ export default  [
  {
     component: AddDelegation,
     path: '/yourdelegations/new',
+    exact: true,
+    role: Roles.WORKER
+},
+{
+    component: DelegationDetails,
+    path: '/yourdelegations/details/:id',
     exact: true,
     role: Roles.WORKER
 }
