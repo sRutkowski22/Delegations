@@ -18,7 +18,7 @@ class YourDelegations extends Component{
                 start: "Start",
                 end: "End",
                 sum: "Sum",
-                advancePayment: "Paid"
+                advancePayment: "Status"
             },
             redirect:"yourdelegations/new"
         
@@ -29,11 +29,14 @@ class YourDelegations extends Component{
     }
     
     componentDidMount= () => {
+        
         axios.get("/delegations/getforuser/" + currentUser(), jwtHeader())
         .then(response => {
             const tempdel = response.data;
             this.setState( {delegations:tempdel})
-            console.log(this.state.redirect)
+            console.log(this.state.delegations[0].delegationVerified)
+
+            console.log(response.data)
         }).catch(error => {
             console.log(error.message);
         })
@@ -85,8 +88,8 @@ class YourDelegations extends Component{
                     <td>{delegation.delegationNumber}</td>
                     <td>{delegation.startDate}</td>
                     <td>{delegation.endDate}</td>
-                    <td>{delegation.sum}</td>
-                    <td>{delegation.advancePayment}</td>
+                    <td>{delegation.sum} zł</td>
+                    <td>{delegation.privateCar}</td>
                     <td><Button className="details-button" onClick={ delegation => this.handleRedirect(delegation.id)}>Details</Button></td>
                 </tr>
             )
