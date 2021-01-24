@@ -51,6 +51,8 @@ class AddDelegation extends Component{
                     tempValid["startDate"] = moment(document.getElementById("startDate").value).isBefore(moment(document.getElementById("crossingForeignBorder").value))               
                 }else
                 tempValid["startDate"] = moment(document.getElementById("startDate").value).isBefore(moment(document.getElementById("endDate").value))           
+                if(tempValid["startDate"] === true)
+                tempValid["endDate"] = true;
                 break;
             case "endDate":
                 if(this.state.foreignDelegation){
