@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import {Button, Form, FormGroup, FormControl, FormLabel} from 'react-bootstrap';
 import moment from 'moment';
-import { canAccessPage, extractRole } from '../../Utility/Constants';
+import Moment from 'moment';
+import { canAccessPage, extractRole, jwtHeader } from '../../Utility/Constants';
 import './AddDelegation.css'
+import axios from 'axios';
+import ErrorCodes from '../auth/HTTPCodes';
+import Swal from 'sweetalert2';
+import {currentUser} from "../../Utility/Constants.js";
+import HTTPCodes from '../auth/HTTPCodes';
 
 class AddDelegation extends Component{
 
@@ -49,7 +55,7 @@ class AddDelegation extends Component{
         let tempDel = {...this.state.delegation};
         this.validateProperty(property);
         console.log(event.target.value)
-        tempDel[property] = event.target.value;
+        
         switch(property){
            case "guaranteedDomesticBreakfast":      
                this.state.guaranteedDomesticBreakfast = !this.state.guaranteedDomesticBreakfast;
@@ -76,6 +82,7 @@ class AddDelegation extends Component{
                tempDel[property] = this.state.guaranteedForeignSupper;
                 break;
             default:
+                tempDel[property] = event.target.value;
                 break;
         }
         this.state.delegation = tempDel;
@@ -127,19 +134,50 @@ class AddDelegation extends Component{
         console.log(this.state.foreignDelegation)
     }
 
+    handleSubmit = (event) => {
+        if(this.checkValidation()){
+            axios.post("/delegations/add/" + currentUser(),this.state.delegation, jwtHeader())
+            .then(response => {
+                if(response.status = HTTPCodes.Success){
+                    Swal.fire(
+                        'Delegation submitted successfully',
+                        '',
+                        'success'
+                    )                    
+                }
+            }).catch(error => {
+                console.log("blad", error.response.data)
+            Swal.fire(
+                'An error has occured. Please try again',
+                '',
+                'error'
+            )
+        });
+        event.preventDefault();
+    } else {
+        Swal.fire(
+            'Please fill out the form appropriately',
+            '',
+            'error'
+        )
+    }
+    event.preventDefault();
+    };
+
+
     renderForeignDelegation = () => {
         if (this.state.foreignDelegation) {
             return (
                 <React.Fragment>
                     <FormGroup>
                         <FormLabel> Crossing foreign border</FormLabel>
-                        <FormControl id="crossingForeignBorder" value={this.state.delegation["crossingForeignBorder"]} onChange={(event) => this.handleChangeProperty(event, "crossingForeignBorder")} isInvalid={!this.state.valid["crossingForeignBorder"]} type="datetime-local" timeFormat="YYYY-MM-DD HH:mm"/>
+                        <FormControl id="crossingForeignBorder" value={this.state.delegation["crossingForeignBorder"]} onChange={(event) => this.handleChangeProperty(event, "crossingForeignBorder")} isInvalid={!this.state.valid["crossingForeignBorder"]} type="datetime-local"/>
                         <FormControl.Feedback type="invalid">Crossing Foreign border date must be later than start date and earlier than crossing home border date.</FormControl.Feedback>
                     </FormGroup>
 
                     <FormGroup>
                         <FormLabel>Crossing home border</FormLabel>
-                        <FormControl id="crossingHomeBorder" value={this.state.delegation["crossingHomeBorder"]} onChange={(event) => this.handleChangeProperty(event, "crossingHomeBorder")} isInvalid={!this.state.valid["crossingHomeBorder"]} type="datetime-local" timeFormat="YYYY-MM-DD HH:mm"/>
+                        <FormControl id="crossingHomeBorder" value={this.state.delegation["crossingHomeBorder"]} onChange={(event) => this.handleChangeProperty(event, "crossingHomeBorder")} isInvalid={!this.state.valid["crossingHomeBorder"]} type="datetime-local"/>
                         <FormControl.Feedback type="invalid">Crossing home border must be later than crossing foreign border and earlier than end date.</FormControl.Feedback>
                     </FormGroup>
 
@@ -160,18 +198,18 @@ class AddDelegation extends Component{
     };
 
     renderHomeDelegation = () => {
-        
+        console.log(this.state.foreignDelegation)
         return (
             <React.Fragment>
                 <FormGroup>
                     <FormLabel>Delegation's start date</FormLabel>
-                    <FormControl id="startDate" value={this.state.delegation["startDate"]} onChange={(event) => this.handleChangeProperty(event, "startDate")} isInvalid={!this.state.valid["startDate"]} type="datetime-local" timeFormat="yyyy-MM-dd HH:mm"/>
+                    <FormControl id="startDate" value={this.state.delegation["startDate"]} onChange={(event) => this.handleChangeProperty(event, "startDate")} isInvalid={!this.state.valid["startDate"]} type="datetime-local"/>
                     <FormControl.Feedback type="invalid">Start date must be before end date.</FormControl.Feedback>
                 </FormGroup>
 
                 <FormGroup>
                 <FormLabel>Delegation's end date</FormLabel>
-                    <FormControl id="endDate" value={this.state.delegation["endDate"]} onChange={(event) => this.handleChangeProperty(event, "endDate")} isInvalid={!this.state.valid["endDate"]} type="datetime-local" timeFormat="yyyy-MM-dd HH:mm"/>
+                    <FormControl id="endDate" value={this.state.delegation["endDate"]} onChange={(event) => this.handleChangeProperty(event, "endDate")} isInvalid={!this.state.valid["endDate"]} type="datetime-local" />
                     <FormControl.Feedback type="invalid">End date must be after start date.</FormControl.Feedback>
                 </FormGroup>
                 <div className="checkbox-group">
@@ -197,7 +235,7 @@ class AddDelegation extends Component{
                 {this.renderHomeDelegation()}
                 <Form.Switch id="foreignDelegationSwitch" label="Foreign Delegation" checked={this.state.foreignDelegation} onChange={this.enableForeignDelegation} style={{"margin-bottom": "0.75em"}}/> 
                     {this.renderForeignDelegation()} 
-
+                <Button type="submit">Submit</Button>
             </Form>
         );
     }

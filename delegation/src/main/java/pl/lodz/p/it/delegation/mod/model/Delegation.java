@@ -31,23 +31,23 @@ public @Data class Delegation implements Serializable {
 
 
     @Column(name="delegation_start_date", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
 
 
     @Column(name="delegation_end_date", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endDate;
 
     @Column(name="leaving_country_date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime crossingForeignBorder;
 
     @Column(name="crossing_home_border_date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime crossingHomeBorder;
 

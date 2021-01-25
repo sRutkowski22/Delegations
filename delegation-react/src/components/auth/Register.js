@@ -5,7 +5,7 @@ import './Register.css';
 import axios from 'axios';
 import swal from "sweetalert";
 import 'bootstrap/dist/css/bootstrap.css';
-import ErrorCodes from './ErrorCodes';
+import HTTPCodes from './HTTPCodes';
 
  class Register extends Component{
 
@@ -105,7 +105,7 @@ import ErrorCodes from './ErrorCodes';
         axios.post("/accounts/add",  this.state.user )
         .then(response => {
             console.log(response.message, response);
-            if(response.status === 200){
+            if(response.status === HTTPCodes.Success){
                 swal({
                     title: "Registration completed",
                     icon: "success",
@@ -116,7 +116,7 @@ import ErrorCodes from './ErrorCodes';
         }).catch(error => {
             this.setState({errorMessage: error.message});
             console.log("registration error", error.response.data);
-            if(error.response.status === ErrorCodes.EmailAlreadyExists){
+            if(error.response.status === HTTPCodes.EmailAlreadyExists){
                 swal({
                     title: "Email was already used",
                     icon: "error",

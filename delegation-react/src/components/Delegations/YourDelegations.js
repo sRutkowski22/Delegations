@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { canAccessPage, currentUser, extractRole, jwtHeader } from '../../Utility/Constants';
 import './YourDelegations.css';
 import DelegationDetails from './DelegationDetails';
+import Moment from 'react-moment';
 
 class YourDelegations extends Component{
 
@@ -86,10 +87,10 @@ class YourDelegations extends Component{
             return(
                 <tr className="table-active" key={delegation.id}>
                     <td>{delegation.delegationNumber}</td>
-                    <td>{delegation.startDate}</td>
-                    <td>{delegation.endDate}</td>
+                    <td> <Moment date={delegation.startDate} format="DD-MM-yyyy HH:mm"/></td>
+                    <td><Moment date={delegation.endDate} format="DD-MM-yyyy HH:mm"/></td>
                     <td>{delegation.sum} zł</td>
-                    <td>{delegation.privateCar}</td>
+                    <td>{delegation.delegationVerified}</td>
                     <td><Button className="details-button" onClick={ delegation => this.handleRedirect(delegation.id)}>Details</Button></td>
                 </tr>
             )

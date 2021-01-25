@@ -45,6 +45,7 @@ public class DelegationService  {
     public void addDelegation(Delegation delegation, String email){
         log.error("delegacja "+ delegation.getId() + " account idd "   + delegation.getCrossingForeignBorder()
                 + delegation.getCrossingHomeBorder() + delegation.getDelegationNumber() + delegation.getEndDate() + " " + delegation.getStartDate());
+        if(delegation.getRouteList() != null)
         for(DelegationRoute route : delegation.getRouteList()){
             route.setDelegation(delegation);
         }
