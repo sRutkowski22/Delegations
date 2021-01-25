@@ -10,9 +10,19 @@ class AddDelegation extends Component{
         super(props);
         canAccessPage(this.props,extractRole(window.location.pathname));
         this.state = {
-            delegation: {},
-            valid: {"crossingForeignBorder": true, "crossingHomeBorder": true, "startDate": true, "endDate": true},
-            foreignDelegation: false
+            delegation: {
+                startDate: ""
+            },
+            valid: {"crossingForeignBorder": true, "crossingHomeBorder": true, "startDate": true, "endDate": true,},
+            foreignDelegation: false,
+            guaranteedDomesticBreakfast: false,
+            guaranteedDomesticDinner: false,
+            guaranteedDomesticSupper: false,
+            guaranteedForeignBreakfast: false,
+            guaranteedForeignDinner: false,
+            guaranteedForeignSupper: false
+            
+
         }
     }
 
@@ -37,9 +47,38 @@ class AddDelegation extends Component{
 
     handleChangeProperty = (event, property) => {
         let tempDel = {...this.state.delegation};
-        tempDel[property] = event.target.value;
-        this.setState({delegation: tempDel});
         this.validateProperty(property);
+        console.log(event.target.value)
+        tempDel[property] = event.target.value;
+        switch(property){
+           case "guaranteedDomesticBreakfast":      
+               this.state.guaranteedDomesticBreakfast = !this.state.guaranteedDomesticBreakfast;
+               tempDel[property] = this.state.guaranteedDomesticBreakfast;
+                break;
+            case "guaranteedDomesticDinner": 
+            this.state.guaranteedDomesticDinner = !this.state.guaranteedDomesticDinner;
+               tempDel[property] = this.state.guaranteedDomesticDinner;
+                break;
+            case "guaranteedDomesticSupper":
+                this.state.guaranteedDomesticSupper = !this.state.guaranteedDomesticSupper;
+               tempDel[property] = this.state.guaranteedDomesticSupper;
+                break;
+            case "guaranteedForeignBreakfast":
+                this.state.guaranteedForeignBreakfast = !this.state.guaranteedForeignBreakfast;
+               tempDel[property] = this.state.guaranteedForeignBreakfast;
+                break;
+            case "guaranteedForeignDinner":
+                this.state.guaranteedForeignDinner = !this.state.guaranteedForeignDinner;
+               tempDel[property] = this.state.guaranteedForeignDinner;
+                break;
+            case "guaranteedForeignSupper":
+                this.state.guaranteedForeignSupper = !this.state.guaranteedForeignSupper;
+               tempDel[property] = this.state.guaranteedForeignSupper;
+                break;
+            default:
+                break;
+        }
+        this.state.delegation = tempDel;
         console.log(this.state.delegation)
     };
 
@@ -64,11 +103,17 @@ class AddDelegation extends Component{
                 break;
             case "crossingForeignBorder":
                 tempValid["crossingForeignBorder"] = moment(document.getElementById("crossingForeignBorder").value).isAfter(moment(document.getElementById("startDate").value)) && moment(document.getElementById("crossingForeignBorder").value).isBefore(moment(document.getElementById("crossingHomeBorder").value));
+                if(tempValid["crossingForeignBorder"]){
+                    tempValid["crossingHomeBorder"] = true;
+                    tempValid["startDate"] = true;
+                }
                 break;
             case "crossingHomeBorder":
                 tempValid["crossingHomeBorder"] = moment(document.getElementById("crossingHomeBorder").value).isAfter(moment(document.getElementById("crossingForeignBorder").value)) && moment(document.getElementById("crossingHomeBorder").value).isBefore(moment(document.getElementById("endDate").value));
-                if(tempValid["crossingHomeBorder"] === true)
+                if(tempValid["crossingHomeBorder"] === true){
                 tempValid["crossingForeignBorder"] = true;
+                tempValid["endDate"] = true;
+                }
                 break;
             default:
                 break;
@@ -77,7 +122,9 @@ class AddDelegation extends Component{
     };
 
     enableForeignDelegation = () =>{
-        this.setState({foreignDelegation: !this.state.foreignDelegation})
+        console.log(this.state.foreignDelegation)
+        this.state.foreignDelegation = !this.state.foreignDelegation
+        console.log(this.state.foreignDelegation)
     }
 
     renderForeignDelegation = () => {
@@ -85,7 +132,7 @@ class AddDelegation extends Component{
             return (
                 <React.Fragment>
                     <FormGroup>
-                        <FormLabel>Crossing foreign border</FormLabel>
+                        <FormLabel> Crossing foreign border</FormLabel>
                         <FormControl id="crossingForeignBorder" value={this.state.delegation["crossingForeignBorder"]} onChange={(event) => this.handleChangeProperty(event, "crossingForeignBorder")} isInvalid={!this.state.valid["crossingForeignBorder"]} type="datetime-local" timeFormat="YYYY-MM-DD HH:mm"/>
                         <FormControl.Feedback type="invalid">Crossing Foreign border date must be later than start date and earlier than crossing home border date.</FormControl.Feedback>
                     </FormGroup>
@@ -95,6 +142,18 @@ class AddDelegation extends Component{
                         <FormControl id="crossingHomeBorder" value={this.state.delegation["crossingHomeBorder"]} onChange={(event) => this.handleChangeProperty(event, "crossingHomeBorder")} isInvalid={!this.state.valid["crossingHomeBorder"]} type="datetime-local" timeFormat="YYYY-MM-DD HH:mm"/>
                         <FormControl.Feedback type="invalid">Crossing home border must be later than crossing foreign border and earlier than end date.</FormControl.Feedback>
                     </FormGroup>
+
+                    <div className="checkbox-group">
+                        <FormGroup  className="checkbox-form">
+                        <Form.Check id="guaranteedForeignBreakfast" type="checkbox" checked={this.state.guaranteedForeignBreakfast} label="Breakfast guarantee" value={this.state.guaranteedForeignBreakfast} onChange={(event) => this.handleChangeProperty(event, "guaranteedForeignBreakfast")} ></Form.Check> 
+                    </FormGroup >
+                    <FormGroup className="checkbox-form">
+                        <Form.Check id="guaranteedForeignDinner" type="checkbox" checked={this.state.guaranteedForeignDinner} label="Dinner guarantee" value={this.state.guaranteedForeignDinner} onChange={(event) => this.handleChangeProperty(event, "guaranteedForeignDinner")} ></Form.Check>
+                    </FormGroup>
+                    <FormGroup className="checkbox-form">
+                        <Form.Check id="guaranteedForeignSupper"  type="checkbox" checked={this.state.guaranteedForeignSupper} label="Supper guarantee" value={this.state.guaranteedForeignSupper} onChange={(event) => this.handleChangeProperty(event, "guaranteedForeignSupper")} ></Form.Check>
+                    </FormGroup>
+                    </div>
                 </React.Fragment>
             );
         }
@@ -115,6 +174,17 @@ class AddDelegation extends Component{
                     <FormControl id="endDate" value={this.state.delegation["endDate"]} onChange={(event) => this.handleChangeProperty(event, "endDate")} isInvalid={!this.state.valid["endDate"]} type="datetime-local" timeFormat="yyyy-MM-dd HH:mm"/>
                     <FormControl.Feedback type="invalid">End date must be after start date.</FormControl.Feedback>
                 </FormGroup>
+                <div className="checkbox-group">
+                <FormGroup  className="checkbox-form">
+                    <Form.Check id="guaranteedDomesticBreakfast" type="checkbox" checked={this.state.guaranteedDomesticBreakfast} label="Breakfast guarantee" value={this.state.guaranteedDomesticBreakfast} onChange={(event) => this.handleChangeProperty(event, "guaranteedDomesticBreakfast")} ></Form.Check> 
+                </FormGroup >
+                <FormGroup className="checkbox-form">
+                    <Form.Check id="guaranteedDomesticDinner" type="checkbox" checked={this.state.guaranteedDomesticDinner} label="Dinner guarantee" value={this.state.guaranteedDomesticDinner} onChange={(event) => this.handleChangeProperty(event, "guaranteedDomesticDinner")} ></Form.Check>
+                </FormGroup>
+                <FormGroup className="checkbox-form">
+                    <Form.Check id="guaranteedDomesticSupper"  type="checkbox" checked={this.state.guaranteedDomesticSupper} label="Supper guarantee" value={this.state.guaranteedDomesticSupper} onChange={(event) => this.handleChangeProperty(event, "guaranteedDomesticSupper")} ></Form.Check>
+                </FormGroup>
+                </div>
             </React.Fragment>
         );
     }

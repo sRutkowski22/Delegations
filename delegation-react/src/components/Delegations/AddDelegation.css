@@ -10,9 +10,19 @@
     border-style: solid;
     border-left-width: 100px;
     text-align: center;
-    
-    
+ }
+
+ .checkbox-group{
+    display: flex;
+  flex-flow: row wrap;
   
+   
+ }
+
+ .checkbox-form{
+    margin: 10px;
+    
+ 
  }
 
  
