@@ -11,7 +11,7 @@ class AddDelegation extends Component{
         canAccessPage(this.props,extractRole(window.location.pathname));
         this.state = {
             delegation: {
-                startDate: ""
+               
             },
             valid: {"crossingForeignBorder": true, "crossingHomeBorder": true, "startDate": true, "endDate": true,},
             foreignDelegation: false,
@@ -123,7 +123,7 @@ class AddDelegation extends Component{
 
     enableForeignDelegation = () =>{
         console.log(this.state.foreignDelegation)
-        this.state.foreignDelegation = !this.state.foreignDelegation
+        this.setState({ foreignDelegation : !this.state.foreignDelegation})
         console.log(this.state.foreignDelegation)
     }
 
@@ -160,7 +160,7 @@ class AddDelegation extends Component{
     };
 
     renderHomeDelegation = () => {
-
+        
         return (
             <React.Fragment>
                 <FormGroup>
@@ -185,6 +185,7 @@ class AddDelegation extends Component{
                     <Form.Check id="guaranteedDomesticSupper"  type="checkbox" checked={this.state.guaranteedDomesticSupper} label="Supper guarantee" value={this.state.guaranteedDomesticSupper} onChange={(event) => this.handleChangeProperty(event, "guaranteedDomesticSupper")} ></Form.Check>
                 </FormGroup>
                 </div>
+                
             </React.Fragment>
         );
     }
@@ -192,10 +193,10 @@ class AddDelegation extends Component{
     renderForm = () => {
         return(
             <Form className="add-del-form" onSubmit={this.handleSubmit}>
-                <h1 className="welcome">Add new delegation</h1>
+                <h1 className="header1">Add new delegation</h1>
                 {this.renderHomeDelegation()}
-                <Form.Switch id="foreignDelegationSwitch" label="Foreign Delegation" checked={this.state.foreignDelegation} onChange={this.enableForeignDelegation} style={{"margin-bottom": "0.75em"}}/>
-                    {this.renderForeignDelegation()}
+                <Form.Switch id="foreignDelegationSwitch" label="Foreign Delegation" checked={this.state.foreignDelegation} onChange={this.enableForeignDelegation} style={{"margin-bottom": "0.75em"}}/> 
+                    {this.renderForeignDelegation()} 
 
             </Form>
         );
