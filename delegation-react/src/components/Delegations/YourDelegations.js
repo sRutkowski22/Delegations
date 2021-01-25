@@ -6,6 +6,7 @@ import './YourDelegations.css';
 import DelegationDetails from './DelegationDetails';
 import Moment from 'react-moment';
 
+
 class YourDelegations extends Component{
 
     constructor(props){
@@ -77,7 +78,7 @@ class YourDelegations extends Component{
 
     handleRedirect = (delegationNumber) =>  {
         this.props.history.push({ 
-            pathname: '/register',
+            pathname: '/yourdelegations/details',
             state: delegationNumber
            });
     }
@@ -90,8 +91,8 @@ class YourDelegations extends Component{
                     <td> <Moment date={delegation.startDate} format="DD-MM-yyyy HH:mm"/></td>
                     <td><Moment date={delegation.endDate} format="DD-MM-yyyy HH:mm"/></td>
                     <td>{delegation.sum} zł</td>
-                    <td>{delegation.delegationVerified}</td>
-                    <td><Button className="details-button" onClick={ delegation => this.handleRedirect(delegation.id)}>Details</Button></td>
+                    <td>{delegation.delegationStatus.statusName.toUpperCase()}</td>
+                    <td><Button variant="primary" onClick={ delegation => this.handleRedirect(delegation.id)}>Details</Button></td>
                 </tr>
             )
         })

@@ -7,8 +7,11 @@ import org.springframework.transaction.annotation.Isolation;
 import pl.lodz.p.it.delegation.exceptions.DelegationNotFoundException;
 import pl.lodz.p.it.delegation.mod.model.Delegation;
 import pl.lodz.p.it.delegation.mod.model.DelegationRoute;
+import pl.lodz.p.it.delegation.mod.model.DelegationStatuses;
+import pl.lodz.p.it.delegation.mod.model.Status;
 import pl.lodz.p.it.delegation.mod.repositories.DelegationRepository;
 import pl.lodz.p.it.delegation.mod.repositories.DelegationRouteRepository;
+import pl.lodz.p.it.delegation.mod.repositories.StatusRepository;
 import pl.lodz.p.it.delegation.mok.model.Account;
 import pl.lodz.p.it.delegation.mok.repositories.AccountRepository;
 
@@ -24,6 +27,7 @@ public class DelegationService  {
     private final DelegationRepository delegationRepository;
     private final DelegationRouteRepository routeRepository;
     private final AccountRepository accountRepository;
+    private final StatusRepository statusRepository;
 
     public List<Delegation> getDelegationByAccountEmail(String email) throws DelegationNotFoundException {
         if(delegationRepository.findByEmail(email).isEmpty())
@@ -50,6 +54,9 @@ public class DelegationService  {
             route.setDelegation(delegation);
         }
         Account account = accountRepository.findByEmail(email).get();
+        Status status = statusRepository.findByStatusName(DelegationStatuses.submitted.toString());
+
+        delegation.setDelegationStatus(status);
         delegation.setAccount(account);
         delegation.setDelegationNumber(UUID.randomUUID().toString());
         delegationRepository.save(delegation);

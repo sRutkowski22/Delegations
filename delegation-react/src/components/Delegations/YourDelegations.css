@@ -4,7 +4,7 @@
     border-color:rgb(102, 101, 101);
     width: 100%;
     transition: all 0.5s ease-out;
-    
+    height: 40px;
 }
 
 .add-button:hover{
@@ -31,6 +31,19 @@
    }
 
    .details-button:hover{
-    background-color: black;
+    background-color: rgb(114, 113, 113);
     color: white;
+}
+
+.button.details-button.btn.btn-primary{
+    background-color: #800000;
+    color: black;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #800000;
+    /* background-color: cutom-color; */
+    border-color: none;
+    
 }

@@ -233,6 +233,7 @@ class AddDelegation extends Component{
             <Form className="add-del-form" onSubmit={this.handleSubmit}>
                 <h1 className="header1">Add new delegation</h1>
                 {this.renderHomeDelegation()}
+                <div className="header1"></div>
                 <Form.Switch id="foreignDelegationSwitch" label="Foreign Delegation" checked={this.state.foreignDelegation} onChange={this.enableForeignDelegation} style={{"margin-bottom": "0.75em"}}/> 
                     {this.renderForeignDelegation()} 
                 <Button type="submit">Submit</Button>

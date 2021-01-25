@@ -67,7 +67,10 @@ public @Data class Delegation implements Serializable {
 
     private boolean guaranteedAccommodation;
 
-    private boolean delegationVerified;
+    @NotNull
+    @JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Status delegationStatus;
 
     private int advancePayment;
 
