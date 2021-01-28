@@ -67,6 +67,16 @@ public @Data class Delegation implements Serializable {
 
     private boolean guaranteedAccommodation;
 
+    private boolean homeTransportCharge;
+
+    private int distance;
+
+    private boolean greaterThan900cm3;
+
+    private boolean foreignDelegation;
+
+    private String destination;
+
     @NotNull
     @JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
