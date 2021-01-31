@@ -2,6 +2,8 @@ package pl.lodz.p.it.delegation.mod.services;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import pl.lodz.p.it.delegation.exceptions.DelegationNotFoundException;
@@ -11,11 +13,16 @@ import pl.lodz.p.it.delegation.mod.model.DelegationStatuses;
 import pl.lodz.p.it.delegation.mod.model.Status;
 import pl.lodz.p.it.delegation.mod.repositories.DelegationRepository;
 import pl.lodz.p.it.delegation.mod.repositories.DelegationRouteRepository;
+import pl.lodz.p.it.delegation.mod.repositories.RateRepository;
 import pl.lodz.p.it.delegation.mod.repositories.StatusRepository;
+import pl.lodz.p.it.delegation.mod.singleton.RateSingleton;
 import pl.lodz.p.it.delegation.mok.model.Account;
 import pl.lodz.p.it.delegation.mok.repositories.AccountRepository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +33,7 @@ public class DelegationService  {
 
     private final DelegationRepository delegationRepository;
     private final DelegationRouteRepository routeRepository;
+    private final RateRepository rateRepository;
     private final AccountRepository accountRepository;
     private final StatusRepository statusRepository;
 
@@ -61,5 +69,18 @@ public class DelegationService  {
         delegation.setDelegationNumber(UUID.randomUUID().toString());
         delegationRepository.save(delegation);
 
+    }
+
+    public void calculateDelegationSum(Delegation delegation){
+        ApplicationContext applicationContext =
+                new ClassPathXmlApplicationContext("scopes.xml");
+
+        RateSingleton rateSingleton = (RateSingleton) applicationContext.getBean("rateSingleton1");
+        rateSingleton.setRate(rateRepository.findAll().get(0));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime startDate =
+        log.error(" Rate singleton " + rateSingleton.getRate().getDomesticAllowance() );
+        log.error(" Delegation  " + delegation.getStartDate() );
+        delegation.setSum(300);
     }
 }

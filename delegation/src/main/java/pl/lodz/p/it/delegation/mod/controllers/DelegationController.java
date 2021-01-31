@@ -31,6 +31,7 @@ public class DelegationController {
 
 
                 log.error("jestem w delegation controlerze");
+                delegationService.calculateDelegationSum(delegation);
                 delegationService.addDelegation(delegation, email);
 
                 log.error("jestem w delegation controlerze 2");

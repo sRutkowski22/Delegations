@@ -2,10 +2,13 @@ package pl.lodz.p.it.delegation.mok.controllers;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.core.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.delegation.exceptions.AccountException;
+import pl.lodz.p.it.delegation.mod.model.Rate;
 import pl.lodz.p.it.delegation.mok.model.Account;
 import pl.lodz.p.it.delegation.mok.services.AccountService;
 
@@ -29,6 +32,7 @@ public class AccountController {
         try {
             accountService.addAccount(account);
             counter = 0;
+
 
         }catch( AccountException ex) {
             log.warn(ex.getMessage()+ "AccountExceptionInvoked");
