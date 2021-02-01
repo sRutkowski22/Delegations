@@ -81,7 +81,7 @@ public @Data class Delegation implements Serializable {
     private int advancePayment;
 
     @NotNull
-    private int sum;
+    private double sum;
 
     @OneToMany(mappedBy = "delegation" , cascade = CascadeType.PERSIST)
     @JsonManagedReference
