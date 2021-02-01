@@ -83,6 +83,8 @@ public @Data class Delegation implements Serializable {
     @NotNull
     private double sum;
 
+    private int foreignAllowance;
+
     @OneToMany(mappedBy = "delegation" , cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private List<DelegationRoute> routeList;

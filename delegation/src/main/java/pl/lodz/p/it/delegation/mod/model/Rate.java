@@ -23,9 +23,6 @@ public @Data class Rate {
     @Column(name = "domestic_allowance")
     private int domesticAllowance;
 
-    @Column(name = "foreign_allowance")
-    private int foreignAllowance;
-
     @Column(name = "car_greater900_rate")
     private double carGreaterThan900rate;
 

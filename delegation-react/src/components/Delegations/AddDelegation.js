@@ -216,6 +216,28 @@ class AddDelegation extends Component{
                         <FormControl id="crossingHomeBorder" value={this.state.delegation["crossingHomeBorder"]} onChange={(event) => this.handleChangeProperty(event, "crossingHomeBorder")} isInvalid={!this.state.valid["crossingHomeBorder"]} type="datetime-local"/>
                         <FormControl.Feedback type="invalid">Crossing home border must be later than crossing foreign border and earlier than end date.</FormControl.Feedback>
                     </FormGroup>
+                    
+                    <FormGroup   >
+                        <InputGroup >
+                        <Form.Label className="input-destination-group" id="inputGroupAppend">Foreign Allowance</Form.Label>
+                        <Form.Control
+                        type="number"
+                         placeholder="Foreign Allowance"
+                        aria-describedby="inputGroupAppend"
+                          label="Foreign Allowance"
+                         id="advancePayment"
+                         value={this.state.delegation['foreignAllowance']}
+                          onChange={(event) => this.handleChangeProperty(event, "foreignAllowance")}
+                 
+                      /> 
+                        <InputGroup.Append>
+                          <InputGroup.Text id="inputGroupAppend">ZŁ</InputGroup.Text>
+                       </InputGroup.Append>
+                       <Form.Control.Feedback type="invalid" tooltip>
+                  
+                       </Form.Control.Feedback>
+                      </InputGroup>
+                     </FormGroup>
 
                     <div className="checkbox-group">
                         <FormGroup  className="checkbox-form">

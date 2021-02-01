@@ -132,6 +132,13 @@ public class DelegationService  {
             sum -= delegation.getAdvancePayment();
         }else{
             log.error("dieta zagraniczna!! ");
+            double delegationDurationToForeignBorder = Duration.between(delegation.getStartDate(), delegation.getCrossingForeignBorder()).toMinutes();
+            double foreignDelegationduration = Duration.between(delegation.getCrossingForeignBorder(), delegation.getCrossingHomeBorder()).toMinutes();
+            double delegationDurationFromHomeBorder = Duration.between(delegation.getCrossingHomeBorder(), delegation.getEndDate()).toMinutes();
+            log.error("1 duration " + delegationDurationToForeignBorder);
+            log.error("2 duration " + foreignDelegationduration);
+            log.error("3 duration " + delegationDurationFromHomeBorder);
+
         }
         if(delegation.getDistance() != 0){
             if(delegation.isGreaterThan900cm3())
