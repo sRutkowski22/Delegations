@@ -121,25 +121,23 @@ public class DelegationService  {
             log.error("guaranteed meals po odjeciu "+ guaranteedMeals);
             log.error("sum "+ sum);
             sum *= guaranteedMeals;
-//            if(delegation.isGuaranteedAccommodation())
-//                sum += rateSingleton.getRate().getDomesticAllowance() * 1.5 * days;
+            if(delegation.isGuaranteedAccommodation())
+                sum += rateSingleton.getRate().getDomesticAllowance() * 1.5 * days;
             int numberOfstartedDays = (int) Duration.between(delegation.getStartDate(), delegation.getEndDate()).toDays();
             if((delegationDurationMinutes%60)>0)
                 numberOfstartedDays+=1;
             log.error(" number of started days " + numberOfstartedDays);
             if(delegation.isHomeTransportCharge())
                 sum += numberOfstartedDays * 0.2 * rateSingleton.getRate().getDomesticAllowance();
-            double nocleg;
-            if(delegation.isGuaranteedAccommodation()){
-                nocleg = days * rateSingleton.getRate().getDomesticAllowance() * 1.5;
-
-                log.error("nocleg " + nocleg + " suma " + sum);
-                sum += nocleg;
-                log.error("suma po dodaniu noclegu " + sum);
-            }
-
+            sum -= delegation.getAdvancePayment();
         }else{
             log.error("dieta zagraniczna!! ");
+        }
+        if(delegation.getDistance() != 0){
+            if(delegation.isGreaterThan900cm3())
+                sum += delegation.getDistance() * rateSingleton.getRate().getCarGreaterThan900rate();
+            else
+                sum += delegation.getDistance() * rateSingleton.getRate().getCarLowerThan900rate();
         }
         delegation.setSum(sum);
     }
