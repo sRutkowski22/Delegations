@@ -11,6 +11,7 @@ import DirectionsIndex from './components/GoogleMaps/DirectionsIndex';
 import AddDelegation from './components/Delegations/AddDelegation';
 import history from './Utility/history';
 import DelegationDetails from './components/Delegations/DelegationDetails';
+import Map from './components/GoogleMaps/Map'
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
       <Route exact path="/yourdelegations" component={YourDelegations}/>
     
      
-      <Route path="/checkroute" component={DirectionsIndex}/>
+      <Route path="/checkroute" component={CheckRoute}/>
     
       
       <Route exact path="/yourdelegations/new" component={AddDelegation}/>
