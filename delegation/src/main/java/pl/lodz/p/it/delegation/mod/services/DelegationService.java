@@ -85,60 +85,85 @@ public class DelegationService  {
         double sum = 0;
         if( delegation.getCrossingForeignBorder() == null){
             log.error(" dieta krajowa!! ");
-
-            Duration delegationDuration = Duration.between(delegation.getStartDate(), delegation.getEndDate());
-            double delegationDurationMinutes = delegationDuration.toMinutes();
-            log.error("delegationdura in minutes " + delegationDurationMinutes);
-            int days = (int) delegationDurationMinutes/60/24;
-            double extrahours = ((delegationDurationMinutes )%1440)/60;
-            log.error("duration home " + delegationDuration + "days " + days + "extrahours " + extrahours);
-            if(days == 0){
-                if(8.0 <= extrahours && extrahours <= 12) {
-                    sum = 0.5 * rateSingleton.getRate().getDomesticAllowance();
-                }else if(Double.compare(extrahours,12) > 0)
-                    sum = rateSingleton.getRate().getDomesticAllowance();
-            }else{
-                sum = days*rateSingleton.getRate().getDomesticAllowance();
-                if(extrahours > 0 && extrahours < 8){
-                    sum += 0.5 * rateSingleton.getRate().getDomesticAllowance();
-                }else if(extrahours > 12){
-                    sum += rateSingleton.getRate().getDomesticAllowance();
-                }
-            }
-            double guaranteedMeals = 1;
-            if(delegation.isGuaranteedDomesticBreakfast()){
-                guaranteedMeals = guaranteedMeals - 0.25;
-            }
-
-            if(delegation.isGuaranteedDomesticDinner()) {
-                guaranteedMeals -= 0.5;
-            }
-
-            if(delegation.isGuaranteedDomesticSupper()){
-                guaranteedMeals -= 0.25;
-            }
-
-            log.error("guaranteed meals po odjeciu "+ guaranteedMeals);
-            log.error("sum "+ sum);
-            sum *= guaranteedMeals;
-            if(delegation.isGuaranteedAccommodation())
-                sum += rateSingleton.getRate().getDomesticAllowance() * 1.5 * days;
-            int numberOfstartedDays = (int) Duration.between(delegation.getStartDate(), delegation.getEndDate()).toDays();
-            if((delegationDurationMinutes%60)>0)
-                numberOfstartedDays+=1;
-            log.error(" number of started days " + numberOfstartedDays);
-            if(delegation.isHomeTransportCharge())
-                sum += numberOfstartedDays * 0.2 * rateSingleton.getRate().getDomesticAllowance();
-            sum -= delegation.getAdvancePayment();
+           sum = calculateHomeDelegation( delegation,rateSingleton, delegation.getStartDate(), delegation.getEndDate());
+//            Duration delegationDuration = Duration.between(delegation.getStartDate(), delegation.getEndDate());
+//            double delegationDurationMinutes = delegationDuration.toMinutes();
+//            log.error("delegationdura in minutes " + delegationDurationMinutes);
+//            int days = (int) delegationDurationMinutes/60/24;
+//            double extrahours = ((delegationDurationMinutes )%1440)/60;
+//            log.error("duration home " + delegationDuration + "days " + days + "extrahours " + extrahours);
+//            if(days == 0){
+//                if(8.0 <= extrahours && extrahours <= 12) {
+//                    sum = 0.5 * rateSingleton.getRate().getDomesticAllowance();
+//                }else if(Double.compare(extrahours,12) > 0)
+//                    sum = rateSingleton.getRate().getDomesticAllowance();
+//            }else{
+//                sum = days*rateSingleton.getRate().getDomesticAllowance();
+//                if(extrahours > 0 && extrahours < 8){
+//                    sum += 0.5 * rateSingleton.getRate().getDomesticAllowance();
+//                }else if(extrahours > 12){
+//                    sum += rateSingleton.getRate().getDomesticAllowance();
+//                }
+//            }
+//            double guaranteedMeals = 1;
+//            if(delegation.isGuaranteedDomesticBreakfast()){
+//                guaranteedMeals = guaranteedMeals - 0.25;
+//            }
+//
+//            if(delegation.isGuaranteedDomesticDinner()) {
+//                guaranteedMeals -= 0.5;
+//            }
+//
+//            if(delegation.isGuaranteedDomesticSupper()){
+//                guaranteedMeals -= 0.25;
+//            }
+//
+//            log.error("guaranteed meals po odjeciu "+ guaranteedMeals);
+//            log.error("sum "+ sum);
+//            sum *= guaranteedMeals;
+//            if(delegation.isGuaranteedAccommodation())
+//                sum += rateSingleton.getRate().getDomesticAllowance() * 1.5 * days;
+//            int numberOfstartedDays = (int) Duration.between(delegation.getStartDate(), delegation.getEndDate()).toDays();
+//            if((delegationDurationMinutes%60)>0)
+//                numberOfstartedDays+=1;
+//            log.error(" number of started days " + numberOfstartedDays);
+//            if(delegation.isHomeTransportCharge())
+//                sum += numberOfstartedDays * 0.2 * rateSingleton.getRate().getDomesticAllowance();
+//            sum -= delegation.getAdvancePayment();
         }else{
             log.error("dieta zagraniczna!! ");
-            double delegationDurationToForeignBorder = Duration.between(delegation.getStartDate(), delegation.getCrossingForeignBorder()).toMinutes();
-            double foreignDelegationduration = Duration.between(delegation.getCrossingForeignBorder(), delegation.getCrossingHomeBorder()).toMinutes();
-            double delegationDurationFromHomeBorder = Duration.between(delegation.getCrossingHomeBorder(), delegation.getEndDate()).toMinutes();
-            log.error("1 duration " + delegationDurationToForeignBorder);
-            log.error("2 duration " + foreignDelegationduration);
-            log.error("3 duration " + delegationDurationFromHomeBorder);
 
+            double foreignDelegationduration = Duration.between(delegation.getCrossingForeignBorder(), delegation.getCrossingHomeBorder()).toMinutes();
+            log.error("2 duration " + foreignDelegationduration);
+            sum += calculateHomeDelegation(delegation,rateSingleton,delegation.getStartDate(),delegation.getCrossingForeignBorder());
+            sum+=calculateHomeDelegation(delegation,rateSingleton,delegation.getCrossingHomeBorder(),delegation.getEndDate());
+            double foreignSum=0;
+            int days = (int) foreignDelegationduration/60/24;
+            double extrahours = ((foreignDelegationduration )%1440)/60;
+            log.error("duration abroad " + foreignDelegationduration + "days " + days + "extrahours " + extrahours);
+            foreignSum+= days * delegation.getForeignAllowance();
+            log.error("foreign sum " + foreignSum);
+            if(extrahours <= 8 && extrahours>0){
+                foreignSum += 0.33 * delegation.getForeignAllowance();
+            }else if(8 < extrahours && extrahours <= 12){
+                foreignSum+= 0.5 * delegation.getForeignAllowance();
+            }else if(extrahours > 12){
+                foreignSum+= delegation.getForeignAllowance();
+            }
+            double guaranteedMeals = 1;
+            if(delegation.isGuaranteedForeignBreakfast()){
+                guaranteedMeals -= 0.15;
+            }
+
+            if(delegation.isGuaranteedForeignDinner()) {
+                guaranteedMeals -= 0.3;
+            }
+
+            if(delegation.isGuaranteedForeignSupper()){
+                guaranteedMeals -= 0.3;
+            }
+           foreignSum *= guaranteedMeals;
+            sum+=foreignSum;
         }
         if(delegation.getDistance() != 0){
             if(delegation.isGreaterThan900cm3())
@@ -146,6 +171,56 @@ public class DelegationService  {
             else
                 sum += delegation.getDistance() * rateSingleton.getRate().getCarLowerThan900rate();
         }
+        sum = Math.round(sum*100.0)/100.0;
         delegation.setSum(sum);
+    }
+
+    public double calculateHomeDelegation(Delegation delegation, RateSingleton rateSingleton, LocalDateTime startDate, LocalDateTime endDate){
+        Duration delegationDuration = Duration.between(startDate, endDate);
+        double sum = 0;
+        double delegationDurationMinutes = delegationDuration.toMinutes();
+        log.error("delegationdura in minutes " + delegationDurationMinutes);
+        int days = (int) delegationDurationMinutes/60/24;
+        double extrahours = ((delegationDurationMinutes )%1440)/60;
+        log.error("duration home " + delegationDuration + "days " + days + "extrahours " + extrahours);
+        if(days == 0){
+            if(8.0 <= extrahours && extrahours <= 12) {
+                sum = 0.5 * rateSingleton.getRate().getDomesticAllowance();
+            }else if(Double.compare(extrahours,12) > 0)
+                sum = rateSingleton.getRate().getDomesticAllowance();
+        }else{
+            sum = days*rateSingleton.getRate().getDomesticAllowance();
+            if(extrahours > 0 && extrahours < 8){
+                sum += 0.5 * rateSingleton.getRate().getDomesticAllowance();
+            }else if(extrahours > 12){
+                sum += rateSingleton.getRate().getDomesticAllowance();
+            }
+        }
+        double guaranteedMeals = 1;
+        if(delegation.isGuaranteedDomesticBreakfast()){
+            guaranteedMeals = guaranteedMeals - 0.25;
+        }
+
+        if(delegation.isGuaranteedDomesticDinner()) {
+            guaranteedMeals -= 0.5;
+        }
+
+        if(delegation.isGuaranteedDomesticSupper()){
+            guaranteedMeals -= 0.25;
+        }
+
+        log.error("guaranteed meals po odjeciu "+ guaranteedMeals);
+        log.error("sum "+ sum);
+        sum *= guaranteedMeals;
+        if(delegation.isGuaranteedAccommodation())
+            sum += rateSingleton.getRate().getDomesticAllowance() * 1.5 * days;
+        int numberOfstartedDays = (int) Duration.between(delegation.getStartDate(), delegation.getEndDate()).toDays();
+        if((delegationDurationMinutes%60)>0)
+            numberOfstartedDays+=1;
+        log.error(" number of started days " + numberOfstartedDays);
+        if(delegation.isHomeTransportCharge())
+            sum += numberOfstartedDays * 0.2 * rateSingleton.getRate().getDomesticAllowance();
+        sum -= delegation.getAdvancePayment();
+        return sum;
     }
 }

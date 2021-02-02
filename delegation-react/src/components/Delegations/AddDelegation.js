@@ -17,10 +17,10 @@ class AddDelegation extends Component{
         canAccessPage(this.props,extractRole(window.location.pathname));
         this.state = {
             delegation: {
-               
+              
             },
             valid: {"crossingForeignBorder": true, "crossingHomeBorder": true, "startDate": true, "endDate": true,
-                    "distance": true},
+                    "distance": true, "foreignAllowance": true},
             foreignDelegation: false,
             guaranteedDomesticBreakfast: false,
             guaranteedDomesticDinner: false,
@@ -41,12 +41,7 @@ class AddDelegation extends Component{
     checkValidation = () => {
         let validated = true;
         let tempValid = {...this.state.valid};
-        if (this.state.changePassword) {
-            // tempValid["password"] = document.getElementById("password").value.length >= 8;
-            // tempValid["confirmPassword"] = document.getElementById("confirmPassword").value === document.getElementById("password").value;
-        }
-        // tempValid["firstName"] = document.getElementById("firstName").value.length !== 0;
-        // tempValid["lastName"] = document.getElementById("lastName").value.length >= 8;
+  
         for (let key in tempValid) {
             if (tempValid.hasOwnProperty(key) && tempValid[key] === false) {
                 this.validateProperty(key);
@@ -140,6 +135,9 @@ class AddDelegation extends Component{
                 tempValid["endDate"] = true;
                 }
                 break;
+            case "foreignAllowance":
+                tempValid["foreignAllowance"] = document.getElementById("foreignAllowance").value>30;
+                break;
             default:
                 break;
         }
@@ -171,6 +169,7 @@ class AddDelegation extends Component{
             delete(this.state.delegation['crossingHomeBorder'])
             delete(this.state.delegation['crossingForeignBorder'])
         }
+        this.state.delegation['foreignAllowance'] = document.getElementById("foreignAllowance").value;
         if(this.checkValidation()){
             axios.post("/delegations/add/" + currentUser(),this.state.delegation, jwtHeader())
             .then(response => {
@@ -220,16 +219,18 @@ class AddDelegation extends Component{
                     <FormGroup   >
                         <InputGroup >
                         <Form.Label className="input-destination-group" id="inputGroupAppend">Foreign Allowance</Form.Label>
-                        <Form.Control
+                        <Form.Control className="foreign-allowance"
                         type="number"
                          placeholder="Foreign Allowance"
                         aria-describedby="inputGroupAppend"
                           label="Foreign Allowance"
-                         id="advancePayment"
+                         id="foreignAllowance"
                          value={this.state.delegation['foreignAllowance']}
                           onChange={(event) => this.handleChangeProperty(event, "foreignAllowance")}
-                 
+                          isInvalid={!this.state.valid["foreignAllowance"]}
+                          defaultValue="60"
                       /> 
+                      <Form.Control.Feedback type="invalid">Foreign allowance value must be higher than domestic allowance</Form.Control.Feedback>
                         <InputGroup.Append>
                           <InputGroup.Text id="inputGroupAppend">ZŁ</InputGroup.Text>
                        </InputGroup.Append>
