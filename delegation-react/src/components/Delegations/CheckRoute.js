@@ -8,7 +8,6 @@ class CheckRoute extends Component{
     render(){
         return(
             <div className="map-size">
-          <div>Check route</div>
           <div>
             {/* <DirectionsIndex/> */}
             

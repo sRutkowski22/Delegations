@@ -169,7 +169,10 @@ class AddDelegation extends Component{
             delete(this.state.delegation['crossingHomeBorder'])
             delete(this.state.delegation['crossingForeignBorder'])
         }
+        if(this.state.foreignDelegation){
         this.state.delegation['foreignAllowance'] = document.getElementById("foreignAllowance").value;
+        }
+        console.log('i am here')
         if(this.checkValidation()){
             axios.post("/delegations/add/" + currentUser(),this.state.delegation, jwtHeader())
             .then(response => {
