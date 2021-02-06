@@ -12,6 +12,8 @@ class DirectionRenderComponent extends Component {
   delayFactor = 0;
 
   componentDidMount() {
+    console.log(this.props.from)
+    console.log(this.props.to)
     const startLoc = this.props.from.lat + ", " + this.props.from.lng;
     const destinationLoc = this.props.to.lat + ", " + this.props.to.lng;
     this.getDirections(startLoc, destinationLoc);
@@ -118,7 +120,7 @@ class DirectionRenderComponent extends Component {
         {destinationMarker}
         {this.state.currentLocation && (
           <Marker
-            label={this.props.index.toString()}
+            
             position={{
               lat: this.state.currentLocation.lat,
               lng: this.state.currentLocation.lng

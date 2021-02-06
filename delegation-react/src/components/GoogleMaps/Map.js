@@ -7,6 +7,7 @@ import './Map.css';
 import axios from 'axios';
 import swal from "sweetalert";
 import Swal from 'sweetalert2';
+import DirectionRenderComponent from "./DirectionRenderComponent";
 const key = 'AIzaSyA4f7KaqFbfYOdrekALmpdwki1rdsFw2Ok'; 
 Geocode.setApiKey(key);
 Geocode.enableDebug();
@@ -33,6 +34,15 @@ constructor( props ){
     lat: '',
     lng: ''
 
+  },
+  distance: '',
+  origin: {
+    lat: '',
+    lng: ''
+  },
+  destination: {
+    lat: '51.7384752',
+    lng: '19.6746613'
   }
   }
  }
@@ -213,7 +223,11 @@ this.setState( {
       lat: latValue,
       lng: lngValue
      },
-     originPlaceId: tempPlaceId
+     originPlaceId: tempPlaceId,
+     origin: {
+       lat: place.geometry.location.lat(),
+       lng: place.geometry.location.lng()
+     }
     })
    };
 
@@ -242,36 +256,53 @@ this.setState( {
        lat: latValue,
        lng: lngValue
       },
-      destinationPlaceId: tempPlaceId
+      destinationPlaceId: tempPlaceId,
+      destination: {
+        lat: destination.geometry.location.lat(),
+        lng: destination.geometry.location.lng()
+      }
      })
    }
 
    getDistance = (originlat, originlng, destlat, destlng) => {
-  //   axios.get("https://maps.googleapis.com/maps/api/directions/json?origin=place_id:ChIJDezru8jSG0cRP9sLDNs88LQ&destination=place_id:EiNCZWRvxYRza2EsIDk1LTAyMCBKdXN0eW7Ds3csIFBvbGFuZCIuKiwKFAoSCddqPK7I0htHEfQmCK8PeltbEhQKEgmVE4lVzdIbRxEH4LhUm8qp6A&key=AIzaSyA4f7KaqFbfYOdrekALmpdwki1rdsFw2Ok"
-  //   ,{
-  //     mode: 'no-cors'
-  //   } )
+  //   axios.get('https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/directions/json?origin=place_id:ChIJDezru8jSG0cRP9sLDNs88LQ&destination=place_id:EiNCZWRvxYRza2EsIDk1LTAyMCBKdXN0eW7Ds3csIFBvbGFuZCIuKiwKFAoSCddqPK7I0htHEfQmCK8PeltbEhQKEgmVE4lVzdIbRxEH4LhUm8qp6A&key=AIzaSyA4f7KaqFbfYOdrekALmpdwki1rdsFw2Ok')
   //   .then(response => {
   //       console.log(response.message,response);
   //     console.log('res', response.data)
-  //       Swal.fire(
-  //           'Login completed!',
-  //           '',
-  //           'success'
-  //       )
+  //     console.log('dist ', response.data.routes[0].legs[0].distance['text'])
+  //     // this.state.distance = response.dataa
+      
     
   //  }).catch(error => {
-  //   console.log("blad", error.data)
+  //   console.log('error', error.response)
   //   swal({
-  //   title: 'blad',
+  //   title: 'an error has occured',
   //   icon: "error",
   //   closeOnClickOutside:true
   //   });
   //  });
-  fetch('http://maps.googleapis.com/maps/api/directions/json?origin=place_id:ChIJDezru8jSG0cRP9sLDNs88LQ&destination=place_id:EiNCZWRvxYRza2EsIDk1LTAyMCBKdXN0eW7Ds3csIFBvbGFuZCIuKiwKFAoSCddqPK7I0htHEfQmCK8PeltbEhQKEgmVE4lVzdIbRxEH4LhUm8qp6A&key=AIzaSyA4f7KaqFbfYOdrekALmpdwki1rdsFw2Ok'
+  // };
+  const url = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/directions/json?origin=place_id:'
+  + this.state.originPlaceId 
+  + '&destination=place_id:'
+  + this.state.destinationPlaceId 
+  + '&key=AIzaSyA4f7KaqFbfYOdrekALmpdwki1rdsFw2Ok';
+  console.log(url);
+  fetch(URL = url
+  , {headers: {
+    'Access-Control-Allow-Origin' : '*',
+    'Access-Control-Allow-Headers' : 'Origin, X-Requested-With, Accept',
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }})
+  .then(response => response.json(),
   )
-  .then(response => response.json())
-  .then(data => console.log(data))
+  .then(data => {console.log(data)
+   console.log('dist ', data.routes[0].legs[0].distance['text']);
+  this.setState({distance: data.routes[0].legs[0].distance['text']});
+  console.log('state distance ',this.state.distance)
+})
+  
 };
   
 
@@ -329,10 +360,11 @@ const AsyncMap = withScriptjs(
        onPlaceSelected={ this.onDestinationSelected }
        types={['address']}
       />
-      <DirectionsRenderer
-            
-              from={this.state.originPlaceId}
-              to={this.state.destinationPlaceId}
+      <DirectionRenderComponent
+              
+              strokeColor= '#800000'
+              from={this.state.origin}
+              to={this.state.destination}
             />
 </GoogleMap>
 )
@@ -366,18 +398,11 @@ let map;
       <div className="button">
       <Button onClick={ this.getDistance}>Check distance</Button>
       </div>
-      <div className="form-group">
-       <label htmlFor="">Area</label>
-       <input type="text" name="area" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.area }/>
+      <div className='distance'>
+        <label>Distance</label>
+        <input disabled='true'  className="form-control" value={this.state.distance}/>
       </div>
-      <div className="form-group">
-       <label htmlFor="">State</label>
-       <input type="text" name="state" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.state }/>
-      </div>
-      <div className="form-group">
-       <label htmlFor="">Address</label>
-       <input type="text" name="address" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.address }/>
-      </div>
+      
      </div>
      {/*Marker*/}
     

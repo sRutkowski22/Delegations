@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Navbar from "./components/Navbar/Navbar";
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -13,7 +13,8 @@ import history from './Utility/history';
 import DelegationDetails from './components/Delegations/DelegationDetails';
 import Map from './components/GoogleMaps/Map'
 
-function App() {
+class App extends Component{
+  render(){
   return (
     <Router>
       <Switch>
@@ -45,6 +46,7 @@ function App() {
     </Switch>
     </Router>
   );
+}
 }
 
 export default App;
