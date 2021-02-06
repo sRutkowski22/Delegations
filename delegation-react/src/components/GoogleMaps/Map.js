@@ -43,7 +43,9 @@ constructor( props ){
   destination: {
     lat: '51.7384752',
     lng: '19.6746613'
-  }
+  },
+  originSelected: false,
+  destinationSelected: false
   }
  }
 /**
@@ -227,8 +229,10 @@ this.setState( {
      origin: {
        lat: place.geometry.location.lat(),
        lng: place.geometry.location.lng()
-     }
+     },
+     originSelected: true
     })
+     
    };
 
    onDestinationSelected = (destination) =>{
@@ -260,11 +264,12 @@ this.setState( {
       destination: {
         lat: destination.geometry.location.lat(),
         lng: destination.geometry.location.lng()
-      }
+      },
+      destinationSelected: true
      })
    }
 
-   getDistance = (originlat, originlng, destlat, destlng) => {
+   getDistance = () => {
   //   axios.get('https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/directions/json?origin=place_id:ChIJDezru8jSG0cRP9sLDNs88LQ&destination=place_id:EiNCZWRvxYRza2EsIDk1LTAyMCBKdXN0eW7Ds3csIFBvbGFuZCIuKiwKFAoSCddqPK7I0htHEfQmCK8PeltbEhQKEgmVE4lVzdIbRxEH4LhUm8qp6A&key=AIzaSyA4f7KaqFbfYOdrekALmpdwki1rdsFw2Ok')
   //   .then(response => {
   //       console.log(response.message,response);
@@ -304,6 +309,12 @@ this.setState( {
 })
   
 };
+
+disabledButton = () =>{
+  if(this.state.originSelected === false || this.state.destinationSelected === false){
+    return false;
+  }else return true;
+}
   
 
 render(){
@@ -337,8 +348,9 @@ const AsyncMap = withScriptjs(
         <span style={{ padding: 0, margin: 0 }}>{ this.state.address }</span>
         </div>
       </InfoWindow>
+     
       {/* For Auto complete Search Box */}
-      <Form.Label>Origin</Form.Label>
+      <Form.Label>Pick origin</Form.Label>
       <Autocomplete
        style={{
         width: '100%',
@@ -349,7 +361,7 @@ const AsyncMap = withScriptjs(
        onPlaceSelected={ this.onOriginSelected }
        types={['address']}
       />
-      <Form.Label>Destination</Form.Label>
+      <Form.Label>Pick destination</Form.Label>
       <Autocomplete
        style={{
         width: '100%',
@@ -390,13 +402,13 @@ let map;
        <label  htmlFor="">Address</label>
        <input   type="text" name="city" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.address }/>
        </div>
-      <div>
-       <label className="form-group-left" htmlFor="">Address</label>
+      <div className="form-group-right">
+       <label  htmlFor="">Address</label>
        <input type="text" name="city" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.destinationAddress }/>
       </div>
       </Form.Row>
       <div className="button">
-      <Button onClick={ this.getDistance}>Check distance</Button>
+      <Button onClick={ this.getDistance} disabled= {!this.disabledButton} >Check distance</Button>
       </div>
       <div className='distance'>
         <label>Distance</label>
@@ -415,7 +427,7 @@ let map;
        <div style={{ height: this.props.height }} />
       }
       mapElement={
-       <div style={{ height: `100%` }} />
+       <div style={{ height: `700px` }} />
       }
      />
     </div>

@@ -5,7 +5,7 @@
 }
 
 .destination-tag{
-    margin-left: 350px;
+    margin-left: 470px;
 }
 
 .button{
@@ -14,4 +14,10 @@
 
 .distance{
     margin: 10px;
+}
+
+.form-group-right{
+    margin-left: 150px;
+    max-width: 400px;
+    width: 100%;
 }
