@@ -13,7 +13,7 @@ public interface DelegationRepository extends JpaRepository<Delegation,String> {
     @Query(value ="Select del from Delegation del, Account account where account.id=del.account.id and account.email=?1")
     List<Delegation> findByEmail(String email);
 
-    Optional<Delegation> findByDelegationNumber(Long delegationNumber);
+    Optional<Delegation> findByDelegationNumber(String delegationNumber);
 
 
 }

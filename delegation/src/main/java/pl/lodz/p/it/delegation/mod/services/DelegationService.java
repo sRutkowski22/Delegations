@@ -47,9 +47,18 @@ public class DelegationService  {
 
     }
 
-    public Delegation getDelegationByItsNumber(Long delegationNumber) throws DelegationNotFoundException {
-        if(delegationRepository.findByDelegationNumber(delegationNumber).isPresent())
+    public List<Delegation> getAllDelegations() throws  DelegationNotFoundException {
+        if(delegationRepository.findAll().isEmpty())
+            throw new DelegationNotFoundException("No delegations found");
+        else {
+            return delegationRepository.findAll();
+        }
+    }
+
+    public Delegation getDelegationByItsNumber(String delegationNumber) throws DelegationNotFoundException {
+        if(delegationRepository.findByDelegationNumber(delegationNumber).isPresent()) {
             return delegationRepository.findByDelegationNumber(delegationNumber).get();
+        }
         else throw new DelegationNotFoundException("Delegation not found");
 
     }

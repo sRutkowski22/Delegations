@@ -2,6 +2,7 @@
 
 // Components
 
+import AccountantDelegations from "../Delegations/AccountantDelegations"
 import AddDelegation from "../Delegations/AddDelegation"
 import CheckRoute from "../Delegations/CheckRoute"
 import DelegationDetails from "../Delegations/DelegationDetails"
@@ -39,6 +40,12 @@ export default  [
     path: '/yourdelegations/details/:id',
     exact: true,
     role: Roles.WORKER
+},
+{
+    component: AccountantDelegations,
+    path: '/alldelegations',
+    exact: true,
+    role: Roles.ACCOUNTANT
 }
  
 ]

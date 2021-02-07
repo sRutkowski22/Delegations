@@ -25,7 +25,7 @@ public class DelegationController {
 
     private final DelegationService delegationService;
 
-    @PostMapping(value = "/add/{email}")
+    @PostMapping(value = "worker/add/{email}")
     public ResponseEntity<String> addDelegation(@RequestBody Delegation delegation, @PathVariable String email){
 
 
@@ -48,11 +48,41 @@ public class DelegationController {
 
     }
     
-    @GetMapping(value="/getforuser/{email}")
+    @GetMapping(value="worker/getforuser/{email}")
     @PreAuthorize("#email == authentication.principal.username")
     public ResponseEntity<?> getDelegationsForUser(@PathVariable String email){
         try {
             List<Delegation> delegationList = delegationService.getDelegationByAccountEmail(email);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(delegationList);
+        } catch (DelegationNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("An error has occured");
+        }
+    }
+
+    @GetMapping(value="worker/getdelegationbynumber/{number}")
+    @PreAuthorize("#email == authentication.principal.username")
+    public ResponseEntity<?> getDelegationsDelegationByNumber(@PathVariable String number){
+        try {
+            Delegation delegation = delegationService.getDelegationByItsNumber(number);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(delegation);
+        } catch (DelegationNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Delegation not found");
+        }
+    }
+
+    @GetMapping(value="accountant/getall")
+    @PreAuthorize("#email == authentication.principal.username")
+    public ResponseEntity<?> getAllDelegations(){
+        try {
+            List<Delegation> delegationList = delegationService.getAllDelegations();
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(delegationList);

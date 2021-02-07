@@ -59,7 +59,7 @@ class Navbar extends Component{
           
                     
                 </ul>
-                <Button className="button1" onClick={this.redirectToRegistration}>Sign up</Button>
+             
                 <Button className="button2" onClick={this.redirectToLogin}>Sign in</Button>
                 </nav>
             );

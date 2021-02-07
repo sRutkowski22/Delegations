@@ -13,6 +13,7 @@ import history from './Utility/history';
 import DelegationDetails from './components/Delegations/DelegationDetails';
 import Map from './components/GoogleMaps/Map'
 import AddAccount from './components/auth/AddAccount';
+import AccountantDelegations from './components/Delegations/AccountantDelegations';
 
 class App extends Component{
   render(){
@@ -34,7 +35,11 @@ class App extends Component{
    
       <Route exact path="/yourdelegations" component={YourDelegations}/>
 
+      <Route exact path="/yourdelegations/details" component={DelegationDetails}/>
+
       <Route exact path="/addaccount" component={AddAccount}/>
+
+      <Route exact path="/alldelegations" component={AccountantDelegations}/>
     
      
       <Route path="/checkroute" component={CheckRoute}/>

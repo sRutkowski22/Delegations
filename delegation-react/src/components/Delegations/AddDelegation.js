@@ -174,7 +174,7 @@ class AddDelegation extends Component{
         }
         console.log('i am here')
         if(this.checkValidation()){
-            axios.post("/delegations/add/" + currentUser(),this.state.delegation, jwtHeader())
+            axios.post("/delegations/worker/add/" + currentUser(),this.state.delegation, jwtHeader())
             .then(response => {
                 if(response.status = HTTPCodes.Success){
                     Swal.fire(

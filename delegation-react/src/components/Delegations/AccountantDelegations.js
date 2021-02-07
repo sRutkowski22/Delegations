@@ -2,12 +2,12 @@ import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import React, { Component } from 'react';
 import { canAccessPage, currentUser, extractRole, jwtHeader } from '../../Utility/Constants';
-import './YourDelegations.css';
+import './AccountantDelegations.css';
 import DelegationDetails from './DelegationDetails';
 import Moment from 'react-moment';
 
 
-class YourDelegations extends Component{
+class AccountantDelegations extends Component{
 
     constructor(props){
         
@@ -21,8 +21,7 @@ class YourDelegations extends Component{
                 end: "End",
                 sum: "Sum",
                 advancePayment: "Status"
-            },
-            redirect:"yourdelegations/new"
+            }
         
         } 
         this.handleRedirect=this.handleRedirect.bind(this);
@@ -32,7 +31,7 @@ class YourDelegations extends Component{
     
     componentDidMount= () => {
         
-        axios.get("/delegations/worker/getforuser/" + currentUser(), jwtHeader())
+        axios.get("/delegations/accountant/getall", jwtHeader())
         .then(response => {
             const tempdel = response.data;
             this.setState( {delegations:tempdel})
@@ -42,7 +41,7 @@ class YourDelegations extends Component{
         }).catch(error => {
             console.log(error.message);
         })
-        document.title='Your Delegations';
+        document.title='All Delegations';
 
         
     };
@@ -77,10 +76,9 @@ class YourDelegations extends Component{
   
 
     handleRedirect = (delegationNumber) =>  {
-        console.log(delegationNumber)
         this.props.history.push({ 
-            pathname: '/yourdelegations/details/'+delegationNumber,
-            
+            pathname: '/accountantdelegations/details',
+            state: delegationNumber
            });
     }
 
@@ -93,7 +91,7 @@ class YourDelegations extends Component{
                     <td><Moment date={delegation.endDate} format="DD-MM-yyyy HH:mm"/></td>
                     <td>{delegation.sum} zł</td>
                     <td>{delegation.delegationStatus.statusName.toUpperCase()}</td>
-                    <td><Button variant="primary" onClick={event => this.handleRedirect(delegation.delegationNumber)}>Details</Button></td>
+                    <td><Button variant="primary" onClick={ delegation => this.handleRedirect(delegation.id)}>Details</Button></td>
                 </tr>
             )
         })
@@ -114,7 +112,7 @@ class YourDelegations extends Component{
             
                 
         <div className="body-position">
-           <button className="add-button" onClick={this.handleClick}>New</button>
+           
  
             <table class="table table-dark">
                 <thead>
@@ -146,4 +144,4 @@ class YourDelegations extends Component{
 
 
 
-export default  YourDelegations;
+export default  AccountantDelegations;

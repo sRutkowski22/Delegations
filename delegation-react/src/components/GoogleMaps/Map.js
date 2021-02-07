@@ -387,7 +387,7 @@ let map;
    map = <div>
    
      <div>
-     <Form.Row>
+     <Form.Row >
       
         <div>
         <label>Origin</label>
