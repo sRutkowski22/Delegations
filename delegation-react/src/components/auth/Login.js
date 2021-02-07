@@ -80,13 +80,17 @@ import {currentUser} from "../../Utility/Constants.js";
                     console.log(decoded);
                     console.log("user i dostep " + user + " " + auth);
                    
-                    this.props.history.push("/");
-                    window.location.reload();
-                    Swal.fire(
-                        'Login completed!',
-                        '',
-                        'success'
-                    )
+                    
+                  
+                     Swal.fire({
+                        position: 'top-start',
+                        icon: 'success',
+                        title: 'Login Completed!',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                      this.props.history.push("/");
+                      event.preventDefault();
                 }).catch(error => {
                     console.log("blad", error.response.data)
                 swal({

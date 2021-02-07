@@ -27,7 +27,7 @@
     },
     {
         title: 'Add account',
-        url: '/yourdelegations',
+        url: '/addaccount',
         className: 'nav-links',
         role: 'ADMIN'
     },
