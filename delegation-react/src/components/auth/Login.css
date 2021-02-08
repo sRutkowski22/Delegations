@@ -21,7 +21,6 @@
  }
  
 .form-group{
-    margin-bottom: 15px;
     max-width: 200px;
     font-size: 20px;
     
@@ -33,8 +32,9 @@
 
 .login-button{
  color: #fff;
+ width: 145px;
  background-color: #800000;
-width: 195px;
+transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .login-button:hover{

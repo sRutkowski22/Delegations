@@ -1,12 +1,18 @@
 
  
-
 .btn-primary{
-    color: #800000;
-    background-color: rgb(172, 10, 10);
-  
-   width: 195px;
+    color: #fff;
+    background-color: #800000;
+   margin-left: 30px;
+   border-color: #800000;
 }
+
+.btn-primary:hover{
+    background-color: grey;
+       color: white;
+       border-color: grey;
+}
+
 
 .registration-form{
     width: 100%;

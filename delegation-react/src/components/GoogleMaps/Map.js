@@ -408,7 +408,7 @@ let map;
       </div>
       </Form.Row>
       <div className="button">
-      <Button onClick={ this.getDistance} disabled= {!this.disabledButton} >Check distance</Button>
+      <Button className="button1"onClick={ this.getDistance} disabled= {!this.disabledButton} >Check distance</Button>
       </div>
       <div className='distance'>
         <label>Distance</label>

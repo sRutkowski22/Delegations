@@ -93,7 +93,7 @@ class YourDelegations extends Component{
                     <td><Moment date={delegation.endDate} format="DD-MM-yyyy HH:mm"/></td>
                     <td>{delegation.sum} zł</td>
                     <td>{delegation.delegationStatus.statusName.toUpperCase()}</td>
-                    <td><Button variant="primary" onClick={event => this.handleRedirect(delegation.delegationNumber)}>Details</Button></td>
+                    <td><Button variant="primary" className="buttonnn" onClick={event => this.handleRedirect(delegation.delegationNumber)}>Details</Button></td>
                 </tr>
             )
         })

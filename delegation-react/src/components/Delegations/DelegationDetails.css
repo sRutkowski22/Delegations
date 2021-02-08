@@ -1,0 +1,80 @@
+.destination{
+    display: inline-block;
+    text-align: start;
+}
+
+.destination-group{
+    margin: 10px
+}
+
+.foreign-delegation-title{
+    margin-top: 10px;
+    font-size: x-large;
+}
+
+.home-dates{
+ 
+ text-align: center;
+ justify-content: start;
+ display: grid;
+ max-width: 1900px;
+ margin-right: 5rem;
+ grid-template-columns: repeat(8,auto);
+ width: 300px; 
+ width: 100%;
+ grid-gap: 240px;
+ 
+}
+
+.checkboxes{
+ 
+    text-align: center;
+    justify-content: start;
+    display: grid;
+    max-width: 1900px;
+    margin-right: 5rem;
+    grid-template-columns: repeat(8,auto);
+    width: 300px; 
+    width: 100%;
+    
+   }
+
+@media screen and (max-width: 1080px){
+  
+}
+
+.end-date{
+    align-items: flex-end;
+    text-align: end;
+    
+}
+
+.buttonnn{
+    color: #fff;
+    background-color: grey;
+   width: 195px;
+   margin-left: 30px;
+   border-color: #800000;
+   }
+   
+   .buttonnn:hover{
+       background-color: grey;
+       color: white;
+       border-color: grey;
+   }
+
+.delegation-number{
+    width: 500px;
+}
+
+.input-delegation-group1{
+    width: 100%;
+    max-width: 1900px;
+    font-size: 20px;
+ }
+
+ .delegation-number1{
+    width: 80%;
+    max-width: 1900px;
+}
+ 

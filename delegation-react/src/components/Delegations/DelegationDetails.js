@@ -2,7 +2,8 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import {Button, Form, FormGroup, FormControl, FormLabel, InputGroup} from 'react-bootstrap';
 import { canAccessPage, extractRole, jwtHeader } from '../../Utility/Constants';
-import './DelegationDetails.css'
+import './DelegationDetails.css';
+import Moment from 'react-moment';
 
 class DelegationDetails extends Component{
 
@@ -31,25 +32,26 @@ class DelegationDetails extends Component{
 
     
     renderForeignDelegation = () => {
-     
             return (
                 <React.Fragment>
+                    
+                    <FormLabel className="foreign-delegation-title">Foreign delegation</FormLabel>
+                    <Form.Row className="home-dates">
                     <FormGroup>
-                        <FormLabel> Crossing foreign border</FormLabel>
-                        {/* <FormControl id="crossingForeignBorder" value={this.state.delegation["crossingForeignBorder"]} onChange={(event) => this.handleChangeProperty(event, "crossingForeignBorder")} isInvalid={!this.state.valid["crossingForeignBorder"]} type="datetime-local"/> */}
+                        <FormLabel> Crossing foreign border:</FormLabel>
+                        <Moment date={this.state.delegation.crossingForeignBorder} format="DD-MM-yyyy HH:mm"/>
                         <FormControl.Feedback type="invalid">Crossing Foreign border date must be later than start date and earlier than crossing home border date.</FormControl.Feedback>
                     </FormGroup>
 
                     <FormGroup>
-                        <FormLabel>Crossing home border</FormLabel>
-                        {/* <FormControl id="crossingHomeBorder" value={this.state.delegation["crossingHomeBorder"]} onChange={(event) => this.handleChangeProperty(event, "crossingHomeBorder")} isInvalid={!this.state.valid["crossingHomeBorder"]} type="datetime-local"/> */}
-                        <FormControl.Feedback type="invalid">Crossing home border must be later than crossing foreign border and earlier than end date.</FormControl.Feedback>
+                        <FormLabel>Crossing home border:</FormLabel>
+                        <Moment date={this.state.delegation.crossingHomeBorder} format="DD-MM-yyyy HH:mm"/>
                     </FormGroup>
-                    
+                    </Form.Row>
                     <FormGroup   >
                         <InputGroup >
                         <Form.Label className="input-destination-group" id="inputGroupAppend">Foreign Allowance</Form.Label>
-                        {/* <Form.Control className="foreign-allowance"
+                        <Form.Control className="foreign-allowance"
                         type="number"
                          placeholder="Foreign Allowance"
                         aria-describedby="inputGroupAppend"
@@ -57,9 +59,9 @@ class DelegationDetails extends Component{
                          id="foreignAllowance"
                          value={this.state.delegation['foreignAllowance']}
                           onChange={(event) => this.handleChangeProperty(event, "foreignAllowance")}
-                          isInvalid={!this.state.valid["foreignAllowance"]}
                           defaultValue="60"
-                      />  */}
+                          disabled="true"
+                      /> 
                       <Form.Control.Feedback type="invalid">Foreign allowance value must be higher than domestic allowance</Form.Control.Feedback>
                         <InputGroup.Append>
                           <InputGroup.Text id="inputGroupAppend">ZŁ</InputGroup.Text>
@@ -72,13 +74,13 @@ class DelegationDetails extends Component{
 
                     <div className="checkbox-group">
                         <FormGroup  className="checkbox-form">
-                        <Form.Check id="guaranteedForeignBreakfast" type="checkbox" checked={this.state.guaranteedForeignBreakfast} label="Breakfast guarantee" value={this.state.guaranteedForeignBreakfast} onChange={(event) => this.handleChangeProperty(event, "guaranteedForeignBreakfast")} ></Form.Check> 
+                        <Form.Check id="guaranteedForeignBreakfast" type="checkbox" checked={this.state.delegation['guaranteedForeignBreakfast']} label="Breakfast guarantee" disabled="true"/> 
                     </FormGroup >
                     <FormGroup className="checkbox-form">
-                        <Form.Check id="guaranteedForeignDinner" type="checkbox" checked={this.state.guaranteedForeignDinner} label="Dinner guarantee" value={this.state.guaranteedForeignDinner} onChange={(event) => this.handleChangeProperty(event, "guaranteedForeignDinner")} ></Form.Check>
+                        <Form.Check id="guaranteedForeignDinner" type="checkbox" checked={this.state.delegation['guaranteedForeignDinner']} label="Dinner guarantee"   disabled="true"/>
                     </FormGroup>
                     <FormGroup className="checkbox-form">
-                        <Form.Check id="guaranteedForeignSupper"  type="checkbox" checked={this.state.guaranteedForeignSupper} label="Supper guarantee" value={this.state.guaranteedForeignSupper} onChange={(event) => this.handleChangeProperty(event, "guaranteedForeignSupper")} ></Form.Check>
+                        <Form.Check id="guaranteedForeignSupper"  type="checkbox" checked={this.state.delegation['guaranteedForeignSupper']} label="Supper guarantee"  disabled="true"/>
                     </FormGroup>
                     
                     </div>
@@ -90,7 +92,20 @@ class DelegationDetails extends Component{
     renderHomeDelegation = () => {
         return (
             <React.Fragment>
-
+            <InputGroup >
+            <Form.Label className="input-delegation-group1" id="inputGroupAppend">Delegation Number</Form.Label>
+                <Form.Control className="delegation-number1"
+                   
+                  placeholder="Delegation Number"
+                  aria-describedby="inputGroupAppend"
+                  label="Delegation Number"
+                  id="delegationNumber"
+                  value={this.state.delegation['delegationNumber']}
+                  disabled="true"
+                 
+                /> 
+                
+              </InputGroup>
             <Form.Row className="destination">
             <FormGroup  className="destination-group" >
             <InputGroup >
@@ -103,15 +118,14 @@ class DelegationDetails extends Component{
                   id="destination"
                   value={this.state.delegation['destination']}
                   onChange={(event) => this.handleChangeProperty(event, "destination")}
+                  disabled="true"
                  
                 /> 
                 
-                <Form.Control.Feedback type="invalid" tooltip>
-                  
-                </Form.Control.Feedback>
               </InputGroup>
             </FormGroup> 
-            <FormGroup  className="advance-payment-group" >
+            <FormGroup  className="advance-payment-group1" >
+            <Form.Label  id="inputGroupAppend">Advance payment</Form.Label>
             <InputGroup >
                 
                 <Form.Control
@@ -122,6 +136,7 @@ class DelegationDetails extends Component{
                   id="advancePayment"
                   value={this.state.delegation['advancePayment']}
                   onChange={(event) => this.handleChangeProperty(event, "advancePayment")}
+                  disabled="true"
                  
                 /> 
                 <InputGroup.Append>
@@ -135,48 +150,49 @@ class DelegationDetails extends Component{
             
             </Form.Row>
 
-
-                <FormGroup className="date-form">
-                    <FormLabel>Delegation's start date</FormLabel>
-                    {/* <FormControl id="startDate" value={this.state.delegation["startDate"]} onChange={(event) => this.handleChangeProperty(event, "startDate")} isInvalid={!this.state.valid["startDate"]} type="datetime-local"/> */}
+            <Form.Row className="home-dates">
+                <FormGroup >
+                    <FormLabel>Delegation's start date:</FormLabel>
+                    <Moment date={this.state.delegation.startDate} format="DD-MM-yyyy HH:mm"/>
                     <FormControl.Feedback type="invalid">Start date must be before end date.</FormControl.Feedback>
                 </FormGroup>
 
-                <FormGroup>
-                <FormLabel>Delegation's end date</FormLabel>
-                    {/* <FormControl id="endDate" value={this.state.delegation["endDate"]} onChange={(event) => this.handleChangeProperty(event, "endDate")} isInvalid={!this.state.valid["endDate"]} type="datetime-local" /> */}
+                <FormGroup >
+                <FormLabel>Delegation's end date:</FormLabel>
+                <Moment date={this.state.delegation.endDate} format="DD-MM-yyyy HH:mm"/>
                     <FormControl.Feedback type="invalid">End date must be after start date.</FormControl.Feedback>
                 </FormGroup>
-                <div className="checkbox-group">
-                    <Form.Row>
+                </Form.Row >
+                
+                    <Form.Row className="checkboxes" >
                 <FormGroup  className="checkbox-form">
-                    <Form.Check id="guaranteedDomesticBreakfast" type="checkbox" checked={this.state.guaranteedDomesticBreakfast} label="Breakfast guarantee" value={this.state.guaranteedDomesticBreakfast} onChange={(event) => this.handleChangeProperty(event, "guaranteedDomesticBreakfast")} ></Form.Check> 
+                    <Form.Check id="guaranteedDomesticBreakfast" type="checkbox" checked={this.state.delegation['guaranteedDomesticBreakfast']} label="Breakfast guarantee"  onChange={(event) => this.handleChangeProperty(event, "guaranteedDomesticBreakfast")} disabled="true"></Form.Check> 
                 </FormGroup >
                 <FormGroup className="checkbox-form">
-                    <Form.Check id="guaranteedDomesticDinner" type="checkbox" checked={this.state.guaranteedDomesticDinner} label="Dinner guarantee" value={this.state.guaranteedDomesticDinner} onChange={(event) => this.handleChangeProperty(event, "guaranteedDomesticDinner")} ></Form.Check>
+                    <Form.Check id="guaranteedDomesticDinner" type="checkbox" checked={this.state.delegation['guaranteedDomesticDinner']} label="Dinner guarantee"  onChange={(event) => this.handleChangeProperty(event, "guaranteedDomesticDinner")} disabled="true" ></Form.Check>
                 </FormGroup>
                 <FormGroup className="checkbox-form">
-                    <Form.Check id="guaranteedDomesticSupper"  type="checkbox" checked={this.state.guaranteedDomesticSupper} label="Supper guarantee" value={this.state.guaranteedDomesticSupper} onChange={(event) => this.handleChangeProperty(event, "guaranteedDomesticSupper")} ></Form.Check>
+                    <Form.Check id="guaranteedDomesticSupper"  type="checkbox" checked={this.state.delegation['guaranteedDomesticSupper']} label="Supper guarantee" value={this.state.guaranteedDomesticSupper} onChange={(event) => this.handleChangeProperty(event, "guaranteedDomesticSupper")} disabled="true"></Form.Check>
                 </FormGroup>
                 </Form.Row>
                 <Form.Row>
                 <FormGroup className="checkbox-form">
-                    <Form.Check  id="guaranteedAccommodation"  type="checkbox" checked={this.state.guaranteedAccommodation} label="Accomodation guarantee" value={this.state.guaranteedAccommodation} onChange={(event) => this.handleChangeProperty(event, "guaranteedAccommodation")} ></Form.Check>
+                    <Form.Check  id="guaranteedAccommodation"  type="checkbox" checked={this.state.delegation['guaranteedAccommodation']} label="Accomodation guarantee" value={this.state.guaranteedAccommodation} onChange={(event) => this.handleChangeProperty(event, "guaranteedAccommodation")} disabled="true"></Form.Check>
                 </FormGroup>
                 <FormGroup className="checkbox-form">
-                    <Form.Check  id="homeTransportCharge"  type="checkbox"  checked={this.state.homeTransportCharge} label="Transport charge" value={this.state.homeTransportCharge} onChange={(event) => this.handleChangeProperty(event, "homeTransportCharge")} ></Form.Check>
+                    <Form.Check  id="homeTransportCharge"  type="checkbox"  checked={this.state.delegation['homeTransportCharge']} label="Transport charge" value={this.state.homeTransportCharge} onChange={(event) => this.handleChangeProperty(event, "homeTransportCharge")} disabled="true"></Form.Check>
                 </FormGroup>
                 </Form.Row>
 
                 
-                </div>
+              
                 
             </React.Fragment>
         );
     }
 
     renderPrivateCar = () => {
-        if(this.state.privateCar)
+        if(this.state.distance != 0)
         return(
         <React.Fragment>
             <Form.Row>
@@ -189,19 +205,17 @@ class DelegationDetails extends Component{
                   aria-describedby="inputGroupPrepend"
                   id="distance"
                   value={this.state.delegation['distance']}
-                  onChange={(event) => this.handleChangeProperty(event, "distance")}
-                  isInvalid={!this.state.valid["distance"]}
+                  disabled="true"
                 /> 
                 <InputGroup.Append>
                   <InputGroup.Text id="inputGroupPrepend">KM</InputGroup.Text>
                 </InputGroup.Append>
-                <Form.Control.Feedback type="invalid" tooltip>
-                  It must be a number
-                </Form.Control.Feedback>
+               
               </InputGroup>
             </FormGroup>
             <FormGroup className="checkbox-form-engine">
-                    <Form.Check className="checkbox-form-acc" id="greaterThan900cm3"  type="checkbox"  checked={this.state.greaterThan900cm3} label="Engine at least 900cm3" value={this.state.greaterThan900cm3} onChange={(event) => this.handleChangeProperty(event, "greaterThan900cm3")}  ></Form.Check>
+                    
+                    <Form.Check className="checkbox-form-acc" id="guaranteedDomesticSupper"  type="checkbox" checked={this.state.delegation['greaterThan900cm3']} label="Engine at least 900cm3" value={this.state.guaranteedDomesticSupper}  disabled="true"></Form.Check>
                 </FormGroup>
             </Form.Row>
         </React.Fragment>
@@ -214,15 +228,19 @@ class DelegationDetails extends Component{
                 <h1 className="header1">Delegation Details</h1>
                 {this.renderHomeDelegation()}
                 <div className="header1"></div>
-                <Form.Switch id="foreignDelegationSwitch" label="Foreign Delegation" checked={this.state.foreignDelegation} onChange={this.enableForeignDelegation} style={{"margin-bottom": "0.75em"}}/> 
-                    {this.renderForeignDelegation()} 
+                {this.renderForeignDelegation()} 
                 <div className="header1"></div>
-                <Form.Switch id="privateCarSwitch" label="Private car" checked={this.state.privateCar} onChange={this.enablePrivateCar} style={{"margin-bottom": "0.75em"}}/> 
+                
                     {this.renderPrivateCar()} 
-                <Button type="submit">Submit</Button>
+                <Button className="buttonnn" onClick={this.handleGoBack}>back</Button>
             </Form>
         );
     }
+
+    handleGoBack = () =>{
+        this.props.history.goBack();
+    }
+
     render(){
 
         

@@ -125,9 +125,12 @@ import {currentUser} from "../../Utility/Constants.js";
                     <FormControl type="password" id="password" value={this.state.user["password"]} onChange={(event) => this.handleChange(event, "password")} isInvalid={!this.state.valid["email"]}/>
                      <FormControl.Feedback type="invalid">Please provide your password.</FormControl.Feedback>
                 </FormGroup>
+                <Form.Row>
                 <Button type="submit" className="login-button">
                     Submit
                 </Button>
+                </Form.Row>
+              
             </Form>
         );
     }
