@@ -8,7 +8,7 @@
     },
     {
         title: 'Delegations',
-        url: 'alldelegations',
+        url: '/alldelegations',
         className: 'nav-links',
         role: 'ACCOUNTANT'
     },

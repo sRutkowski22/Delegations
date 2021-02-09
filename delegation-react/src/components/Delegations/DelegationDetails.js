@@ -1,17 +1,21 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import {Button, Form, FormGroup, FormControl, FormLabel, InputGroup} from 'react-bootstrap';
-import { canAccessPage, extractRole, jwtHeader } from '../../Utility/Constants';
+import { canAccessPage, currentRole, extractRole, jwtHeader } from '../../Utility/Constants';
 import './DelegationDetails.css';
 import Moment from 'react-moment';
+import Roles from '../auth/Roles';
+import Swal from 'sweetalert2';
+import HTTPCodes from '../auth/HTTPCodes';
+import DelegationStatuses from '../../Utility/DelegationStatuses.js';
 
 class DelegationDetails extends Component{
 
     constructor(props){
         super(props);
-        // canAccessPage(this.props,extractRole(window.location.pathname));
         this.state = {
-            delegation: {}
+            delegation: {},
+            delegationStatus: ''
         }
     }
 
@@ -19,16 +23,32 @@ class DelegationDetails extends Component{
         console.log("previous id " + this.props.match.params.id)
         let delNumber = this.props.match.params.id;
         console.log("previous id " + delNumber)
+        if(currentRole() === Roles.WORKER){
         axios.get("/delegations/worker/getdelegationbynumber/" + delNumber, jwtHeader())
         .then(response => {
             const tempdel = response.data;
             this.setState( {delegation:tempdel})
 
             console.log(response.data)
+        
+        }).catch(error => {
+            console.log(error.message);
+        })
+    }else if (currentRole() === Roles.ACCOUNTANT){
+        axios.get("/delegations/accountant/getdelegationbynumber/" + delNumber, jwtHeader())
+        .then(response => {
+            const tempdel = response.data;
+            this.setState( {delegation:tempdel,
+            delegationStatus: tempdel.delegationStatus.statusName})
+
+            console.log(response.data)
         }).catch(error => {
             console.log(error.message);
         })
     }
+    }
+    
+    
 
     
     renderForeignDelegation = () => {
@@ -58,7 +78,7 @@ class DelegationDetails extends Component{
                           label="Foreign Allowance"
                          id="foreignAllowance"
                          value={this.state.delegation['foreignAllowance']}
-                          onChange={(event) => this.handleChangeProperty(event, "foreignAllowance")}
+                          
                           defaultValue="60"
                           disabled="true"
                       /> 
@@ -135,7 +155,7 @@ class DelegationDetails extends Component{
                   label="Advance payment"
                   id="advancePayment"
                   value={this.state.delegation['advancePayment']}
-                  onChange={(event) => this.handleChangeProperty(event, "advancePayment")}
+                  
                   disabled="true"
                  
                 /> 
@@ -192,7 +212,7 @@ class DelegationDetails extends Component{
     }
 
     renderPrivateCar = () => {
-        if(this.state.distance != 0)
+        if(this.state.delegation.distance !== 0){
         return(
         <React.Fragment>
             <Form.Row>
@@ -219,7 +239,9 @@ class DelegationDetails extends Component{
                 </FormGroup>
             </Form.Row>
         </React.Fragment>
-        );
+        );}else{
+            return (<div></div>)
+        }
     }
 
     renderForm = () => {
@@ -230,15 +252,76 @@ class DelegationDetails extends Component{
                 <div className="header1"></div>
                 {this.renderForeignDelegation()} 
                 <div className="header1"></div>
-                
-                    {this.renderPrivateCar()} 
-                <Button className="buttonnn" onClick={this.handleGoBack}>back</Button>
+                {this.renderPrivateCar()}
+                <div className="header1"></div>
+                {this.renderDelegationStatus()} 
+                <Form.Row className="button-row">
+                <Button className="buttonnn" onClick={this.handleGoBack}>Back</Button>
+                {this.changeStatusButton()}
+                </Form.Row>
             </Form>
         );
     }
 
+    handleSubmit = (event) =>{
+        let delNumber = this.props.match.params.id
+        let delStatus = this.state.delegationStatus
+        axios.put('delegations/accountant/changestatus/'+delNumber+'/'+delStatus, jwtHeader())
+        .then(response => {
+            if(response.status = HTTPCodes.Success){
+                Swal.fire(
+                    'Delegation submitted successfully',
+                    '',
+                    'success'
+                )                    
+            }
+        }).catch(error => {
+            console.log("blad", error.response.data)
+        Swal.fire(
+            'An error has occured. Please try again',
+            '',
+            'error'
+        )
+    });
+    event.preventDefault();
+    }
+
     handleGoBack = () =>{
         this.props.history.goBack();
+    }
+
+    changeStatusButton = () =>{
+        if(currentRole() === Roles.ACCOUNTANT )
+        return(
+            <Button type="submit">Submit</Button>
+        )
+    }
+
+    handleChangeStatus = (event) =>{
+        console.log(this.state.delegationStatus)
+        console.log(event.target.value)
+        this.setState({delegationStatus: event.target.value})
+        console.log(this.state.delegationStatus)
+    }
+
+    renderDelegationStatus = () =>{
+        if(currentRole() === Roles.ACCOUNTANT){ 
+            console.log('before render ',this.state.delegationStatus)    
+        return(
+            <Form.Row className="status-row">
+                
+                    <Form.Label>Delegation Status</Form.Label>
+                    
+                    <Form.Control as="select" 
+                    defaultValue={this.state.delegationStatus}
+                    onChange={(event) => this.handleChangeStatus(event)}>
+                        <option>{DelegationStatuses.SUBMITTED}</option>
+                        <option>{DelegationStatuses.VERIFIED}</option>
+      </Form.Control>
+                
+            </Form.Row>
+        )
+        }
     }
 
     render(){

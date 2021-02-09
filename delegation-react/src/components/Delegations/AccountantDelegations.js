@@ -77,8 +77,7 @@ class AccountantDelegations extends Component{
 
     handleRedirect = (delegationNumber) =>  {
         this.props.history.push({ 
-            pathname: '/accountantdelegations/details',
-            state: delegationNumber
+            pathname: '/accountantdelegations/details/' + delegationNumber
            });
     }
 
@@ -91,7 +90,7 @@ class AccountantDelegations extends Component{
                     <td><Moment date={delegation.endDate} format="DD-MM-yyyy HH:mm"/></td>
                     <td>{delegation.sum} zł</td>
                     <td>{delegation.delegationStatus.statusName.toUpperCase()}</td>
-                    <td><Button variant="primary" onClick={ delegation => this.handleRedirect(delegation.id)}>Details</Button></td>
+                    <td><Button variant="primary" className="buttonnn" onClick={event => this.handleRedirect(delegation.delegationNumber)}>Details</Button></td>
                 </tr>
             )
         })

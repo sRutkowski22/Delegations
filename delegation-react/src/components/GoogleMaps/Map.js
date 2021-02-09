@@ -41,8 +41,8 @@ constructor( props ){
     lng: ''
   },
   destination: {
-    lat: '51.7384752',
-    lng: '19.6746613'
+    lat: '',
+    lng: ''
   },
   originSelected: false,
   destinationSelected: false
@@ -270,23 +270,6 @@ this.setState( {
    }
 
    getDistance = () => {
-  //   axios.get('https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/directions/json?origin=place_id:ChIJDezru8jSG0cRP9sLDNs88LQ&destination=place_id:EiNCZWRvxYRza2EsIDk1LTAyMCBKdXN0eW7Ds3csIFBvbGFuZCIuKiwKFAoSCddqPK7I0htHEfQmCK8PeltbEhQKEgmVE4lVzdIbRxEH4LhUm8qp6A&key=AIzaSyA4f7KaqFbfYOdrekALmpdwki1rdsFw2Ok')
-  //   .then(response => {
-  //       console.log(response.message,response);
-  //     console.log('res', response.data)
-  //     console.log('dist ', response.data.routes[0].legs[0].distance['text'])
-  //     // this.state.distance = response.dataa
-      
-    
-  //  }).catch(error => {
-  //   console.log('error', error.response)
-  //   swal({
-  //   title: 'an error has occured',
-  //   icon: "error",
-  //   closeOnClickOutside:true
-  //   });
-  //  });
-  // };
   const url = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/directions/json?origin=place_id:'
   + this.state.originPlaceId 
   + '&destination=place_id:'
@@ -306,7 +289,15 @@ this.setState( {
    console.log('dist ', data.routes[0].legs[0].distance['text']);
   this.setState({distance: data.routes[0].legs[0].distance['text']});
   console.log('state distance ',this.state.distance)
-})
+}).catch(error => {
+  console.log(error, error.data)
+  Swal.fire(
+    'Set origin and destination address',
+    '',
+    'error'
+  )
+}
+)
   
 };
 
@@ -387,9 +378,9 @@ let map;
    map = <div>
    
      <div>
-     <Form.Row >
+     <Form.Row  className="label-titles">
       
-        <div>
+        <div >
         <label>Origin</label>
         </div>
         <div className="destination-tag">
@@ -407,14 +398,16 @@ let map;
        <input type="text" name="city" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.destinationAddress }/>
       </div>
       </Form.Row>
-      <div className="button">
-      <Button className="button1"onClick={ this.getDistance} disabled= {!this.disabledButton} >Check distance</Button>
-      </div>
+      <Form.Row>
       <div className='distance'>
         <label>Distance</label>
         <input disabled='true'  className="form-control" value={this.state.distance}/>
       </div>
+      <div className="button">
+      <Button className="button1"onClick={ this.getDistance} disabled= {!this.disabledButton} >Check distance</Button>
+      </div>
       
+      </Form.Row>
      </div>
      {/*Marker*/}
     

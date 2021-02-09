@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -231,5 +232,13 @@ public class DelegationService  {
             sum += numberOfstartedDays * 0.2 * rateSingleton.getRate().getDomesticAllowance();
         sum -= delegation.getAdvancePayment();
         return sum;
+    }
+
+    public void changeDelegationStatus(String delNumber, String delStatus){
+        Delegation delegation = delegationRepository.findByDelegationNumber(delNumber).get();
+        Status status = statusRepository.findByStatusName(delStatus);
+        delegation.setDelegationStatus(status);
+        delegationRepository.save(delegation);
+
     }
 }

@@ -17,6 +17,7 @@ export const currentUser = () => {
 
 export const currentRole = () => {
   if(cookies.get("jwt" ) !=null){
+    console.log(jwt.decode(cookies.get("jwt"))["auth"][0]["authority"])
     return jwt.decode(cookies.get("jwt"))["auth"][0]["authority"];
   }else{
     return "";

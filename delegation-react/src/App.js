@@ -43,7 +43,7 @@ class App extends Component{
     
      
       <Route path="/checkroute" component={CheckRoute}/>
-    
+      <Route exact path='/accountantdelegations/details/:id' component={DelegationDetails}/>
       
       <Route exact path="/yourdelegations/new" component={AddDelegation}/>
       {/* <Route exact path="/carDetails/:number" component={CarDetails}/> */}

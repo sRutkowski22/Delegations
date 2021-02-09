@@ -28,21 +28,29 @@ public class DelegationController {
     @PostMapping(value = "worker/add/{email}")
     public ResponseEntity<String> addDelegation(@RequestBody Delegation delegation, @PathVariable String email){
 
-
-
                 log.error("jestem w delegation controlerze");
                 delegationService.calculateDelegationSum(delegation);
                 delegationService.addDelegation(delegation, email);
-
                 log.error("jestem w delegation controlerze 2");
-
-
-
-
 
                 return ResponseEntity
                         .status(HttpStatus.OK)
                         .body("udalo sie");
+
+
+
+    }
+
+    @PutMapping(value = "accountant/changestatus/{delnumber}/{delstatus}")
+    public ResponseEntity<String> changeDelegationStatus(@PathVariable String delnumber, @PathVariable String delstatus){
+
+        log.error("jestem w delegation controlerze");
+        delegationService.changeDelegationStatus(delnumber,delstatus);
+        log.error("jestem w delegation controlerze 2");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("udalo sie");
 
 
 
@@ -66,6 +74,21 @@ public class DelegationController {
     @GetMapping(value="worker/getdelegationbynumber/{number}")
     @PreAuthorize("#email == authentication.principal.username")
     public ResponseEntity<?> getDelegationsDelegationByNumber(@PathVariable String number){
+        try {
+            Delegation delegation = delegationService.getDelegationByItsNumber(number);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(delegation);
+        } catch (DelegationNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Delegation not found");
+        }
+    }
+
+    @GetMapping(value="accountant/getdelegationbynumber/{number}")
+    @PreAuthorize("#email == authentication.principal.username")
+    public ResponseEntity<?> getDelegationsDelegationByNumberForAccountant(@PathVariable String number){
         try {
             Delegation delegation = delegationService.getDelegationByItsNumber(number);
             return ResponseEntity
