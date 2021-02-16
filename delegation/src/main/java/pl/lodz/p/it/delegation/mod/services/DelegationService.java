@@ -115,7 +115,6 @@ public class DelegationService  {
 
         RateSingleton rateSingleton = (RateSingleton) applicationContext.getBean("rateSingleton1");
         rateSingleton.setRate(rateRepository.findAll().get(0));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         log.error(" Rate singleton " + rateSingleton.getRate().getDomesticAllowance() );
         log.error(" Delegation  " + delegation.getStartDate() );
 
@@ -287,6 +286,7 @@ public class DelegationService  {
         delegation.setNote("");
         delegation.setDistance(del.getDistance());
         delegation.setGreaterThan900cm3(del.isGreaterThan900cm3());
+        delegation.setSum(del.getSum());
         delegationRepository.save(delegation);
     }
 }

@@ -78,6 +78,7 @@ public class DelegationController {
     public ResponseEntity<String> resubmitDelegation(@RequestBody Delegation delegation, @PathVariable String delnumber, @PathVariable String delstatus){
 
         log.error("jestem w delegation controlerze");
+        delegationService.calculateDelegationSum(delegation);
         delegationService.resubmitDelegation(delegation,delnumber,delstatus);
         log.error("jestem w delegation controlerze 2");
 
