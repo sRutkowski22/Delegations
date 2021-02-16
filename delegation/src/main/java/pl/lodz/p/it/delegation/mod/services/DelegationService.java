@@ -73,11 +73,38 @@ public class DelegationService  {
             route.setDelegation(delegation);
         }
         Account account = accountRepository.findByEmail(email).get();
-        Status status = statusRepository.findByStatusName(DelegationStatuses.submitted.toString());
+        Status status = statusRepository.findByStatusName(DelegationStatuses.draft.toString());
 
         delegation.setDelegationStatus(status);
         delegation.setAccount(account);
         delegation.setDelegationNumber(UUID.randomUUID().toString());
+        delegationRepository.save(delegation);
+
+    }
+
+    public void submitDelegation(Delegation del, String email, String delnumber){
+        Account account = accountRepository.findByEmail(email).get();
+        Status status = statusRepository.findByStatusName(DelegationStatuses.submitted.toString());
+        Delegation delegation = delegationRepository.findByDelegationNumber(delnumber).get();
+        delegation.setDelegationStatus(status);
+        delegation.setAccount(account);
+        delegation.setGreaterThan900cm3(del.isGreaterThan900cm3());
+        delegation.setAdvancePayment(del.getAdvancePayment());
+        delegation.setCrossingForeignBorder(del.getCrossingForeignBorder());
+        delegation.setCrossingHomeBorder(del.getCrossingHomeBorder());
+        delegation.setDestination(del.getDestination());
+        delegation.setDistance(del.getDistance());
+        delegation.setEndDate(del.getEndDate());
+        delegation.setForeignAllowance(del.getForeignAllowance());
+        delegation.setGuaranteedAccommodation(del.isGuaranteedAccommodation());
+        delegation.setGuaranteedDomesticBreakfast(del.isGuaranteedDomesticBreakfast());
+        delegation.setGuaranteedDomesticDinner(del.isGuaranteedDomesticDinner());
+        delegation.setGuaranteedDomesticSupper(del.isGuaranteedDomesticSupper());
+        delegation.setGuaranteedForeignBreakfast(del.isGuaranteedForeignBreakfast());
+        delegation.setGuaranteedForeignDinner(del.isGuaranteedForeignDinner());
+        delegation.setGuaranteedForeignSupper(del.isGuaranteedForeignSupper());
+        delegation.setStartDate(del.getStartDate());
+        delegation.setSum(del.getSum());
         delegationRepository.save(delegation);
 
     }

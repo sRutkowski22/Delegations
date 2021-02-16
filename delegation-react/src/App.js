@@ -15,6 +15,7 @@ import Map from './components/GoogleMaps/Map'
 import AddAccount from './components/auth/AddAccount';
 import AccountantDelegations from './components/Delegations/AccountantDelegations';
 import WorkerDelegationDetails from './components/Delegations/WorkerDelegationDetails';
+import DraftWorkerDelegationDetails from './components/Delegations/DraftWorkerDelegationDetails';
 
 class App extends Component{
   render(){
@@ -47,6 +48,7 @@ class App extends Component{
       <Route exact path="/yourdelegations/new" component={AddDelegation}/>
       {/* <Route exact path="/carDetails/:number" component={CarDetails}/> */}
       <Route exact path="/yourdelegations/details/:id" component={WorkerDelegationDetails}/>
+      <Route exact path="/yourdelegations/draft/:id" component={DraftWorkerDelegationDetails}/>
       {/* axios.get(/car/${props.match.params.number}) */}
       
     </div>

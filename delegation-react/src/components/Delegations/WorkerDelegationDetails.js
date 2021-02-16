@@ -20,6 +20,7 @@ class WorkerDelegationDetails extends Component{
                 }
             },
             delegationStatus: '',
+            disabled: true
             
         }
     }
@@ -33,9 +34,10 @@ class WorkerDelegationDetails extends Component{
         .then(response => {
             const tempdel = response.data;
             this.setState( {delegation:tempdel})
-            console.log(tempdel.distance)
+            console.log(this.state.delegation.crossingForeignBorder)
             this.setState({ greaterThan900cm3: tempdel.greaterThan900cm3})
-            
+            if(tempdel.delegationStatus.statusName === DelegationStatuses.DRAFT)
+            this.props.history.push("/yourdelegations/draft/"+delNumber)
 
             console.log(response.data)
         
@@ -69,6 +71,7 @@ class WorkerDelegationDetails extends Component{
                         <FormLabel> Crossing foreign border:</FormLabel>
                         <Moment date={this.state.delegation.crossingForeignBorder} format="DD-MM-yyyy HH:mm"/>
                         <FormControl.Feedback type="invalid">Crossing Foreign border date must be later than start date and earlier than crossing home border date.</FormControl.Feedback>
+                        {/* <FormControl id="crossingForeignBorder" value={this.state.delegation.crossingForeignBorder} onChange={(event) => this.handleChangeProperty(event, "crossingForeignBorder")} isInvalid={!this.state.valid["crossingForeignBorder"]} type="datetime-local"/> */}
                     </FormGroup>
 
                     <FormGroup>
@@ -88,7 +91,7 @@ class WorkerDelegationDetails extends Component{
                          value={this.state.delegation['foreignAllowance']}
                           
                           defaultValue="60"
-                          disabled="true"
+                          disabled={this.state.disabled}
                       /> 
                       <Form.Control.Feedback type="invalid">Foreign allowance value must be higher than domestic allowance</Form.Control.Feedback>
                         <InputGroup.Append>

@@ -9,12 +9,13 @@ import ErrorCodes from '../auth/HTTPCodes';
 import Swal from 'sweetalert2';
 import {currentUser} from "../../Utility/Constants.js";
 import HTTPCodes from '../auth/HTTPCodes';
+import DelegationStatuses from '../../Utility/DelegationStatuses';
 
-class AddDelegation extends Component{
+class DraftWorkerDelegationDetails extends Component{
 
     constructor(props){
         super(props);
-        canAccessPage(this.props,extractRole(window.location.pathname));
+        // canAccessPage(this.props,extractRole(window.location.pathname));
         this.state = {
             delegation: {
               
@@ -36,6 +37,26 @@ class AddDelegation extends Component{
             
 
         }
+    }
+
+    componentDidMount = () =>{
+        let delNumber = this.props.match.params.id;
+        console.log("previous id " + delNumber)
+        
+        axios.get("/delegations/worker/getdelegationbynumber/" + delNumber, jwtHeader())
+        .then(response => {
+            const tempdel = response.data;
+            this.setState( {delegation:tempdel})
+            console.log(this.state.delegation.crossingForeignBorder)
+            this.setState({ greaterThan900cm3: tempdel.greaterThan900cm3})
+           
+
+            console.log(response.data)
+        
+        }).catch(error => {
+            console.log(error.message);
+        })
+    
     }
 
     checkValidation = () => {
@@ -173,16 +194,17 @@ class AddDelegation extends Component{
         this.state.delegation['foreignAllowance'] = document.getElementById("foreignAllowance").value;
         }
         console.log('i am here')
+        let delNumber = this.props.match.params.id;
         if(this.checkValidation()){
-            axios.post("/delegations/worker/add/" + currentUser(),this.state.delegation, jwtHeader())
+            axios.post("/delegations/worker/add/" + currentUser() + "/" + delNumber,this.state.delegation, jwtHeader())
             .then(response => {
                 if(response.status = HTTPCodes.Success){
                     Swal.fire(
-                        'Delegation marked as draft',
+                        'Delegation submitted successfully',
                         '',
                         'success'
-                    )     
-                    this.props.history.push("/yourdelegations")               
+                    )  
+                    this.props.history.push("/yourdelegations")                  
                 }
             }).catch(error => {
                 console.log("blad", error.response.data)
@@ -199,6 +221,7 @@ class AddDelegation extends Component{
             '',
             'error'
         )
+        
     }
     event.preventDefault();
     };
@@ -265,7 +288,19 @@ class AddDelegation extends Component{
         console.log(this.state.foreignDelegation)
         return (
             <React.Fragment>
-
+            <InputGroup >
+            <Form.Label className="input-delegation-group1" id="inputGroupAppend">Delegation Number</Form.Label>
+                <Form.Control className="delegation-number1"
+                   
+                  placeholder="Delegation Number"
+                  aria-describedby="inputGroupAppend"
+                  label="Delegation Number"
+                  id="delegationNumber"
+                  value={this.state.delegation['delegationNumber']}
+                  disabled="true"
+                 
+                /> 
+                </InputGroup>
             <Form.Row className="destination">
             <FormGroup  className="destination-group" >
             <InputGroup >
@@ -386,7 +421,7 @@ class AddDelegation extends Component{
     renderForm = () => {
         return(
             <Form className="add-del-form" onSubmit={this.handleSubmit}>
-                <h1 className="header1">Add new delegation</h1>
+                <h1 className="header1">Draft Delegation</h1>
                 {this.renderHomeDelegation()}
                 <div className="header1"></div>
                 <Form.Switch id="foreignDelegationSwitch" label="Foreign Delegation" checked={this.state.foreignDelegation} onChange={this.enableForeignDelegation} style={{"margin-bottom": "0.75em"}}/> 
@@ -413,4 +448,4 @@ class AddDelegation extends Component{
 
 }
 
-export default AddDelegation;
+export default DraftWorkerDelegationDetails;

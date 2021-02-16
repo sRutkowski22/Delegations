@@ -41,6 +41,24 @@ public class DelegationController {
 
     }
 
+    @PostMapping(value = "worker/add/{email}/{delnumber}")
+    public ResponseEntity<String> submitDelegation(@RequestBody Delegation delegation, @PathVariable String email, @PathVariable String delnumber){
+
+        log.error("jestem w delegation controlerze");
+        delegationService.calculateDelegationSum(delegation);
+        delegationService.submitDelegation(delegation, email, delnumber);
+        log.error("jestem w delegation controlerze 2");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("udalo sie");
+
+
+
+    }
+
+
+
     @PutMapping(value = "accountant/changestatus/{delnumber}/{delstatus}")
     public ResponseEntity<String> changeDelegationStatus(@RequestBody Delegation delegation, @PathVariable String delnumber, @PathVariable String delstatus){
 
