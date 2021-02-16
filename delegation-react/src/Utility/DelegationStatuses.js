@@ -1,4 +1,7 @@
 export default {
     SUBMITTED: 'submitted',
-    VERIFIED: 'verified'
+    VERIFIED: 'verified',
+    CANCELLED: 'cancelled',
+    WITHDRAWN: 'withdrawn',
+    DRAFT: 'draft'
 }

@@ -105,7 +105,7 @@ public class DelegationController {
     @PreAuthorize("#email == authentication.principal.username")
     public ResponseEntity<?> getAllDelegations(){
         try {
-            List<Delegation> delegationList = delegationService.getAllDelegations();
+            List<Delegation> delegationList = delegationService.getSubmittedAndVerified();
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(delegationList);

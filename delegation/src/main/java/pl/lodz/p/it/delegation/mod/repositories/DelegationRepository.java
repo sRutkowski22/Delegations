@@ -15,5 +15,8 @@ public interface DelegationRepository extends JpaRepository<Delegation,String> {
 
     Optional<Delegation> findByDelegationNumber(String delegationNumber);
 
+    @Query(value = "Select del from Delegation del, Status stat where del.delegationStatus=stat.id and ( stat.statusName='submitted' or stat.statusName='verified')")
+    List<Delegation> findSubmittedAndVerified();
+
 
 }

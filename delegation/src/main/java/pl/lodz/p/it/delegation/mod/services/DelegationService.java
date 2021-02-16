@@ -241,4 +241,12 @@ public class DelegationService  {
         delegationRepository.save(delegation);
 
     }
+
+    public List<Delegation> getSubmittedAndVerified() throws DelegationNotFoundException {
+        if(delegationRepository.findSubmittedAndVerified().isEmpty())
+            throw new DelegationNotFoundException("No delegations found");
+        else {
+            return delegationRepository.findSubmittedAndVerified();
+        }
+    }
 }
