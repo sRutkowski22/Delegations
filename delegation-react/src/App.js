@@ -14,6 +14,7 @@ import DelegationDetails from './components/Delegations/DelegationDetails';
 import Map from './components/GoogleMaps/Map'
 import AddAccount from './components/auth/AddAccount';
 import AccountantDelegations from './components/Delegations/AccountantDelegations';
+import WorkerDelegationDetails from './components/Delegations/WorkerDelegationDetails';
 
 class App extends Component{
   render(){
@@ -35,8 +36,6 @@ class App extends Component{
    
       <Route exact path="/yourdelegations" component={YourDelegations}/>
 
-      <Route exact path="/yourdelegations/details" component={DelegationDetails}/>
-
       <Route exact path="/addaccount" component={AddAccount}/>
 
       <Route exact path="/alldelegations" component={AccountantDelegations}/>
@@ -47,7 +46,7 @@ class App extends Component{
       
       <Route exact path="/yourdelegations/new" component={AddDelegation}/>
       {/* <Route exact path="/carDetails/:number" component={CarDetails}/> */}
-      <Route exact path="/yourdelegations/details/:id" component={DelegationDetails}/>
+      <Route exact path="/yourdelegations/details/:id" component={WorkerDelegationDetails}/>
       {/* axios.get(/car/${props.match.params.number}) */}
       
     </div>

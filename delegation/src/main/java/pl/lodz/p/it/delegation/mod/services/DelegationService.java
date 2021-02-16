@@ -234,10 +234,12 @@ public class DelegationService  {
         return sum;
     }
 
-    public void changeDelegationStatus(String delNumber, String delStatus){
+    public void changeDelegationStatus(Delegation del, String delNumber, String delStatus){
         Delegation delegation = delegationRepository.findByDelegationNumber(delNumber).get();
         Status status = statusRepository.findByStatusName(delStatus);
         delegation.setDelegationStatus(status);
+        log.error("note " + del.getNote());
+        delegation.setNote(del.getNote());
         delegationRepository.save(delegation);
 
     }

@@ -42,10 +42,10 @@ public class DelegationController {
     }
 
     @PutMapping(value = "accountant/changestatus/{delnumber}/{delstatus}")
-    public ResponseEntity<String> changeDelegationStatus(@PathVariable String delnumber, @PathVariable String delstatus){
+    public ResponseEntity<String> changeDelegationStatus(@RequestBody Delegation delegation, @PathVariable String delnumber, @PathVariable String delstatus){
 
         log.error("jestem w delegation controlerze");
-        delegationService.changeDelegationStatus(delnumber,delstatus);
+        delegationService.changeDelegationStatus(delegation,delnumber,delstatus);
         log.error("jestem w delegation controlerze 2");
 
         return ResponseEntity

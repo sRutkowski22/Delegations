@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import HTTPCodes from '../auth/HTTPCodes';
 import DelegationStatuses from '../../Utility/DelegationStatuses.js';
 
-class DelegationDetails extends Component{
+class WorkerDelegationDetails extends Component{
 
     constructor(props){
         super(props);
@@ -19,8 +19,7 @@ class DelegationDetails extends Component{
                    
                 }
             },
-            delegationStatus: '',
-            note: ''
+            delegationStatus: ''
         }
     }
 
@@ -262,7 +261,7 @@ class DelegationDetails extends Component{
                 {this.renderDelegationStatus()} 
                 <Form.Row className="button-row">
                 <Button className="buttonnn" onClick={this.handleGoBack}>Back</Button>
-                {this.changeStatusButton()}
+                <Button type="submit">Submit</Button>
                 </Form.Row>
             </Form>
         );
@@ -271,9 +270,7 @@ class DelegationDetails extends Component{
     handleSubmit = (event) =>{
         let delNumber = this.props.match.params.id
         let delStatus = this.state.delegationStatus
-        console.log(this.state.note)
-        this.setState({note: this.state.note})
-        axios.put('delegations/accountant/changestatus/'+delNumber+'/'+delStatus, this.state.delegation, jwtHeader())
+        axios.put('delegations/accountant/changestatus/'+delNumber+'/'+delStatus, jwtHeader())
         .then(response => {
             if(response.status = HTTPCodes.Success){
                 Swal.fire(
@@ -297,94 +294,39 @@ class DelegationDetails extends Component{
         this.props.history.goBack();
     }
 
-    changeStatusButton = () =>{
-        if(currentRole() === Roles.ACCOUNTANT )
-        return(
-            <Button type="submit">Submit</Button>
-        )
-    }
+    // changeStatusButton = () =>{
+    //     if(currentRole() === Roles.ACCOUNTANT )
+    //     return(
+            
+    //     )
+    // }
 
     handleChangeStatus = (event) =>{
         console.log(this.state.delegationStatus)
         console.log(event.target.value)
-        this.state.delegationStatus = event.target.value
-        console.log(this.state.note)
-        this.forceUpdate();
+        this.setState({delegationStatus: event.target.value})
+        console.log(this.state.delegationStatus)
     }
 
     renderDelegationStatus = () =>{
-        
-            console.log('before render ',this.state.delegation.delegationStatus.statusName)
-            console.log('delegationStatus', this.state.delegationStatus)
-            console.log('note', this.state.note)
-            
-              if(this.state.delegation.delegationStatus.statusName==DelegationStatuses.VERIFIED)
-                  return(
-                    <Form.Row className="status-row">
+       
+            console.log('before render ',this.state.delegation["delegationStatus"]["statusName"])    
+        return(
+            <Form.Row className="status-row">
                 
                     <Form.Label>Delegation Status</Form.Label>
                     
-                    <Form.Control  
-                    defaultValue={this.state.delegation.delegationStatus.statusName}
-                    onChange={(event) => this.handleChangeStatus(event)}
-                    disabled='true'
-                    >
-                </Form.Control>
+                    <Form.Control as="select" 
+                    defaultValue={this.state.delegationStatus}
+                    onChange={(event) => this.handleChangeStatus(event)}>
+                        <option>{DelegationStatuses.SUBMITTED}</option>
+                        <option>{DelegationStatuses.VERIFIED}</option>
+      </Form.Control>
                 
             </Form.Row>
-                  )
-              else if(this.state.delegationStatus==DelegationStatuses.WITHDRAWN)
-        return(
-            
-            <Form.Row className="status-row">
-                
-                    <Form.Label>Delegation Status</Form.Label>
-                    
-                    <Form.Control as="select" 
-                    Value={this.state.delegationStatus}
-                    onChange={(event) => this.handleChangeStatus(event)}>
-                        <option>{DelegationStatuses.SUBMITTED}</option>
-                        <option>{DelegationStatuses.VERIFIED}</option>
-                        <option>{DelegationStatuses.CANCELLED}</option>
-                        <option>{DelegationStatuses.WITHDRAWN}</option>
-                    </Form.Control>
-                    
-                    <Form.Label className="text-area">Note</Form.Label>
-                    <Form.Control as="textarea" rows={3} 
-                    value={this.state.note}
-                    onChange={(event) => this.handleChangeProperty(event,"note")}/>
-                    
-  
-             </Form.Row>
-        )
-        else
-        return(
-            
-            <Form.Row className="status-row">
-                
-                    <Form.Label>Delegation Status</Form.Label>
-                    
-                    <Form.Control as="select" 
-                    Value={this.state.delegationStatus}
-                    onChange={(event) => this.handleChangeStatus(event)}>
-                        <option>{DelegationStatuses.SUBMITTED}</option>
-                        <option>{DelegationStatuses.VERIFIED}</option>
-                        <option>{DelegationStatuses.CANCELLED}</option>
-                        <option>{DelegationStatuses.WITHDRAWN}</option>
-                    </Form.Control>
-             </Form.Row>
         )
         
     }
-
-    handleChangeProperty = (event, property) => {
-        this.setState({note: event.target.value})
-        console.log('delegation,note', this.state.delegation.note)
-        let tempUser = {...this.state.delegation};
-        tempUser[property] = event.target.value;
-        this.setState({delegation: tempUser});
-    }
-    
 
     render(){
 
@@ -401,4 +343,4 @@ class DelegationDetails extends Component{
 
 }
 
-export default DelegationDetails;
+export default WorkerDelegationDetails;

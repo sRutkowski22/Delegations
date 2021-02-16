@@ -95,5 +95,7 @@ public @Data class Delegation implements Serializable {
     @JsonBackReference
     private Account account;
 
+    private String note;
+
 
 }
