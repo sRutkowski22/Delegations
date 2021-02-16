@@ -251,4 +251,15 @@ public class DelegationService  {
             return delegationRepository.findSubmittedAndVerified();
         }
     }
+
+    public void resubmitDelegation(Delegation del, String delNumber, String delStatus){
+        Delegation delegation = delegationRepository.findByDelegationNumber(delNumber).get();
+        Status status = statusRepository.findByStatusName(delStatus);
+        delegation.setDelegationStatus(status);
+        log.error("note " + del.getDistance());
+        delegation.setNote("");
+        delegation.setDistance(del.getDistance());
+        delegation.setGreaterThan900cm3(del.isGreaterThan900cm3());
+        delegationRepository.save(delegation);
+    }
 }

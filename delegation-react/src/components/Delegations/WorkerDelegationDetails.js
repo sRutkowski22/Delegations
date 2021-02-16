@@ -19,7 +19,8 @@ class WorkerDelegationDetails extends Component{
                    
                 }
             },
-            delegationStatus: ''
+            delegationStatus: '',
+            
         }
     }
 
@@ -32,6 +33,9 @@ class WorkerDelegationDetails extends Component{
         .then(response => {
             const tempdel = response.data;
             this.setState( {delegation:tempdel})
+            console.log(tempdel.distance)
+            this.setState({ greaterThan900cm3: tempdel.greaterThan900cm3})
+            
 
             console.log(response.data)
         
@@ -217,6 +221,7 @@ class WorkerDelegationDetails extends Component{
 
     renderPrivateCar = () => {
         if(this.state.delegation.distance !== 0){
+            if(this.state.delegation.delegationStatus.statusName !== DelegationStatuses.WITHDRAWN){
         return(
         <React.Fragment>
             <Form.Row>
@@ -239,11 +244,50 @@ class WorkerDelegationDetails extends Component{
             </FormGroup>
             <FormGroup className="checkbox-form-engine">
                     
-                    <Form.Check className="checkbox-form-acc" id="guaranteedDomesticSupper"  type="checkbox" checked={this.state.delegation['greaterThan900cm3']} label="Engine at least 900cm3" value={this.state.guaranteedDomesticSupper}  disabled="true"></Form.Check>
+                    <Form.Check className="checkbox-form-acc" 
+                    id="guaranteedDomesticSupper"  type="checkbox" checked={this.state.delegation['greaterThan900cm3']} label="Engine at least 900cm3" value={this.state.guaranteedDomesticSupper}  disabled="true"></Form.Check>
                 </FormGroup>
             </Form.Row>
         </React.Fragment>
-        );}else{
+        );
+            }else{
+                return(
+                    <React.Fragment>
+                    <Form.Row>
+                    <FormGroup className="form-private-car">
+                    <InputGroup>
+                        
+                        <Form.Control
+                          type="number"
+                          placeholder="Distance"
+                          aria-describedby="inputGroupPrepend"
+                          id="distance"
+                          value={this.state.delegation.distance}
+                          onChange={(event) => this.handleChangeProperty(event, "distance")}
+                       
+                        /> 
+                        <InputGroup.Append>
+                          <InputGroup.Text id="inputGroupPrepend">KM</InputGroup.Text>
+                        </InputGroup.Append>
+                        <Form.Control.Feedback type="invalid" tooltip>
+                          It must be a number
+                        </Form.Control.Feedback>
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup className="checkbox-form-engine">
+                            <Form.Check className="checkbox-form-acc" 
+                            id="greaterThan900cm3"  
+                            type="checkbox"  
+                            checked={this.state.delegation.greaterThan900cm3} 
+                            label="Engine at least 900cm3" 
+                            value={this.state.delegation.greaterThan900cm3} 
+                            onChange={(event) => this.handleChangeProperty(event, "greaterThan900cm3")}  ></Form.Check>
+                        </FormGroup>
+                    </Form.Row>
+                </React.Fragment>
+                )
+            }
+    }else{
             return (<div></div>)
         }
     }
@@ -269,15 +313,18 @@ class WorkerDelegationDetails extends Component{
 
     handleSubmit = (event) =>{
         let delNumber = this.props.match.params.id
-        let delStatus = this.state.delegationStatus
-        axios.put('delegations/accountant/changestatus/'+delNumber+'/'+delStatus, jwtHeader())
+        
+        this.state.delegation.delegationStatus.statusName = DelegationStatuses.SUBMITTED;
+        let delStatus = this.state.delegation.delegationStatus.statusName;
+        axios.put('delegations/worker/resubmit/'+delNumber+'/'+delStatus, this.state.delegation, jwtHeader())
         .then(response => {
-            if(response.status = HTTPCodes.Success){
+            if(response.status === HTTPCodes.Success){
                 Swal.fire(
                     'Delegation submitted successfully',
                     '',
                     'success'
-                )                    
+                ) 
+                this.props.history.push("/yourdelegations");                   
             }
         }).catch(error => {
             console.log("blad", error.response.data)
@@ -293,6 +340,24 @@ class WorkerDelegationDetails extends Component{
     handleGoBack = () =>{
         this.props.history.goBack();
     }
+
+    handleChangeProperty = (event, property) => {
+        let tempDel = {...this.state.delegation};
+        console.log('value', event.target.value)
+        console.log('value', this.state.greaterThan900cm3)
+        
+        switch(property){
+            case "greaterThan900cm3":
+                tempDel[property]=!tempDel[property]
+                break;    
+            default:
+                tempDel[property] = event.target.value;
+                break;
+        }
+        this.state.delegation = tempDel;
+        console.log(this.state.delegation)
+        this.forceUpdate();
+    };
 
     // changeStatusButton = () =>{
     //     if(currentRole() === Roles.ACCOUNTANT )
@@ -311,19 +376,44 @@ class WorkerDelegationDetails extends Component{
     renderDelegationStatus = () =>{
        
             console.log('before render ',this.state.delegation["delegationStatus"]["statusName"])    
+            if(this.state.delegation.delegationStatus.statusName === DelegationStatuses.WITHDRAWN)
         return(
             <Form.Row className="status-row">
                 
-                    <Form.Label>Delegation Status</Form.Label>
-                    
-                    <Form.Control as="select" 
-                    defaultValue={this.state.delegationStatus}
-                    onChange={(event) => this.handleChangeStatus(event)}>
-                        <option>{DelegationStatuses.SUBMITTED}</option>
-                        <option>{DelegationStatuses.VERIFIED}</option>
-      </Form.Control>
+            <Form.Label>Delegation Status</Form.Label>
+            
+            <Form.Control 
+            Value={this.state.delegation.delegationStatus.statusName}
+            onChange={(event) => this.handleChangeStatus(event)}
+            disabled="true"
+            >
+            </Form.Control>
+            
+            <Form.Label className="text-area">Note</Form.Label>
+            <Form.Control as="textarea" rows={3} 
+            value={this.state.delegation.note}
+            disabled="true"/>
+            
+
+     </Form.Row>
+        )
+        else
+        return(
+            <Form.Row className="status-row">
                 
-            </Form.Row>
+            <Form.Label>Delegation Status</Form.Label>
+            
+            <Form.Control 
+            Value={this.state.delegation.delegationStatus.statusName}
+            onChange={(event) => this.handleChangeStatus(event)}
+            disabled="true"
+            >
+            </Form.Control>
+            
+         
+            
+
+     </Form.Row>
         )
         
     }

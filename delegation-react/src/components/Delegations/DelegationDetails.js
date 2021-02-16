@@ -275,12 +275,13 @@ class DelegationDetails extends Component{
         this.setState({note: this.state.note})
         axios.put('delegations/accountant/changestatus/'+delNumber+'/'+delStatus, this.state.delegation, jwtHeader())
         .then(response => {
-            if(response.status = HTTPCodes.Success){
+            if(response.status === HTTPCodes.Success){
                 Swal.fire(
                     'Delegation submitted successfully',
                     '',
                     'success'
-                )                    
+                )  
+                this.props.history.push("/alldelegations")                  
             }
         }).catch(error => {
             console.log("blad", error.response.data)
@@ -289,6 +290,7 @@ class DelegationDetails extends Component{
             '',
             'error'
         )
+        
     });
     event.preventDefault();
     }
@@ -318,7 +320,7 @@ class DelegationDetails extends Component{
             console.log('delegationStatus', this.state.delegationStatus)
             console.log('note', this.state.note)
             
-              if(this.state.delegation.delegationStatus.statusName==DelegationStatuses.VERIFIED)
+              if(this.state.delegation.delegationStatus.statusName === DelegationStatuses.VERIFIED)
                   return(
                     <Form.Row className="status-row">
                 
@@ -333,7 +335,7 @@ class DelegationDetails extends Component{
                 
             </Form.Row>
                   )
-              else if(this.state.delegationStatus==DelegationStatuses.WITHDRAWN)
+              else if(this.state.delegationStatus === DelegationStatuses.WITHDRAWN)
         return(
             
             <Form.Row className="status-row">

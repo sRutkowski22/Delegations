@@ -22,7 +22,7 @@ insert into status(id,status_name) values (4,'withdrawn');
 insert into status(id,status_name) values (5,'draft');
 insert into delegation(id,destination,leaving_country_date,crossing_home_border_date,delegation_number, status_id,delegation_end_date,guaranteed_accommodation,guaranteed_domestic_breakfast,guaranteed_domestic_dinner,guaranteed_domestic_supper,guaranteed_foreign_breakfast,guaranteed_foreign_dinner,guaranteed_foreign_supper,delegation_start_date, advance_payment, sum,account_id, distance, greater_than900cm3, home_transport_charge, foreign_allowance,note)
 values
-(1,'Delegation to Lodz',null,null,'eac557b7-449e-4799-9b21-7d070874a176',1,'21-01-20 12:00',false,true,false,false,false,false,true,'21-01-20 08:00',0,200.0,3,0, false, false, 60,'yas');
+(1,'Delegation to Lodz',null,null,'eac557b7-449e-4799-9b21-7d070874a176',1,'21-01-20 12:00',false,true,false,false,false,false,true,'21-01-20 08:00',0,200.0,3,200, false, false, 60,'yas');
 insert into delegation(id,destination,leaving_country_date,crossing_home_border_date,delegation_number,status_id,delegation_end_date,guaranteed_accommodation,guaranteed_domestic_breakfast,guaranteed_domestic_dinner,guaranteed_domestic_supper,guaranteed_foreign_breakfast,guaranteed_foreign_dinner,guaranteed_foreign_supper,delegation_start_date, advance_payment, sum,account_id, distance, greater_than900cm3, home_transport_charge, foreign_allowance,note)
 values
 (2,'Delegation to Warsaw',null,null,'afa59007-4a92-40ad-91c3-02c5df174b3d',2,'21-01-23 12:00',false,true,false,false,false,false,true,'21-01-24 08:00',0,400.0,3,0,false, false, 60,'no');

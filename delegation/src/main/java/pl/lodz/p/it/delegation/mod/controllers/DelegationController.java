@@ -55,6 +55,21 @@ public class DelegationController {
 
 
     }
+
+    @PutMapping(value = "worker/resubmit/{delnumber}/{delstatus}")
+    public ResponseEntity<String> resubmitDelegation(@RequestBody Delegation delegation, @PathVariable String delnumber, @PathVariable String delstatus){
+
+        log.error("jestem w delegation controlerze");
+        delegationService.resubmitDelegation(delegation,delnumber,delstatus);
+        log.error("jestem w delegation controlerze 2");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("udalo sie");
+
+
+
+    }
     
     @GetMapping(value="worker/getforuser/{email}")
     @PreAuthorize("#email == authentication.principal.username")
