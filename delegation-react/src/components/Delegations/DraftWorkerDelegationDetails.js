@@ -48,8 +48,21 @@ class DraftWorkerDelegationDetails extends Component{
             const tempdel = response.data;
             this.setState( {delegation:tempdel})
             console.log(this.state.delegation.crossingForeignBorder)
-            this.setState({ greaterThan900cm3: tempdel.greaterThan900cm3})
-           
+            this.setState({ 
+                greaterThan900cm3: tempdel.greaterThan900cm3,
+                guaranteedDomesticBreakfast: tempdel.guaranteedDomesticBreakfast,
+                guaranteedDomesticDinner: tempdel.guaranteedDomesticDinner,
+                guaranteedDomesticSupper: tempdel.guaranteedDomesticSupper,
+                guaranteedForeignBreakfast: tempdel.guaranteedForeignBreakfast,
+                guaranteedForeignDinner: tempdel.guaranteedForeignDinner,
+                guaranteedForeignSupper: tempdel.guaranteedForeignSupper,
+                guaranteedAccomodation: tempdel.guaranteedAccommodation,
+                homeTransportCharge: tempdel.homeTransportCharge
+            })
+            if(tempdel.distance !== 0)
+            this.setState({privateCar: true})
+            if(tempdel.crossingForeignBorder !== null)
+            this.setState({foreignDelegation: true})
 
             console.log(response.data)
         

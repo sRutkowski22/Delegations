@@ -20,7 +20,17 @@ class WorkerDelegationDetails extends Component{
                 }
             },
             delegationStatus: '',
-            disabled: true
+            foreignDelegation: false,
+            guaranteedDomesticBreakfast: false,
+            guaranteedDomesticDinner: false,
+            guaranteedDomesticSupper: false,
+            guaranteedForeignBreakfast: false,
+            guaranteedForeignDinner: false,
+            guaranteedForeignSupper: false,
+            guaranteedAccomodation: false,
+            homeTransportCharge: false,
+            privateCar: false,
+            greaterThan900cm3: false
             
         }
     }
@@ -35,7 +45,8 @@ class WorkerDelegationDetails extends Component{
             const tempdel = response.data;
             this.setState( {delegation:tempdel})
             console.log(this.state.delegation.crossingForeignBorder)
-            this.setState({ greaterThan900cm3: tempdel.greaterThan900cm3})
+            this.setState({  greaterThan900cm3: tempdel.greaterThan900cm3  })
+            
             if(tempdel.delegationStatus.statusName === DelegationStatuses.DRAFT)
             this.props.history.push("/yourdelegations/draft/"+delNumber)
 
@@ -308,7 +319,7 @@ class WorkerDelegationDetails extends Component{
                 {this.renderDelegationStatus()} 
                 <Form.Row className="button-row">
                 <Button className="buttonnn" onClick={this.handleGoBack}>Back</Button>
-                <Button type="submit">Submit</Button>
+                {this.changeStatusButton()}
                 </Form.Row>
             </Form>
         );
@@ -362,12 +373,17 @@ class WorkerDelegationDetails extends Component{
         this.forceUpdate();
     };
 
-    // changeStatusButton = () =>{
-    //     if(currentRole() === Roles.ACCOUNTANT )
-    //     return(
-            
-    //     )
-    // }
+    changeStatusButton = () =>{
+        if(this.state.delegation.delegationStatus.statusName === DelegationStatuses.WITHDRAWN )
+        return(
+            <Button type="submit">Submit</Button>
+        )
+        else{
+            return(
+                <div></div>
+            )
+        }
+    }
 
     handleChangeStatus = (event) =>{
         console.log(this.state.delegationStatus)
