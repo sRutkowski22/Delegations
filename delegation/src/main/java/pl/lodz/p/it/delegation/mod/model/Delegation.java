@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Entity
 @Table(name = "delegation", uniqueConstraints = @UniqueConstraint(columnNames = {"delegation_number"} ))
-public @Data class Delegation implements Serializable {
+public @Data class Delegation implements Serializable, EntitySignature {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -100,5 +100,10 @@ public @Data class Delegation implements Serializable {
     @Version
     @NotNull
     @Column(name = "version", nullable = false, columnDefinition = "bigint default 1")
-    private long version;
+    private Long version;
+
+    @Override
+    public String getSignaturePayload() {
+        return id.toString()+version.toString();
+    }
 }

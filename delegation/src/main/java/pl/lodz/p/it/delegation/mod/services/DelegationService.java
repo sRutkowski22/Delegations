@@ -221,6 +221,7 @@ public class DelegationService  {
     public void changeDelegationStatus(Delegation del, String delNumber, String delStatus) throws StatusConflictException {
         Delegation delegation = delegationRepository.findByDelegationNumber(delNumber).get();
         Status status = statusRepository.findByStatusName(delStatus);
+        log.error("Signature " +delegation.getSignaturePayload());
         if(delegation.getDelegationStatus().getStatusName().equals(DelegationStatuses.verified.toString())
         && (delStatus.equals(DelegationStatuses.cancelled.toString()) || delStatus.equals(DelegationStatuses.withdrawn.toString()))){
             log.error("delegation status error");

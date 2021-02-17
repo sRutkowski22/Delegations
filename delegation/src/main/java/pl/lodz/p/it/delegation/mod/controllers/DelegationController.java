@@ -13,11 +13,12 @@ import pl.lodz.p.it.delegation.exceptions.DelegationNotFoundException;
 import pl.lodz.p.it.delegation.exceptions.StatusConflictException;
 import pl.lodz.p.it.delegation.mod.model.Delegation;
 import pl.lodz.p.it.delegation.mod.services.DelegationService;
+import pl.lodz.p.it.delegation.utils.EntityIdentitySignerVerifier;
 
 import javax.persistence.RollbackException;
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(exposedHeaders = "ETag", allowedHeaders = "ETag")
 @RestController
 @RequestMapping("/delegations")
 @AllArgsConstructor
@@ -135,6 +136,7 @@ public class DelegationController {
             Delegation delegation = delegationService.getDelegationByItsNumber(number);
             return ResponseEntity
                     .status(HttpStatus.OK)
+                    .eTag(EntityIdentitySignerVerifier.calculateEntitySignature(delegation))
                     .body(delegation);
         } catch (DelegationNotFoundException e) {
             return ResponseEntity

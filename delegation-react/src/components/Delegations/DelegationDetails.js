@@ -35,6 +35,8 @@ class DelegationDetails extends Component{
             this.setState( {delegation:tempdel})
 
             console.log(response.data)
+            console.log(response)
+            console.log("response",response)
         
         }).catch(error => {
             console.log(error.message);
@@ -47,6 +49,8 @@ class DelegationDetails extends Component{
             delegationStatus: tempdel.delegationStatus.statusName})
 
             console.log(response.data)
+            console.log(response.headers.etag)
+            console.log("response",response)
         }).catch(error => {
             console.log(error.message);
         })
