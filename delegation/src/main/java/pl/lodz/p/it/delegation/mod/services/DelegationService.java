@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import pl.lodz.p.it.delegation.exceptions.DelegationNotFoundException;
+import pl.lodz.p.it.delegation.exceptions.StatusConflictException;
 import pl.lodz.p.it.delegation.mod.model.Delegation;
 import pl.lodz.p.it.delegation.mod.model.DelegationRoute;
 import pl.lodz.p.it.delegation.mod.model.DelegationStatuses;
@@ -217,9 +218,19 @@ public class DelegationService  {
         return sum;
     }
 
-    public void changeDelegationStatus(Delegation del, String delNumber, String delStatus){
+    public void changeDelegationStatus(Delegation del, String delNumber, String delStatus) throws StatusConflictException {
         Delegation delegation = delegationRepository.findByDelegationNumber(delNumber).get();
         Status status = statusRepository.findByStatusName(delStatus);
+        if(delegation.getDelegationStatus().getStatusName().equals(DelegationStatuses.verified.toString())
+        && (delStatus.equals(DelegationStatuses.cancelled.toString()) || delStatus.equals(DelegationStatuses.withdrawn.toString()))){
+            log.error("delegation status error");
+            throw new StatusConflictException("Delegation with status verified cannot be modified");
+        }
+        if(delegation.getDelegationStatus().getStatusName().equals(DelegationStatuses.cancelled.toString())
+                && (delStatus.equals(DelegationStatuses.verified.toString()) || delStatus.equals(DelegationStatuses.withdrawn.toString()))){
+            log.error("delegation status error");
+            throw new StatusConflictException("Delegation with status cancelled cannot be modified");
+        }
         delegation.setDelegationStatus(status);
         log.error("note " + del.getNote());
         delegation.setNote(del.getNote());

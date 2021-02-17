@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.delegation.exceptions.AccountException;
 import pl.lodz.p.it.delegation.exceptions.AppBaseException;
 import pl.lodz.p.it.delegation.exceptions.DelegationNotFoundException;
+import pl.lodz.p.it.delegation.exceptions.StatusConflictException;
 import pl.lodz.p.it.delegation.mod.model.Delegation;
 import pl.lodz.p.it.delegation.mod.services.DelegationService;
 
@@ -63,7 +64,14 @@ public class DelegationController {
     public ResponseEntity<String> changeDelegationStatus(@RequestBody Delegation delegation, @PathVariable String delnumber, @PathVariable String delstatus){
 
         log.error("jestem w delegation controlerze");
-        delegationService.changeDelegationStatus(delegation,delnumber,delstatus);
+        try {
+            delegationService.changeDelegationStatus(delegation,delnumber,delstatus);
+        } catch (StatusConflictException e) {
+            log.error("message " + e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(e.getMessage());
+        }
         log.error("jestem w delegation controlerze 2");
 
         return ResponseEntity

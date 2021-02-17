@@ -285,12 +285,19 @@ class DelegationDetails extends Component{
             }
         }).catch(error => {
             console.log("blad", error.response.data)
+            console.log("blad",  error.response.status)
+            if(error.response.status === HTTPCodes.Conflict)
+        Swal.fire(
+            error.response.data,
+            '',
+            'error'
+        )
+        else
         Swal.fire(
             'An error has occured. Please try again',
             '',
             'error'
         )
-        
     });
     event.preventDefault();
     }
