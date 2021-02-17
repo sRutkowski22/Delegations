@@ -97,5 +97,8 @@ public @Data class Delegation implements Serializable {
 
     private String note;
 
-
+    @Version
+    @NotNull
+    @Column(name = "version", nullable = false, columnDefinition = "bigint default 1")
+    private long version;
 }
