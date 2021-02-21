@@ -7,15 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import pl.lodz.p.it.delegation.exceptions.AccountException;
-import pl.lodz.p.it.delegation.exceptions.AppBaseException;
-import pl.lodz.p.it.delegation.exceptions.DelegationNotFoundException;
-import pl.lodz.p.it.delegation.exceptions.StatusConflictException;
+import pl.lodz.p.it.delegation.exceptions.*;
 import pl.lodz.p.it.delegation.mod.model.Delegation;
 import pl.lodz.p.it.delegation.mod.services.DelegationService;
 import pl.lodz.p.it.delegation.utils.EntityIdentitySignerVerifier;
 
 import javax.persistence.RollbackException;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @CrossOrigin(exposedHeaders = "ETag", allowedHeaders = "ETag")
@@ -30,45 +28,33 @@ public class DelegationController {
     @PostMapping(value = "worker/add/{email}")
     public ResponseEntity<String> addDelegation(@RequestBody Delegation delegation, @PathVariable String email){
 
-                log.error("jestem w delegation controlerze");
                 delegationService.calculateDelegationSum(delegation);
                 delegationService.addDelegation(delegation, email);
-                log.error("jestem w delegation controlerze 2");
-
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("udalo sie");
-
-
+                        .body("Success");
 
     }
 
     @PostMapping(value = "worker/add/{email}/{delnumber}")
     public ResponseEntity<String> submitDelegation(@RequestBody Delegation delegation, @PathVariable String email, @PathVariable String delnumber){
 
-        log.error("jestem w delegation controlerze");
         delegationService.calculateDelegationSum(delegation);
         delegationService.submitDelegation(delegation, email, delnumber);
-        log.error("jestem w delegation controlerze 2");
-
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("udalo sie");
-
-
-
+                .body("Success");
     }
 
 
 
     @PutMapping(value = "accountant/changestatus/{delnumber}/{delstatus}")
-    public ResponseEntity<String> changeDelegationStatus(@RequestBody Delegation delegation, @PathVariable String delnumber, @PathVariable String delstatus){
+    public ResponseEntity<String> changeDelegationStatus(@RequestBody Delegation delegation, @PathVariable String delnumber, @PathVariable String delstatus, @RequestHeader("If-Match") @NotNull String etag){
 
-        log.error("jestem w delegation controlerze");
         try {
-            delegationService.changeDelegationStatus(delegation,delnumber,delstatus);
-        } catch (StatusConflictException e) {
-            log.error("message " + e.getMessage());
+            delegationService.changeDelegationStatus(delegation,delnumber,delstatus, etag);
+        } catch (StatusConflictException | EntityIntegrityException e) {
+
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .body(e.getMessage());
@@ -77,7 +63,7 @@ public class DelegationController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("udalo sie");
+                .body("Success");
 
 
 
@@ -93,7 +79,7 @@ public class DelegationController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("udalo sie");
+                .body("Success");
 
 
 

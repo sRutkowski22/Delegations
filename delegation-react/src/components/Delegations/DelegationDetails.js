@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import {Button, Form, FormGroup, FormControl, FormLabel, InputGroup} from 'react-bootstrap';
-import { canAccessPage, currentRole, extractRole, jwtHeader } from '../../Utility/Constants';
+import { canAccessPage, currentRole, extractRole, jwtHeader, jwtIfMatchHeader } from '../../Utility/Constants';
 import './DelegationDetails.css';
 import Moment from 'react-moment';
 import Roles from '../auth/Roles';
@@ -20,7 +20,8 @@ class DelegationDetails extends Component{
                 }
             },
             delegationStatus: '',
-            note: ''
+            note: '',
+            
         }
     }
 
@@ -28,6 +29,7 @@ class DelegationDetails extends Component{
         console.log("previous id " + this.props.match.params.id)
         let delNumber = this.props.match.params.id;
         console.log("previous id " + delNumber)
+        
         if(currentRole() === Roles.WORKER){
         axios.get("/delegations/worker/getdelegationbynumber/" + delNumber, jwtHeader())
         .then(response => {
@@ -37,6 +39,7 @@ class DelegationDetails extends Component{
             console.log(response.data)
             console.log(response)
             console.log("response",response)
+            console.log("status",this.state.delegation.delegationStatus.statusName)
         
         }).catch(error => {
             console.log(error.message);
@@ -46,10 +49,12 @@ class DelegationDetails extends Component{
         .then(response => {
             const tempdel = response.data;
             this.setState( {delegation:tempdel,
-            delegationStatus: tempdel.delegationStatus.statusName})
-
+            delegationStatus: tempdel.delegationStatus.statusName,
+            etag: response.headers.etag})
+            console.log('jwt header ', jwtIfMatchHeader(this.state.etag))
             console.log(response.data)
-            console.log(response.headers.etag)
+            console.log("status",this.state.delegation.delegationStatus.statusName)
+            console.log('etag', this.state.etag.slice(1,-1))
             console.log("response",response)
         }).catch(error => {
             console.log(error.message);
@@ -276,8 +281,11 @@ class DelegationDetails extends Component{
         let delNumber = this.props.match.params.id
         let delStatus = this.state.delegationStatus
         console.log(this.state.note)
+        
         this.setState({note: this.state.note})
-        axios.put('delegations/accountant/changestatus/'+delNumber+'/'+delStatus, this.state.delegation, jwtHeader())
+        
+       
+        axios.put('delegations/accountant/changestatus/'+delNumber+'/'+delStatus, this.state.delegation, jwtIfMatchHeader(this.state.etag))
         .then(response => {
             if(response.status === HTTPCodes.Success){
                 Swal.fire(
@@ -318,18 +326,14 @@ class DelegationDetails extends Component{
     }
 
     handleChangeStatus = (event) =>{
-        console.log(this.state.delegationStatus)
-        console.log(event.target.value)
         this.state.delegationStatus = event.target.value
-        console.log(this.state.note)
+       
         this.forceUpdate();
     }
 
     renderDelegationStatus = () =>{
         
-            console.log('before render ',this.state.delegation.delegationStatus.statusName)
-            console.log('delegationStatus', this.state.delegationStatus)
-            console.log('note', this.state.note)
+           
             
               if(this.state.delegation.delegationStatus.statusName === DelegationStatuses.VERIFIED)
                   return(
@@ -374,11 +378,17 @@ class DelegationDetails extends Component{
         return(
             
             <Form.Row className="status-row">
-                
-                    <Form.Label>Delegation Status</Form.Label>
+
+                    <Form.Label>Current status</Form.Label>
+                    <Form.Control 
+                    defaultValue={this.state.delegation.delegationStatus.statusName}
+                    disabled="true">
+                        
+                    </Form.Control>
+                    <Form.Label>New Status</Form.Label>
                     
                     <Form.Control as="select" 
-                    Value={this.state.delegationStatus}
+                    defaultValue={this.state.delegation.delegationStatus.statusName}
                     onChange={(event) => this.handleChangeStatus(event)}>
                         <option>{DelegationStatuses.SUBMITTED}</option>
                         <option>{DelegationStatuses.VERIFIED}</option>

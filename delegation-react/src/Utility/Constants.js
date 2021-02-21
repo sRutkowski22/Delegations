@@ -76,3 +76,13 @@ export const extractRole = (pathname) => {
     return {"headers": {"Authorization": cookies.get("jwt")}};
     else return "";
   }
+
+  export const jwtIfMatchHeader = (etag) =>{
+    
+    if(cookies.get("jwt") !== 0)
+    return {"headers": {
+      "Authorization": cookies.get("jwt"),
+      "If-Match" : etag.slice(1,-1)
+  }};
+    else return "";
+  }

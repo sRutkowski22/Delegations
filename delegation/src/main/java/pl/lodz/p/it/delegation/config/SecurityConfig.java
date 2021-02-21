@@ -63,8 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // This Origin header you can see that in Network tab
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
-        configuration.setAllowedHeaders(Arrays.asList("content-type","Access-Control-Allow-Origin","Authorization","ETag"));
-        configuration.setExposedHeaders(Arrays.asList("ETag","Access-Control-Allow-Origin"));
+        configuration.setAllowedHeaders(Arrays.asList("content-type","Access-Control-Allow-Origin","Authorization","ETag", "If-Match"));
+        configuration.setExposedHeaders(Arrays.asList("ETag","Access-Control-Allow-Origin","If-Match"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

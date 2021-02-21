@@ -3,12 +3,14 @@ package pl.lodz.p.it.delegation.utils;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
+import lombok.extern.slf4j.Slf4j;
 import pl.lodz.p.it.delegation.mod.model.EntitySignature;
 
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Slf4j
 public class EntityIdentitySignerVerifier {
 
     // Obtained from: https://mkjwk.org/ type: oct
@@ -36,7 +38,9 @@ public class EntityIdentitySignerVerifier {
         // this is ONLY validation of the signature itself
         try {
             JWSObject jwsObject = JWSObject.parse(tagValue);
+            log.error("jws object " + jwsObject.toString());
             JWSVerifier verifier = new MACVerifier(SECRET);
+            log.error("jws verifier " + verifier.toString());
 
             return jwsObject.verify(verifier);
         } catch (ParseException | JOSEException ex) {
@@ -51,10 +55,11 @@ public class EntityIdentitySignerVerifier {
 
             final String valueFromIfMatchHeader = JWSObject.parse(tagValue).getPayload().toString();
             final String valueFromEntitySignablePayload = entity.getSignaturePayload();
-            Logger.getLogger(EntityIdentitySignerVerifier.class.getName()).log(Level.FINE, "Integrity comparison: from If-Match header {0} from entity getSignablePayload() {1}", new Object[]{valueFromIfMatchHeader, valueFromEntitySignablePayload});
+            log.error("validating " + validateEntitySignature(tagValue) + " " + valueFromIfMatchHeader + " " + valueFromEntitySignablePayload );
+
             return validateEntitySignature(tagValue) && valueFromIfMatchHeader.equals(valueFromEntitySignablePayload);
         } catch (ParseException ex) {
-            Logger.getLogger(EntityIdentitySignerVerifier.class.getName()).log(Level.SEVERE, null, ex);
+
             return false; //assume worst scenario!
         }
     }

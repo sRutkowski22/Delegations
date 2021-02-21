@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import pl.lodz.p.it.delegation.exceptions.DelegationNotFoundException;
+import pl.lodz.p.it.delegation.exceptions.EntityIntegrityException;
 import pl.lodz.p.it.delegation.exceptions.StatusConflictException;
 import pl.lodz.p.it.delegation.mod.model.Delegation;
 import pl.lodz.p.it.delegation.mod.model.DelegationRoute;
@@ -19,6 +20,7 @@ import pl.lodz.p.it.delegation.mod.repositories.StatusRepository;
 import pl.lodz.p.it.delegation.mod.singleton.RateSingleton;
 import pl.lodz.p.it.delegation.mok.model.Account;
 import pl.lodz.p.it.delegation.mok.repositories.AccountRepository;
+import pl.lodz.p.it.delegation.utils.EntityIdentitySignerVerifier;
 
 import javax.transaction.Transactional;
 import java.time.Duration;
@@ -32,6 +34,7 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Transactional()
 public class DelegationService  {
 
     private final DelegationRepository delegationRepository;
@@ -218,12 +221,12 @@ public class DelegationService  {
         return sum;
     }
 
-    public void changeDelegationStatus(Delegation del, String delNumber, String delStatus) throws StatusConflictException {
+    public void changeDelegationStatus(Delegation del, String delNumber, String delStatus, String etag) throws StatusConflictException, EntityIntegrityException {
         Delegation delegation = delegationRepository.findByDelegationNumber(delNumber).get();
         Status status = statusRepository.findByStatusName(delStatus);
         log.error("Signature " +delegation.getSignaturePayload());
         if(delegation.getDelegationStatus().getStatusName().equals(DelegationStatuses.verified.toString())
-        && (delStatus.equals(DelegationStatuses.cancelled.toString()) || delStatus.equals(DelegationStatuses.withdrawn.toString()))){
+                && (delStatus.equals(DelegationStatuses.cancelled.toString()) || delStatus.equals(DelegationStatuses.withdrawn.toString()))){
             log.error("delegation status error");
             throw new StatusConflictException("Delegation with status verified cannot be modified");
         }
@@ -232,6 +235,10 @@ public class DelegationService  {
             log.error("delegation status error");
             throw new StatusConflictException("Delegation with status cancelled cannot be modified");
         }
+        if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(etag, delegation)) {
+            throw new EntityIntegrityException("Someone has already altered this delegation");
+        }
+
         delegation.setDelegationStatus(status);
         log.error("note " + del.getNote());
         delegation.setNote(del.getNote());
