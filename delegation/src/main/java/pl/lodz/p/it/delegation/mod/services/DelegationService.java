@@ -5,16 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import pl.lodz.p.it.delegation.exceptions.DelegationNotFoundException;
 import pl.lodz.p.it.delegation.exceptions.EntityIntegrityException;
 import pl.lodz.p.it.delegation.exceptions.StatusConflictException;
 import pl.lodz.p.it.delegation.mod.model.Delegation;
-import pl.lodz.p.it.delegation.mod.model.DelegationRoute;
 import pl.lodz.p.it.delegation.mod.model.DelegationStatuses;
 import pl.lodz.p.it.delegation.mod.model.Status;
 import pl.lodz.p.it.delegation.mod.repositories.DelegationRepository;
-import pl.lodz.p.it.delegation.mod.repositories.DelegationRouteRepository;
 import pl.lodz.p.it.delegation.mod.repositories.RateRepository;
 import pl.lodz.p.it.delegation.mod.repositories.StatusRepository;
 import pl.lodz.p.it.delegation.mod.singleton.RateSingleton;
@@ -25,10 +22,7 @@ import pl.lodz.p.it.delegation.utils.EntityIdentitySignerVerifier;
 import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,7 +32,6 @@ import java.util.UUID;
 public class DelegationService  {
 
     private final DelegationRepository delegationRepository;
-    private final DelegationRouteRepository routeRepository;
     private final RateRepository rateRepository;
     private final AccountRepository accountRepository;
     private final StatusRepository statusRepository;
@@ -72,10 +65,7 @@ public class DelegationService  {
     public void addDelegation(Delegation delegation, String email){
         log.error("delegacja "+ delegation.getId() + " account idd "   + delegation.getCrossingForeignBorder()
                 + delegation.getCrossingHomeBorder() + delegation.getDelegationNumber() + delegation.getEndDate() + " " + delegation.getStartDate());
-        if(delegation.getRouteList() != null)
-        for(DelegationRoute route : delegation.getRouteList()){
-            route.setDelegation(delegation);
-        }
+
         Account account = accountRepository.findByEmail(email).get();
         Status status = statusRepository.findByStatusName(DelegationStatuses.draft.toString());
 

@@ -29,8 +29,6 @@ values
 insert into delegation(id,destination,leaving_country_date,crossing_home_border_date,delegation_number,status_id,delegation_end_date,guaranteed_accommodation,guaranteed_domestic_breakfast,guaranteed_domestic_dinner,guaranteed_domestic_supper,guaranteed_foreign_breakfast,guaranteed_foreign_dinner,guaranteed_foreign_supper,delegation_start_date, advance_payment, sum,account_id, distance, greater_than900cm3, home_transport_charge, foreign_allowance,note,version)
 values
 (3,'Delegation to Warsaw',null,null,'afa59007-4a92-40ad-91c3-02c5df174b44',5,'21-01-23 12:00',false,true,false,false,false,false,true,'21-01-24 08:00',0,400.0,3,200,true, false, 60,'another note here',1);
-insert into delegation_route (id,location,delegation_id) values (1,'Lodz',1);
-insert into delegation_route(id,location,delegation_id) values (2,'Warsaw',1);
 insert into rate(id,domestic_allowance,car_greater900_rate,car_lower900_rate)
 values (1,30,0.8358,0.5214);
 
