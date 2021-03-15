@@ -8,7 +8,7 @@ import axios from 'axios';
 import swal from "sweetalert";
 import Swal from 'sweetalert2';
 import DirectionRenderComponent from "./DirectionRenderComponent";
-const key = 'AIzaSyA4f7KaqFbfYOdrekALmpdwki1rdsFw2Ok'; 
+const key = '<yourApikey>'; 
 Geocode.setApiKey(key);
 Geocode.enableDebug();
 class Map extends React.Component{
