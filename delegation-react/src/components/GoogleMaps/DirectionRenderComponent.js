@@ -132,9 +132,9 @@ class DirectionRenderComponent extends Component {
             directions={this.state.directions}
             options={{
               polylineOptions: {
-                storkeColor: this.props.storkeColor,
+                strokeColor: this.props.strokeColor,
                 strokeOpacity: 0.4,
-                strokeWeight: 4
+                strokeWeight: 5
               },
               preserveViewport: true,
               suppressMarkers: true,

@@ -8,6 +8,7 @@ import pl.lodz.p.it.delegation.mok.model.AccessLevel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,17 +21,21 @@ public @Data class Account implements Serializable {
     private Long id;
 
     @NotEmpty
+    @NotNull
     private String email;
 
     @NotEmpty
+    @NotNull
     @Column(name ="firstname")
     private String firstName;
 
     @NotEmpty
+    @NotNull
     @Column(name ="lastname")
     private String lastName;
 
     @NotEmpty
+    @NotNull
     private String password;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "account", cascade = CascadeType.PERSIST)

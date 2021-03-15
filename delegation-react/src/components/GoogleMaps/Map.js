@@ -350,7 +350,7 @@ const AsyncMap = withScriptjs(
         marginBottom: '15px'
        }}
        onPlaceSelected={ this.onOriginSelected }
-       types={['address']}
+       types={['address'] | ['cities']}
       />
       <Form.Label>Pick destination</Form.Label>
       <Autocomplete
@@ -361,10 +361,9 @@ const AsyncMap = withScriptjs(
         marginBottom: '4px'
        }}
        onPlaceSelected={ this.onDestinationSelected }
-       types={['address']}
+       types={['address'] | ['cities']}
       />
       <DirectionRenderComponent
-              
               strokeColor= '#800000'
               from={this.state.origin}
               to={this.state.destination}

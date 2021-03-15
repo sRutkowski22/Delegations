@@ -29,25 +29,13 @@ public class AccountService {
     public void addAccount(Account account) throws AppBaseException {
 
         if (accountRepository.findByEmail(account.getEmail()).isEmpty()) {
-
-
-            Account account1 = new Account();
-            account1.setEmail(account.getEmail());
-            account1.setFirstName(account.getFirstName());
-            account1.setLastName(account.getLastName());
-            account1.setPassword(passwordEncoder.encode(account.getPassword()));
-            log.error(account1.getEmail() + "ya " + account1.getFirstName() + " " + account1.getPassword() + " " + account1.getLastName());
-            log.error(account.getEmail() + "ya " + account.getFirstName() + " " + account.getPassword() + " " + account.getLastName());
-            log.error("access levels: " + account.getAccessLevel().get(1).getLevelName() );
+            account.setPassword(passwordEncoder.encode(account.getPassword()));
             List<AccessLevel> accessLevels = account.getAccessLevel();
-
             for (AccessLevel accessLevel : accessLevels) {
-                log.error(accessLevel.getLevelName());
-                log.error(accessLevel.getId() + " " + accessLevel.isActive() + " " + accessLevel.getAccount().getId());
-                accessLevel.setAccount(account1);
+                accessLevel.setAccount(account);
             }
-            account1.setAccessLevel(accessLevels);
-            accountRepository.save(account1);
+            account.setAccessLevel(accessLevels);
+            accountRepository.save(account);
         } else{
             throw new AccountException("Account already exists");
         }

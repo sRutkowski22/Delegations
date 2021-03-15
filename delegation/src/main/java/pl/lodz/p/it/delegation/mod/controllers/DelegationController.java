@@ -49,24 +49,19 @@ public class DelegationController {
 
 
     @PutMapping(value = "accountant/changestatus/{delnumber}/{delstatus}")
-    public ResponseEntity<String> changeDelegationStatus(@RequestBody Delegation delegation, @PathVariable String delnumber, @PathVariable String delstatus, @RequestHeader("If-Match") @NotNull String etag){
+    public ResponseEntity<String> changeDelegationStatus(@RequestBody Delegation delegation, @PathVariable String delnumber, @PathVariable String delstatus,
+                                                         @RequestHeader("If-Match") @NotNull String etag){
 
         try {
             delegationService.changeDelegationStatus(delegation,delnumber,delstatus, etag);
         } catch (StatusConflictException | EntityIntegrityException e) {
-
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .body(e.getMessage());
         }
-        log.error("jestem w delegation controlerze 2");
-
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Success");
-
-
-
     }
 
     @PutMapping(value = "worker/resubmit/{delnumber}/{delstatus}")
