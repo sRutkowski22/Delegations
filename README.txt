@@ -3,10 +3,10 @@ Na początku należy wypakować zipa.
 
 Pierwszym etapem jest stworzenie bazy danych.
 1. Zainstalowanie PostgreSQL na komputerze.
-2. Otworzenie terminalu w folderze Delegations.
-3. W terminalu wpisanie komendy:
-psql -f delegationsdump.sql -U postgres
-Następnie wprowadzić hasło: admin.
+2. Stworzenie bazy danych następującą komendą:
+Create database delegations1;
+3. Stworzenie użytkownika bazodanowego:
+Create user deladmin with password 'deladmin';
 
 Aby uruchomić aplikację z warstwą logiki biznesowej należy:
 1. Uruchomić terminal w folderze Delegations/delegation
