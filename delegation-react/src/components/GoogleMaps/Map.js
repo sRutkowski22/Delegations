@@ -274,7 +274,7 @@ this.setState( {
   + this.state.originPlaceId 
   + '&destination=place_id:'
   + this.state.destinationPlaceId 
-  + '&key=AIzaSyA4f7KaqFbfYOdrekALmpdwki1rdsFw2Ok';
+  + '&key=<YourApiKey>';
   console.log(url);
   fetch(URL = url
   , {headers: {
@@ -411,7 +411,7 @@ let map;
      {/*Marker*/}
     
      <AsyncMap
-      googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4f7KaqFbfYOdrekALmpdwki1rdsFw2Ok&libraries=places"
+      googleMapURL="https://maps.googleapis.com/maps/api/js?key=<YourApiKey>&libraries=places"
       loadingElement={
        <div style={{ height: `100%` }} />
       }

@@ -1,4 +1,4 @@
-const key = 'AIzaSyA4f7KaqFbfYOdrekALmpdwki1rdsFw2Ok'; 
+const key = '<YourApiKey>'; 
 export const G_API_URL = `https://maps.googleapis.com/maps/api/js?key=${key}&&v=3.exp&libraries=geometry,drawing,places`;
 
 const convertTolatLng = (latLng, title) => {
