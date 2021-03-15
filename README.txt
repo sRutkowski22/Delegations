@@ -16,6 +16,7 @@ mvn spring-boot:run
 Aby uruchomić aplikację z warstwą prezentacji(aplikacja frontend) należy:
 1. Uruchomić terminal w folderze Delegations/delegation-react.
 2. W terminalu wpisać komendę:
+npm install
 npm start
 
 Aby obie aplikacje działały na komputerze musi być zainstalowana Java w wersji minimum 8 
